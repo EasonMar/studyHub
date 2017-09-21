@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OOP function</title>
+</head>
+
+<body>
+    <p id="scroll" style="font-size: 90px;margin: 70% 0;font-weight: bold;text-align: center;">OOP function stuff</p>
+</body>
+<script type="text/javascript">
+/*
+    bind
+    语法:fun.bind(this,arg1,arg2,...)
+    bind()方法会返回一个新的函数,称为绑定函数,fun方法在this环境下调用
+    该方法可传入两个参数,第一个参数作为this,第二个及以后的参数则作为函数的参数调用
+    
+    bind与call的区别：
+    1、
+    使用bind是返回改变上下文this后的函数
+    使用call是改变上下文this并执行函数
+    
+    2、
+    call是把第二个及以后的参数作为f方法的实参传进去
+    而bind虽说也是获取第二个及以后的参数用于之后方法的执行,但是f_Extend中传入的实参则是在bind中传入参数的基础上往后排的
+ */
+console.group('bind');
+
+// 1.创建绑定函数
+this.a = 1;
+var module = {
+    a: 2,
+    getA: function() {
+        return this.a;
+    }
+};
+module.getA(); //2
+var getA1 = module.getA; // getA在外部调用,此时的this指向了全局对象
+getA1(); //1
+
+// 再把getA1方法绑定到module环境上
+var getA2 = getA1.bind(module);
+getA2();
+
+
+// 2.让函数拥有预设的参数
+// 使用bind()方法使函数拥有预设的初始参数,这些参数会排在最前面,传给绑定函数的参数会跟在它们后面
+function list() {
+
+    // 让类数组arguments拥有数组的方法slice,这个函数实现了简单把类数组转换成数组
+    return Array.prototype.slice.call(arguments); 
+    // 为什么call里面的参数列表可以是arguments?  
+    
+    // 注意:arguments是第一参数,是上下文对象！！而不是参数列表,这里等价于arguments.slice();   
+    // 干嘛不直接arguments.silce --- 因为函数的arguments对象并不是一个数组,不具备slice方法.
+    // return arguments.slice();  // Uncaught TypeError: arguments.slice is not a function
+
+}
+list(1, 2, 3); //[1,2,3]
+
+//给list绑定一个预设参数4 
+var list1 = list.bind(undefined, 4);
+console.log(list1()); //[4]
+console.log(list1(1, 2, 3)); //[4,1,2,3]
+
+
+// 3.setTimeout的使用 xxxxxxx
+// 正常情况下,调用setTimeout的时候this会指向全局对象,但是使用类的方法时我们需要指向类的实例
+// 所以要把this,绑定要回调函数方便继续使用实例
+function Fun1() {this.name = 1}
+
+Fun1.prototype.fun2 = function() {
+    // window.setTimeout(this.fun3.bind(this), 1000); // 1、由【2-2、3-2】的实验明白了这一步的原理.
+    
+    // window.setTimeout(this.fun3(), 1000);          // 2-1、！并没有延时 --- 因为setTimeout第一项应该放方法的定义而非方法的执行
+    // window.setTimeout(this.fun3, 1000);            // 2-2、这样就正常了延时了. this.name为空?因为this.fun3等价于/指向function(){console.log(xxxx)}
+
+    // window.setTimeout(console.log(this), 1000);    // 3-1、this指向Fun1！且没有延时……原因同上,setTimeout第一个参数写成了马上执行的函数.
+    window.setTimeout(function() {                    // 3-2、【2-2】基本等价于本部分.
+        console.log(this);      // 这时候才指向window
+        console.log(this.name); // window.name为空
+    }, 1000);
+
+    // window.setTimeout(function() {                 // 4、【1】其实等价于此,自己没有看明白指向/等价的东西！！
+    //     console.log(this);                         // 因为function是要延时后才执行的,等其执行时this已经指向window,
+    // }.bind(this), 1000);                           // 而bind是马上执行的,所以bind里面的this指向的是Fun1
+    // 这样就指向Fun1了;仔细回顾bind的语法！！
+}
+
+Fun1.prototype.fun3 = function() {
+    console.log('name:' + this.name);  // name:1
+}
+var fun = new Fun1();
+fun.fun2();
+
+
+// 再举一个例子
+function T(c) {
+    this.id = "TObject";
+    this.dom = document.getElementById("scroll");
+}
+T.prototype = {
+    init: function() {
+        this.dom.onmouseover = function() {   // 等价于document.getElementById("scroll").onmouseover = function;
+            console.log("Over-->" + this.id); // 这里this指向function的调用者document.getElementById("scroll")
+        }
+        this.dom.onmouseout = function() {
+            console.log("Out -->" + this.id);
+        }.bind(this)                          // 强行将function里面的this与T绑定;
+    }
+};
+(new T()).init();
+
+
+// 4.快捷方法--把类数组转换成数组
+// 第一种方法是使用apply方法
+function fun1() {
+    var slice = Array.prototype.slice; // 数组的原型方法slice
+    return slice.apply(arguments); // 相当于arguments.slice(), slice没有何参数.
+}
+console.log(fun1(1, 2, 3)); //[1,2,3]
+
+
+// 第二种方法是使用call方法+bind方法
+function fun2() {
+    var unboundSlice = Array.prototype.slice;
+
+    // 把函数的call方法绑定在数组slice方法上,之后再给call方法传递参数
+    var slice = Function.prototype.call.bind(unboundSlice);  
+    return slice(arguments);
+
+    // 等价于
+    // Function.prototype.call.bind(Array.prototype.slice)(arguments);
+    // 简化理解: call.bind(slice)(arguments)  == slice.call(arguments) == arguments.slice() // 多绕了一层    
+    // 突然明白了！ 根据最后的结论foo.bind(Obj) == Obj.foo、foo.call(Obj) == Obj.foo()得出.
+}
+
+// 还不如以下方式来得直接: 
+// Array.prototype.slice.apply(arguments)
+// Array.prototype.slice.call(arguments)
+
+console.log(fun2(1, 2, 3)); // [1,2,3]
+
+console.groupEnd();
+console.log("");
+
+
+/*
+    call, apply都属于Function.prototype的一个方法,它是JavaScript引擎内在实现的,
+    因为属于Function.prototype,所以每个Function对象实例,也就是每个方法都有call, apply属性.
+    既然作为方法的属性,那它们的使用就当然是针对方法的了.
+    这两个方法是容易混淆的,因为它们的作用一样,只是使用方式不同.
+    相同点:两个方法产生的作用是完全一样的:借用别人的方法来调用,就像调用自己的一样.
+    不同点:方法传递的参数不同
+
+    apply
+    Function.apply(obj,args)方法能接收两个参数
+    obj:这个对象将代替Function类里this对象
+    args:这个是数组,它将作为参数传给Function
+
+    最多只能有两个参数——新this对象和一个数组argArray.如果给该方法传递多个参数,则把参数都写进这个数组里面,当然,即使只有一个参数,也要写进数组里面.如果argArray不是一个有效的数组或者不是arguments对象,那么将导致一个TypeError.
+    如果没有提供argArray和thisObj任何一个参数,那么Global对象将被用作thisObj,并且无法被传递任何参数.
+ */
+console.group('apply');
+
+/*
+ 1、利用Apply的参数数组化来提高:Function.apply()在提升程序性能方面的技巧
+    我们先从Math.max()函数说起,Math.max后面可以接任意个参数,最后返回所有参数中的最大值.
+    比如:
+    alert(Math.max(5,8))   //8
+    alert(Math.max(5,7,9,3,1,6))   //9
+
+    但是在很多情况下,我们需要找出数组中最大的元素.
+    var arr=[5,7,9,1]
+    alert(Math.max(arr))    // 这样却是不行的,一定要这样写如下循环
+
+    function getMax(arr){
+        var arrLen=arr.length;
+        for(var i=0,ret=arr[0];i<arrLen;i++){
+            ret=Math.max(ret,arr[i]);       
+        }
+        return ret;
+    }
+
+    这样写麻烦而且低效.如果用apply呢,看代码:
+
+    function getMax2(arr){
+        return Math.max.apply(null,arr);
+    }
+
+    两段代码达到了同样的目的,但是getMax2却优雅,高效,简洁得多.
+    【因为apply的参数列表就是用数组来装载的,就是这个特性使得可以完成以上内容】
+*/
+function getMax2(arr) {
+    return Math.max.apply(null, arr);
+}
+console.log(getMax2([66, 11, 5, 78, 3, 54, 2]));
+
+/*
+ 2、再比如数组的push方法.
+    var arr1=[1,3,4];
+    var arr2=[3,4,5];
+    如果我们要把 arr2展开,然后一个一个追加到arr1中去,最后让arr1=[1,3,4,3,4,5]
+    arr1.push(arr2)显然是不行的. 因为这样做会得到[1,3,4,[3,4,5]]
+    我们只能用一个循环去一个一个的push(当然也可以用arr1.concat(arr2),但是concat方法并不改变arr1本身)
+    var arrLen=arr2.length
+    for(var i=0;i<arrLen;i++){
+        arr1.push(arr2[i]);
+    }
+    自从有了Apply,事情就变得如此简单: Array.prototype.push.apply(arr1,arr2)
+ */
+
+var arr1 = [1, 3, 4];
+var arr2 = [3, 4, 5];
+Array.prototype.push.apply(arr1, arr2); // 直接调用 --- 什么原理,不理解
+// 由最终结论其实都好理解:foo.apply(Obj, arguments) == Obj.foo(arg1, arg2, arg3)
+// Array.prototype.push.apply(arr1, arr2) === arr1.push(arr2),就这么简单！！
+
+console.log(arr1)
+
+console.groupEnd();
+console.log("");
+
+
+
+/* 
+    call
+    Function.call(obj,[param1[,param2[,…[,paramN]]]])
+    obj:这个对象将代替Function类里this对象
+    params:这个是一个参数列表
+    PS：和apply的意思一样,只不过是参数列表不一样.
+
+
+   【finally】非常好的总结:
+    foo.call(Obj, arg1,arg2,arg3) == foo.apply(Obj, arguments) == Obj.foo(arg1, arg2, arg3)
+    同理可得：foo.bind(Obj) == Obj.foo
+
+    这就是动态语言 JavaScript call的威力所在!
+    简直是"无中生有",对象的方法可以任意指派,而对象本身一直都是没有这方法的,注意是指派,
+    通俗点就是,方法是借给另一个对象的调用去完成任务,原理上是方法执行时上下文对象改变了.
+    因为apply与call产生的作用是一样的,可以说: call, apply作用就是借用别人的方法来调用,就像调用自己的一样.
+
+ */
+</script>
+
+</html>

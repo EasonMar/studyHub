@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Generator_Async</title>
+</head>
+
+<body>
+    Generator 函数的异步应用
+</body>
+<script type="text/javascript">
+/**
+ * 异步编程对 JavaScript 语言太重要.Javascript 语言的执行环境是“单线程”的,如果没有异步编程,根本没法用,非卡死不可.
+ * 本章主要介绍 Generator 函数如何完成异步操作.
+ */
+
+
+/**
+ * 1.传统方法
+ * ES6 诞生以前,异步编程的方法,大概有下面四种.
+ * - 回调函数
+ * - 事件监听
+ * - 发布/订阅
+ * - Promise 对象
+ *
+ * Generator 函数将 JavaScript 异步编程带入了一个全新的阶段.
+ *
+ *
+ * 2.基本概念 
+ *
+ * 所谓"异步",简单说就是一个任务不是连续完成的,可以理解成该任务被人为分成两段,
+ * 先执行第一段,然后转而执行其他任务,等做好了准备,再回过头执行第二段.
+ * 
+ * 比如,有一个任务是读取文件进行处理,任务的第一段是向操作系统发出请求,要求读取文件.
+ * 然后,程序执行其他任务,等到操作系统返回文件,再接着执行任务的第二段(处理文件).
+ * 这种不连续的执行,就叫做异步.
+ *   
+ * 相应地,连续的执行就叫做同步.
+ * 由于是连续执行,不能插入其他任务,所以操作系统从硬盘读取文件的这段时间,程序只能干等着.
+ *
+ * 3.Generator 函数
+ * 协程
+ * 传统的编程语言,早有异步编程的解决方案(其实是多任务的解决方案).
+ * 其中有一种叫做"协程"(coroutine),意思是多个线程互相协作,完成异步任务.
+ *
+ * 协程有点像函数,又有点像线程.它的运行流程大致如下.
+ * 第一步,协程A开始执行.
+ * 第二步,协程A执行到一半,进入暂停,执行权转移到协程B.
+ * 第三步,(一段时间后)协程B交还执行权.
+ * 第四步,协程A恢复执行.
+ *
+ *
+ *
+ * 异步任务的封装
+ * …………
+ * 虽然 Generator 函数将异步操作表示得很简洁,但是【流程管理】却不方便(即何时执行第一阶段、何时执行第二阶段).
+ *
+ *  4.Thunk 函数
+ *  Thunk 函数是自动执行 Generator 函数的一种方法.
+ *
+ *  JavaScript 语言的 Thunk 函数
+ *  
+ *  JavaScript 语言是传值调用,它的 Thunk 函数含义有所不同.
+ *  在 JavaScript 语言中,Thunk 函数替换的不是表达式,而是多参数函数,将其替换成一个只接受回调函数作为参数的单参数函数.
+ */
+// 正常版本的readFile(多参数版本)
+fs.readFile(fileName, callback);
+
+// Thunk版本的readFile(单参数版本)
+var Thunk = function(fileName) {
+    return function(callback) {
+        return fs.readFile(fileName, callback);
+    };
+};
+
+var readFileThunk = Thunk(fileName);
+readFileThunk(callback);
+/**
+ * 上面代码中,fs模块的readFile方法是一个多参数函数,两个参数分别为文件名和回调函数.
+ * 经过转换器处理,它变成了一个单参数函数,只接受回调函数作为参数.这个单参数版本,就叫做 Thunk 函数.
+ *
+ * 复盘：此时readFileThunk = function(callback){
+ *             return fs.readFile(fileName, callback;)
+ *           }
+ * fileName的值在借由调用Thunk函数时传进来;
+ *
+ *
+ *
+ * 
+ * 任何函数,只要参数有回调函数,就能写成 Thunk 函数的形式.下面是一个简单的 Thunk 函数转换器.
+ */
+// ES5版本
+var Thunk = function(fn) {
+    return function() {
+        var args = Array.prototype.slice.call(arguments);
+        return function(callback) {
+            args.push(callback);
+            return fn.apply(this, args);
+        }
+    };
+};
+
+// ES6版本
+const Thunk = function(fn) {
+    return function(...args) {
+        return function(callback) {
+            return fn.call(this, ...args, callback);
+        }
+    };
+};
+
+// 使用上面的转换器,生成fs.readFile的 Thunk 函数.
+var readFileThunk = Thunk(fs.readFile);
+readFileThunk(fileA)(callback);
+
+// 下面是另一个完整的例子.
+function f(a, cb) {
+    cb(a);
+}
+const ft = Thunk(f);
+/**
+ * ft = function(...args){
+ *     return function(callback){
+ *         return fn.call(this, ...args, callback);     
+ *     }
+ * }
+ */
+ft(1)(console.log); // 1
+
+/**
+ * 你可能会问, Thunk 函数有什么用？回答是以前确实没什么用,
+ * 但是 ES6 有了 Generator 函数,Thunk 函数现在可以用于 Generator 函数的自动流程管理.
+ *
+ * Generator 函数可以自动执行.
+ */
+function* gen() {
+    // ...
+}
+
+var g = gen();
+var res = g.next();
+
+while (!res.done) {
+    console.log(res.value);
+    res = g.next();
+}
+/**
+ * 上面代码中,Generator 函数gen会自动执行完所有步骤.
+ *
+ * 但是,这不适合异步操作.如果必须保证前一步执行完,才能执行后一步,上面的自动执行就不可行.
+ * 这时,Thunk 函数就能派上用处.以读取文件为例.下面的 Generator 函数封装了两个异步操作.
+ */
+var fs = require('fs');
+var thunkify = require('thunkify');
+var readFileThunk = thunkify(fs.readFile);
+
+var gen = function*() {
+    var r1 = yield readFileThunk('/etc/fstab');
+    console.log(r1.toString());
+    var r2 = yield readFileThunk('/etc/shells');
+    console.log(r2.toString());
+};
+/**
+ * 上面代码中,【yield命令用于将程序的执行权移出Generator函数】,那么就需要一种方法,【将执行权再交还给Generator函数】.
+ *
+ * 这种方法就是Thunk函数,因为它可以在回调函数里,将执行权交还给Generator函数.
+ * 为了便于理解,我们先看如何手动执行上面这个Generator函数.
+ */
+var g = gen();
+
+var r1 = g.next();
+
+// r1.value是Thunk函数执行后的返回值.
+r1.value(function(err, data) {
+    if (err) throw err;
+
+    // 此方法传入data,则Generator函数内的第一个yield的返回值为data.
+    var r2 = g.next(data);
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 后面重复前面的操作！！ --- 将相同的回调函数,传入next方法的value属性(Thunk函数的第一层返回函数) //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // r2.value也是Thunk函数执行后的返回值.
+    r2.value(function(err, data) {
+        if (err) throw err;
+
+        // 传入data,则Generator函数内的第二个yield的返回值为data.
+        g.next(data);
+    });
+});
+/**
+ * 上面代码中,【变量g是Generator函数的内部指针】,表示目前执行到哪一步.
+ * 【next方法负责将指针移动到下一步】,并返回【该步的信息】(value属性和done属性).
+ *
+ * 仔细查看上面的代码,可以发现Generator函数的【执行过程】,其实是将【同一个回调函数】,【反复传入next方法的value属性】.
+ * 这使得我们可以【用递归来自动完成这个过程】.
+ *
+ *
+ * Thunk函数的自动流程管理
+ *
+ * Thunk函数真正的威力，在于可以【自动执行】Generator函数。
+ * 下面就是一个基于Thunk函数的Generator执行器。
+ */
+
+// ---- 外层函数,主要是做一些初始化的工作.
+function run(fn) {
+    var gen = fn();
+
+    // ---- 这个next,就是前面所说的反复传入next方法value属性的那个【回调函数】
+    function next(err, data) {
+        var result = gen.next(data);
+        if (result.done) return;
+        result.value(next);
+    }
+
+    next(); // --- 启动.
+}
+
+function* g() {
+    // ...
+}
+
+run(g);
+
+/**
+ * 上面代码的run函数，就是一个Generator函数的自动执行器。内部的next函数就是Thunk的回调函数。
+ * next函数先将指针移到Generator函数的下一步（gen.next方法），然后判断Generator函数是否结束（result.done属性），
+ * 如果没结束，就将next函数再传入Thunk函数（result.value属性），否则就直接退出。
+ *
+ * 有了这个执行器，执行Generator函数方便多了。不管内部有多少个异步操作，直接把Generator函数传入run函数即可。
+ * 当然，前提是每一个异步操作，都要是Thunk函数，也就是说，【跟在yield命令后面的必须是Thunk函数】。
+ */
+var g = function*() {
+    var f1 = yield readFileThunk('fileA');
+    var f2 = yield readFileThunk('fileB');
+    // ...
+    var fn = yield readFileThunk('fileN');
+};
+
+run(g);
+/**
+ * 上面代码中，函数g封装了n个异步的读取文件操作，只要执行run函数，这些操作就会自动完成。
+ * 这样一来，异步操作不仅可以写得像同步操作，而且一行代码就可以执行。
+ *
+ * Thunk函数并不是Generator函数自动执行的唯一方案。
+ * 因为自动执行的关键是，必须有一种机制，自动控制Generator函数的流程，接收和交还程序的执行权。
+ * 回调函数可以做到这一点，Promise对象也可以做到这一点。
+ */
+</script>
+
+</html>

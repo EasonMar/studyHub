@@ -1,0 +1,46 @@
+html,
+body {
+    width: 100%;
+    position: relative;
+    font-family: Arial;
+}
+
+html {
+    opacity: 0;
+    background: #2d7d98;
+}
+
+figure.figure {
+    position: relative;
+    max-width: 720px;
+    margin: auto;
+    & > img {
+        display: block;
+        width: 100%;
+    }
+    .block {
+        position: absolute;
+        top: 434px;
+        left: 11px;
+        width: 94%;
+        height: 160px;
+        &.prod2 {
+            top: 624px;
+            height: 154px;
+        }
+        &.prod3 {
+            top: 810px;
+            height: 152px;
+        }
+    }
+    .coll {
+        position: absolute;
+        bottom: 36px;
+        left: 30px;
+        width: 299px;
+        height: 42px;
+    }
+    a {
+        -webkit-tap-highlight-color: transparent;
+    }
+}

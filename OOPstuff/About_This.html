@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About "this"</title>
+</head>
+
+<body>
+    <p style="font-size: 90px;margin: 70% 0;font-weight: bold;text-align: center;">About "this" Exam And Practice</p>
+</body>
+<script type="text/javascript">
+
+/*
+	JavaScript新手经常犯的一个错误是将一个方法从对象中拿出来,然后再调用,希望方法中的this是原来的
+	对象（比如在回调中传入这个方法）,如果不做特殊处理的话,一般会丢失原来的对象
+	例如：
+	var altwrite = document.write; // 这里write方法指向了全局对象.
+	altwrite("hello");  // 报错.
+	
+	又例如下面: var getA1 = module.getA; 
+ */
+
+console.group('1.再了解this的"上下文"');
+this.a = 1;
+var module = {
+    a: 2,
+    getA: function() {
+        return this.a;
+    }
+};
+console.log(module.getA()); // 2
+
+// 【getA在外部调用,此时的this指向了全局对象】
+var getA1 = module.getA; 
+console.log(getA1()); 		// 1
+
+// 再把getA1方法绑定到module环境上
+var getA2 = getA1.bind(module);  // bind()方法会创建一个新的函数,称为绑定函数,fun方法在this环境下调用
+console.log(getA2()); 		// 2
+
+console.groupEnd();
+console.log("");
+</script>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice_1.html</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	/////////////////
+	// 匹配非中文. //
+	/////////////////
+	// var notChinease =  new RegExp(/[^\u4e00-\u9fa5]/, 'g');  // 有问题
+
+	//////////////////////
+	// 匹配3个字母+数字 //
+	//////////////////////
+	
+	// var tWords = new RegExp(/[0-9a-zA-Z]{3}/, 'g');  // 这样写的话,3个以上都能匹配到.
+	// tWords.test(33) false 
+	// tWords.test(333) true 
+	// tWords.test(3333) false ？？？？
+	// tWords.test(33333) true  ？？？？
+	// tWords.test(333333) true  ？？？？
+	// tWords.test(3333333) false ？？？？
+	// tWords.test(33333333) true  ？？？？
+	// tWords.test(333333333) true  ？？？？
+	// tWords.test(3333333333) true  ？？？？
+	// tWords.test(33333333333) false ？？？？
+	
+	// 加一个开头和结尾的限制
+	var tWords = new RegExp(/^[0-9a-zA-Z]{3}$/, 'g');
+	// tWords.test(33333333333) false
+	// tWords.test(3333333333) false
+	// tWords.test(333333333) false
+	// tWords.test(33333333) false
+	// tWords.test(3333333) false
+	// tWords.test(333333) false
+	// tWords.test(33333) false
+	// tWords.test(3333) false
+	// tWords.test(333) true
+	// tWords.test(33) false
+	
+	// 匹配6个字母+数字
+	var SWords = new RegExp(/^[0-9a-zA-Z]{6}$/, 'g'); 
+	// SWords.test(3) false
+	// SWords.test(33) false
+	// SWords.test(333) false
+	// SWords.test(3333) false
+	// SWords.test(33333) false
+	// SWords.test(333333) true
+	// SWords.test(3333333) false
+	// SWords.test(33333333) false
+	// SWords.test(333333333) false
+	// SWords.test(3333333333) false
+	
+	// 匹配3个 or 6个字母+数字
+	// var TSWords = new RegExp(/^([0-9a-zA-Z]{3} | [0-9a-zA-Z]{6})$/, 'g'); // 失败
+	// var TSWords = new RegExp(/(^\w{3}&) | (^\w{6}$)/, 'g'); // 失败 - 全为false
+	var TSWords = new RegExp(/^[0-9a-zA-Z]{3,6}$/, 'g');  // 失败
+	// TSWords.test() false
+	// TSWords.test(3) false
+	// TSWords.test(33) false
+	// TSWords.test(333) true
+	// TSWords.test(3333) false
+	// TSWords.test(33333) true ？？
+	// TSWords.test(333333) false ？？
+	// TSWords.test(3333333) false
+	
+	// TSWords.exec(1) null
+	// TSWords.exec(12) null
+	// TSWords.exec(123) ["123", index: 0, input: "123"]
+	// TSWords.exec(123) null
+	// TSWords.exec(1234) ["1234", index: 0, input: "1234"]
+	// TSWords.exec(1234) null
+	// TSWords.exec(12345) ["12345", index: 0, input: "12345"]
+	// TSWords.exec(12345) null
+	// TSWords.exec(123456) ["123456", index: 0, input: "123456"]
+	// TSWords.exec(123456) null
+	// TSWords.exec(1234567) null
+	
+	// var TSWords = new RegExp(/^[0-9a-fA-F][0-9a-fA-F]{1,4}[0-9a-fA-F]$/, 'g');  // 失败-有点奇怪
+	// TSWords.test(33) false
+	// TSWords.test(33) false
+	// TSWords.test(333) false	？？
+	// TSWords.test(333) true	？？
+	// TSWords.test(3333) true	？？
+	// TSWords.test(3333) false	？？
+	// TSWords.test(3333) true	？？
+	// TSWords.test(33333) false  ？？
+	// TSWords.test(33333) true  ？？
+	// TSWords.test(33333) false  ？？
+	// TSWords.test(33333) true  ？？
+	// TSWords.test(333333) false	？？
+	// TSWords.test(333333) true	？？
+	
+	// var TSWords = new RegExp(/(^[0-9a-fA-F])([0-9a-fA-F]{1} | [0-9a-fA-F]{4})([0-9a-fA-F]$)/, 'g');  // 失败 -- 全为false
+
+</script>
+</html>

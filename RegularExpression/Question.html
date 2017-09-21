@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式</title>
+</head>
+
+<body>
+    <p style="font-size: 90px;margin: 50% 0;font-weight: bold;text-align: center;">正则表达式demo</p>
+</body>
+<script type="text/javascript">
+/*  =================================================================================
+ *  刚才面试别人,忽然想到一道题,忽然想看看咱们前端组有没有人不会做的: 
+ *  var abc = "a||1@b||2@c||3";
+ *  var data = {};
+ *  把abc用正则match出来,最终转为以下格式；
+ *  data = { a : 1, b : 2, c : 3 }
+ *  提示:可以match两遍,用es5语法,考点是正则的运用以及match的使用,不能百度,不然面壁去
+ */
+console.group('面试题');
+    const abc = "a||1@b||2@c||3";
+    var data = {};
+
+    var arr = abc.match(/\w\|\|\d/g); // 只能匹配1个字符+数字的情况
+    var arr = abc.match(/\w+\|\|\d+/g); // 这样写更健壮!!!
+
+    for (var i = 0; i < arr.length; i++) {
+        var res = arr[i].match(/([\w]+)\|\|([\d]+)/); // 分组:( ),用小括号来指定子表达式 (也叫做分组)
+        // ["a||1", "a", "1", index: 0, input: "a||1"]
+        // ["b||2", "b", "2", index: 0, input: "b||2"]
+        // ["c||3", "c", "3", index: 0, input: "c||3"]
+
+        var res = arr[i].match(/(\w+)\|\|(\d+)/);
+        // ["a||1", "a", "1", index: 0, input: "a||1"]
+        // ["b||2", "b", "2", index: 0, input: "b||2"]
+        // ["c||3", "c", "3", index: 0, input: "c||3"]
+        // 事实证明,这里没必要用[]
+
+        data[res[1]] = res[2];
+
+        var res2 = arr[i].match(/\w+\|\|\d+/); // 没有子表达式/分组 时的情况
+        // ["a||1", index: 0, input: "a||1"]
+        // ["b||2", index: 0, input: "b||2"]
+        // ["c||3", index: 0, input: "c||3"]
+    }
+    console.log(data);
+console.groupEnd();
+
+
+console.group('新发现 === split + RegExp,有不少疑问');
+    var strA= 'aaaa20%bbbb0.6cccc1654dddd';
+    var strB= '20%bbbb0.6cccc1654dddd';
+    var strC= '20%bbbb0.6cccc1654%';
+    var strD= 'aaaa20%bbbb0.6cccc1654%';
+    var resultA = strA.split(/[\^\d\.|\d%]+/);
+    var resultB = strA.split(/[^\d^\.|^\d^\%]+/);  // 这个正则是什么意思？
+    // console.log(strA.match(/[^\d^\.|^\d^\%]+/g));
+    // console.log(strA.match(/[(\d\.%)]+/g));
+    
+    var number = strB.split(/[^\d\.%]+/);
+    console.log(number);
+    var letter = strB.split(/[\d\.%]+/);
+    console.log(letter);
+
+    var come_out = '';
+
+
+    // 文字带头
+    if(number[0]==''){
+        for(let i = 0;i<letter.length;i++){
+            come_out += letter[i];
+            if(!!number[i+1] == false) break;
+            come_out += '<span>' + number[i+1] + '</span>'; 
+        }
+    }else{
+        // 数字带头
+        for(let i = 0;i<number.length;i++){
+            come_out += '<span>' + number[i] + '</span>';
+            if(!!letter[i+1] == false) break;
+            come_out += letter[i+1]; 
+        }
+    }
+    console.log(come_out);
+console.groupEnd();
+
+console.group('匹配匹配两个字符中间的内容,报错了？');
+    // (?<=A).*?(?=B) 
+    var strAB = 'Awww.baidu.comB';
+    // var come = strAB.match(/(?<=A).*?(?=B)/g);  // Uncaught SyntaxError: Invalid regular expression
+    
+    /**
+     * js目前支持零宽断言的【正向预查】,即找出屁股后跟着指定词(或其他条件)结尾的文本;
+     * 而当前问题中的需求想要找前面有指定词(或其他条件)的文本,JS目前不支持.
+     * for example：
+     * 如果你想找width后的数字,需要用的是【反向预查】,正确的写法(在C#或PHP中)是/(?<=width)\d+/. 
+     * 如果你想找width前面的数字,比如字符串是这样的"168width",这是用到的是【正向预查】,写法为 /\d+(?=width)/.
+     */
+    var comeO = strAB.match(/\S*(?=B)/);  // 正向预查
+    console.log(comeO); 
+
+    // 看到另外的写法:这是直接用【匹配分组】的方法 --- 学习【匹配分组】方法
+    var comeOO = strAB.match(/A(\S*)B/)[1];
+    console.log(comeOO);
+
+    // 补充：\S - 匹配任意不是空白符的字符
+console.groupEnd();
+
+
+console.group('怎么理解得出的结果？？');
+    var pathStr = 'F:\\XRK\\demo\\OneKey_hub\\review_system\\image\\head_zhongguorenbaofgys.jpg'
+    console.log(pathStr.split(/(head_)|(\.jpg)/));
+console.groupEnd();
+
+
+console.group('如何理解以下正则 --- split + 匹配分组');
+    var string = '##javascript# var a = 1;console.log(a);#javascript##…我是中文:今天天气真好…我是代码 ##javascript# var b = 1;console.log(b);#javascript##…';
+    var arr = string.split("#javascript##").map(function(value){
+           return value.match(/##javascript#([\s\S]*)/)? value.match(/##javascript#([\s\S]*)/)[1] : value;
+        }
+    );
+    console.log(arr);
+console.groupEnd();
+</script>
+
+</html>

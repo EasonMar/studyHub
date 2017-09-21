@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise</title>
+</head>
+
+<body>
+</body>
+<script type="text/javascript">
+// Promise.all()
+
+/**
+ *  复习Array的map方法
+ *  map()方法定义在JavaScript的Array中,我们调用Array的map()方法,传入我们自己的函数,就得到了一个新的Array作为结果：
+ *  function pow(x) {
+ *      return x * x;
+ *  }
+ *  var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+ *  arr.map(pow); // [1, 4, 9, 16, 25, 36, 49, 64, 81]
+ *  map()传入的参数是pow,即函数对象本身.
+ *
+ *  你可能会想,不需要map(),写一个循环,也可以计算出结果：
+ *  var f = function (x) {
+ *      return x * x;
+ *  };
+ *  var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+ *  var result = [];
+ *  for (var i=0; i<arr.length; i++) {
+ *      result.push(f(arr[i]));
+ *  }
+ *
+ *  的确可以,但是,从上面的循环代码,
+ *  我们无法一眼看明白“把f(x)作用在Array的每一个元素并把结果生成一个新的Array”.
+ *
+ *  所以,map()作为高阶函数,事实上它把运算规则抽象了,因此,我们不但可以计算简单的f(x)=x2,
+ *  还可以计算任意复杂的函数,比如,把Array的所有数字转为字符串：
+ *
+ *  var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+ *  arr.map(String); // ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+ *  只需要一行代码.
+ */
+
+// -----------------------------------------------------------------------------------
+// Promise.all方法用于将多个 Promise 实例,包装成一个新的 Promise 实例.
+var p = Promise.all([p1, p2, p3]);
+// 上面代码中,Promise.all方法接受一个数组作为参数,p1、p2、p3都是 Promise 实例,
+// 如果不是,就会先调用下面讲到的Promise.resolve方法(后面的api),将参数转为 Promise 实例,再进一步处理.
+// (Promise.all方法的参数可以不是数组,但必须具有 Iterator 接口,且返回的每个成员都是 Promise 实例.)
+
+// p的状态由p1、p2、p3决定,分成两种情况. ( fulfilled-rejected 类似于 &&-|| )
+// 1_只有p1、p2、p3的状态都变成fulfilled,p的状态才会变成fulfilled,此时p1、p2、p3的返回值组成一个数组,传递给p的回调函数.
+// 2_只要p1、p2、p3之中有一个被rejected,p的状态就变成rejected,此时第一个被reject的实例的返回值,会传递给p的回调函数.
+
+// 下面是一个具体的例子.
+
+// 生成一个Promise对象的数组
+var promises = [2, 3, 5, 7, 11, 13].map(function(id) {
+    return getJSON('/post/' + id + ".json");
+});
+
+Promise.all(promises).then(function(posts) {
+    // ...
+}).catch(function(reason) {
+    // ...
+});
+// 上面代码中,promises是包含6个 Promise 实例的数组,
+// 只有这6个实例的状态都变成fulfilled,或者其中有一个变为rejected,才会调用Promise.all方法后面的回调函数.
+
+
+// ------------------------------------------------------------------------------------
+// 下面是另一个例子.(伪代码...理解其思路)
+const databasePromise = connectDatabase();
+const booksPromise = databasePromise
+    .then(findAllBooks);
+const userPromise = databasePromise
+    .then(getCurrentUser);
+Promise.all([
+        booksPromise,
+        userPromise
+    ])
+    .then(([books, user]) => pickTopRecommentations(books, user));
+// 上面代码中,booksPromise和userPromise是两个异步操作,
+// 只有等到它们的结果都返回了,才会触发pickTopRecommentations这个回调函数.
+
+
+// -----------------------------------------------------------------------------------
+// 注意,如果【作为参数的Promise实例】,自己定义了catch方法,那么它一旦【被rejected】,
+// 并【不会触发Promise.all()的catch方法】.
+const p1 = new Promise((resolve, reject) => {
+        resolve('hello');
+    })
+    .then(result => result)
+    .catch(e => e);
+
+const p2 = new Promise((resolve, reject) => {
+        throw new Error('报错了');
+    })
+    .then(result => result)
+    .catch(e => e);
+
+Promise.all([p1, p2])
+    .then(result => console.log(result))
+    .catch(e => console.log(e));
+// ["hello", Error: 报错了]
+// 上面代码中,p1会resolved,p2首先会rejected,但是p2有自己的catch方法,该方法返回的是一个新的Promise实例,
+// 【p2指向的实际上是这个实例】.该实例执行完catch方法后,也会变成resolved
+// ....因为从promise.all的角度来看,p2已经完成了它的异步操作....
+// 导致Promise.all()方法参数里面的两个实例都会resolved,
+// 因此会调用then方法指定的回调函数,而不会调用catch方法指定的回调函数.
+
+
+// 如果【p2没有自己的catch方法】,就会【调用Promise.all()的catch方法】.
+const p1 = new Promise((resolve, reject) => {
+        resolve('hello');
+    })
+    .then(result => result);
+
+const p2 = new Promise((resolve, reject) => {
+        throw new Error('报错了');
+    })
+    .then(result => result);
+
+Promise.all([p1, p2])
+    .then(result => console.log(result))
+    .catch(e => console.log(e)); // Error: 报错了
+
+
+// -----------------------------------------------------------------------------------
+// Promise.race() --- 竞争
+// Promise.race方法同样是将多个Promise实例,包装成一个新的Promise实例.
+
+var p = Promise.race([p1, p2, p3]);
+// 上面代码中,只要p1、p2、p3之中【有一个实例率先改变状态,p的状态就跟着改变】.
+// 那个率先改变的Promise实例的返回值,就传递给p的回调函数.
+
+// Promise.race方法的参数与Promise.all方法一样,如果不是Promise实例,
+// 就会先调用下面讲到的Promise.resolve方法,将参数转为Promise实例,再进一步处理.
+
+// 下面是一个例子,如果【指定时间内没有获得结果,就将Promise的状态变为reject】,否则变为resolve.
+const p = Promise.race([
+    fetch('/resource-that-may-take-a-while'),
+    new Promise(function(resolve, reject) {
+        setTimeout(() => reject(new Error('request timeout')), 5000)
+    })
+]);
+p.then(response => console.log(response));
+p.catch(error => console.log(error));
+// 上面代码中,如果5秒之内fetch方法无法返回结果,变量p的状态就会变为rejected,从而触发catch方法指定的回调函数.
+
+
+// -----------------------------------------------------------------------------------
+// Promise.resolve()
+// 有时需要【将现有对象转为Promise对象】,Promise.resolve方法就起到这个作用.
+
+var jsPromise = Promise.resolve($.ajax('/whatever.json'));
+// 上面代码将jQuery生成的【deferred对象】,转为一个新的Promise对象.
+
+// 【Promise.resolve等价于下面的写法】
+Promise.resolve('foo')
+// 等价于
+new Promise(resolve => resolve('foo'))
+
+
+// Promise.resolve方法的参数分成四种情况.
+// 1_参数是一个Promise实例
+// 如果参数是Promise实例,那么Promise.resolve将不做任何修改、原封不动地返回这个实例.
+
+// 2_参数是一个【thenable对象】
+// thenable对象指的是【具有then方法的对象】,比如下面这个对象:
+let thenable = {
+    then: function(resolve, reject) {
+        resolve(42);
+    }
+};
+
+// Promise.resolve方法会将这个对象转为Promise对象,然后就【立即执行thenable对象的then方法】.
+let thenable = {
+    then: function(resolve, reject) {
+        resolve(42);
+    }
+};
+
+let p1 = Promise.resolve(thenable);
+p1.then(function(value) {
+    console.log(value); // 42
+});
+// 上面代码中,thenable对象的then方法执行后,对象p1的状态就变为resolved,从而立即执行最后那个then方法指定的回调函数,输出42.
+
+// 3_参数不是具有then方法的对象,或根本就不是对象
+// 如果参数是一个原始值,或者是一个不具有then方法的对象,则Promise.resolve方法返回一个新的Promise对象,【状态为Resolved】
+var p = Promise.resolve('Hello');
+
+p.then(function(s) {
+    console.log(s) // Hello
+    // API：如果改变已经发生了,你再对Promise对象添加回调函数,也会立即得到这个结果.
+});
+
+// 上面代码生成一个新的Promise对象的实例p.由于字符串Hello不属于异步操作(判断方法是字符串对象不具有then方法),
+// 返回Promise实例的状态从一生成就是Resolved,所以【回调函数会立即执行】
+// 【Promise.resolve方法的参数,会同时传给回调函数】.
+
+// 4_不带有任何参数
+// Promise.resolve方法允许调用时不带参数,【直接返回一个Resolved状态的Promise对象】--- 其实与3性质一样.
+// 所以,如果希望得到一个Promise对象,比较方便的方法就是直接调用Promise.resolve方法.
+
+var p = Promise.resolve();
+
+p.then(function() {
+    // ...
+});
+// 上面代码的变量p就是一个Promise对象.
+
+// 需要注意的是,立即resolve的Promise对象,
+// 是在本轮"事件循环"(event-loop)的结束时执行,而不是在下一轮"事件循环"的开始时.
+
+/**
+ *  事件循环:事件循环是指主线程重复从消息队列中取消息、执行的过程.
+ *  实际上,主线程只会做一件事情,就是从消息队列里面取消息、执行消息,再取消息、再执行.
+ *  当消息队列为空时,就会等待直到消息队列变成非空.而且主线程只有在将当前的消息执行完成后,才会去取下一个消息.
+ *  这种机制就叫做事件循环机制,取一个消息并执行的过程叫做一次循环.
+ *  异步过程的回调函数,一定不在当前这一轮事件循环中执行.
+ */
+
+setTimeout(function() {
+    console.log('three');
+}, 0);
+Promise.resolve().then(function() {
+    console.log('two');
+});
+console.log('one');
+// one
+// two
+// three
+
+// 【最强解析】
+// 上面代码中, setTimeout(fn, 0) 在下一轮"事件循环" 开始时执行, 
+// Promise.resolve() 在本轮"事件循环" 结束时执行, 
+// console.log('one') 则是立即执行, 因此最先输出.
+// 另外：【then方法】指定的回调函数,【将在当前脚本所有"同步任务"执行完才会执行】 --- 其实就是本轮结束时.
+</script>
+
+</html>
