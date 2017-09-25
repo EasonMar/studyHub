@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = "RegExpExtension";
 
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-
-<body>
-</body>
-<script type="text/javascript">
 // 1、RegExp 构造函数
 // 如果RegExp构造函数第一个参数是一个正则对象,那么可以使用第二个参数指定修饰符.
 // 而且,返回的正则表达式会忽略原有的正则表达式的修饰符,只使用新指定的修饰符.
@@ -74,6 +65,3 @@ r.sticky; // true
 
 
 // 7、s 修饰符：dotAll 模式
-</script>
-
-</html>

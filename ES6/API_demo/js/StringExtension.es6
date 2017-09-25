@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = "StringExtension";
 
-<head>
-    <meta charset="UTF-8">
-    <title>StringExtension</title>
-</head>
 
-<body>
-    <p style="font-size: 90px;margin: 70% 0 10%;font-weight: bold;text-align: center;">StringExtension</p>
-    <div id="result" style="text-align: center;"></div>
-</body>
-<script src="http://assets.xrkcdn.com/framework/js/jquery-2.1.4.js"></script>
-<script type="text/javascript">
+
 // Unicode相关
 // 1、字符的 Unicode 表示法
 // 2、codePointAt()
@@ -125,7 +115,7 @@ $('#result').append(`
 console.log(`string text line 1
 string text line 2`);
 
-// 字符串中嵌入变量
+// 字符串中嵌入【变量】
 var name = "Bob",
     time = "today";
 console.log(`Hello ${name}, how are you ${time}?`);
@@ -165,7 +155,7 @@ function authorize(user, action) {
     }
 }
 
-// 大括号内部可以放入任意的JavaScript表达式,可以进行运算,以及引用对象属性.
+// 【大括号内部可以放入任意的JavaScript表达式,可以进行运算,以及引用对象属性】.
 var x = 1;
 var y = 2;
 
@@ -179,7 +169,7 @@ var obj = { x: 1, y: 2 };
 `${obj.x + obj.y}`
 // 3
 
-// 模板字符串之中还能调用函数.
+// 模板字符串之中还能【调用函数】.
 function fn() {
     return "Hello World";
 }
@@ -187,11 +177,13 @@ function fn() {
 `foo ${fn()} bar`;
 // foo Hello World bar
 
-// 如果大括号中的值不是字符串,将按照一般的规则转为字符串.比如,大括号中是一个对象,将默认调用对象的toString方法.
-// 如果模板字符串中的变量没有声明,将报错.
-// 由于模板字符串的大括号内部,就是执行JavaScript代码,因此如果大括号内部是一个字符串,将会原样输出.
+/**
+ * 【如果大括号中的值不是字符串,将按照一般的规则转为字符串】.比如,大括号中是一个【对象】,将默认调用对象的【toString方法】.
+ * 【如果模板字符串中的变量没有声明,将报错.】
+ * 【由于模板字符串的大括号内部,就是执行JavaScript代码】,因此如果大括号内部是一个字符串,将会原样输出.
+ */
 
-// 模板字符串甚至还能嵌套.
+// 模板字符串甚至【还能嵌套】.
 const tmpl = addrs => `
   <table>
   ${addrs.map(addr => `
@@ -419,9 +411,3 @@ String.raw({ raw: ['t','e','s','t'] }, 0, 1, 2);
 // 13、模板字符串的限制
 // 前面提到标签模板里面,可以内嵌其他语言.？？？
 // 但是,模板字符串默认会将字符串转义,导致无法嵌入其他语言.
-
-
-
-</script>
-
-</html>

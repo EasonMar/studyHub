@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'let_and_const';
 
-<head>
-    <meta charset="UTF-8">
-    <title>let_and_const</title>
-</head>
-
-<body>
-    <p style="font-size: 90px;margin: 70% 0 0;font-weight: bold;text-align: center;">let_and_const</p>
-</body>
-<script type="text/javascript">
 
 // let
 
@@ -159,7 +149,7 @@ foo.prop // 123
 // 下面是另一个例子
 const acon = [];
 acon.push('Hello'); // 可执行
-acon.length = 0;    // 可执行
+acon.length = 0; // 可执行
 // acon = ['Dave'];    // 报错
 // 上面代码中,常量a是一个数组,这个数组本身是可写的,但是如果将另一个数组赋值给a,就会报错.
 
@@ -192,7 +182,7 @@ const foofreeze = Object.freeze({});
 //     浏览器里面,顶层对象是window,但 Node 和 Web Worker 没有window.
 //     浏览器和 Web Worker 里面,self也指向顶层对象,但是 Node 没有self.
 //     Node 里面,顶层对象是global,但其他环境都不支持.
- 
+
 // 同一段代码为了能够在各种环境,都能取到顶层对象,现在一般是使用this变量,但是有局限性.
 //     全局环境中,this会返回顶层对象.但是,Node 模块和 ES6 模块中,this返回的是当前模块.
 //     函数里面的this,如果函数不是作为对象的方法运行,而是单纯作为函数运行,this会指向顶层对象.但是,严格模式下,这时this会返回undefined.
@@ -203,7 +193,3 @@ const foofreeze = Object.freeze({});
 // 现在有一个【提案】,在语言标准的层面,引入global作为顶层对象.
 // 也就是说,在所有环境下,global都是存在的,都可以从它拿到顶层对象.
 // 垫片库system.global模拟了这个提案,可以在所有环境拿到global.
-
-</script>
-
-</html>

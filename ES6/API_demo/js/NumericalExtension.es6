@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'NumericalExpansion';
 
-<head>
-    <meta charset="UTF-8">
-    <title>NumericalExpansion</title>
-</head>
 
-<body>
-    <p style="font-size: 90px;margin: 70% 0 10%;font-weight: bold;text-align: center;">NumericalExpansion</p>
-</body>
-<script type="text/javascript">
 // ============== 二进制和八进制表示法 ==============
 
 
@@ -140,9 +131,9 @@ Math.trunc('123.456')
 // 123
 
 // 对于空值和无法截取整数的值，返回NaN。
-Math.trunc(NaN);      // NaN
-Math.trunc('foo');    // NaN
-Math.trunc();         // NaN
+Math.trunc(NaN); // NaN
+Math.trunc('foo'); // NaN
+Math.trunc(); // NaN
 // -----------------------------------
 
 
@@ -160,6 +151,3 @@ Math.trunc();         // NaN
 
 
 // ============== Integer 数据类型 ==============
-</script>
-
-</html>
