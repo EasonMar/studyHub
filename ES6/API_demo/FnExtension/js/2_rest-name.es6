@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'rest to name';
 
-<head>
-    <meta charset="UTF-8">
-    <title>FnExtension</title>
-</head>
-
-<body>
-    <p style="font-size: 90px;margin: 70% 0;font-weight: bold;text-align: center;">rest to name</p>
-</body>
-<script type="text/javascript">
 console.group('rest参数');
 	// ES6引入rest 参数（形式为...变量名）,用于获取函数的多余参数,这样就不需要使用arguments对象了.
 	// rest参数搭配的变量是一个【数组】,该变量将多余的参数放入数组中.
@@ -96,10 +86,10 @@ console.group('name属性');
 	const bar = function baz() {};
 
 	// ES5
-	bar.name // "baz"
+	console.log(bar.name); // "baz"
 
 	// ES6
-	bar.name // "baz"
+	console.log(bar.name); // "baz"
 
 
 	// Function构造函数返回的函数实例,name属性的值为anonymous.
@@ -108,10 +98,7 @@ console.group('name属性');
 
 	// bind返回的函数,name属性值会加上bound前缀.
 	function foo() {};
-	foo.bind({}).name // "bound foo"
+	foo.bind({}).name; // "bound foo"
 	(function(){}).bind({}).name // "bound "
 console.groupEnd();
 console.log("");
-</script>
-
-</html>

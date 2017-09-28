@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'Obj';
 
-<head>
-    <meta charset="UTF-8">
-    <title>Destructuring</title>
-</head>
-
-<body>
-    <p style="font-size: 90px;margin: 70% 0 0;font-weight: bold;text-align: center;">Destructuring</p>
-    <p style="text-align: center;font-weight: bold;font-size: 45px;padding: 10px 50px; color: #0000aa">ES6 允许按照一定模式,从数组和对象中提取值,对变量进行赋值,这被称为解构（Destructuring）</p>
-</body>
-<script type="text/javascript">
 console.group('对象的解构赋值');
 
     // 对象的属性没有次序,【变量必须与属性同名,才能取到正确的值】.
@@ -196,6 +185,3 @@ console.group('注意事项');
     // 方括号这种写法,属于"属性名表达式",参见《对象的扩展》一章.
 console.groupEnd();
 console.log("");
-</script>
-
-</html>

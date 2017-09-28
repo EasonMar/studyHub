@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'Array';
 
-<head>
-    <meta charset="UTF-8">
-    <title>Destructuring</title>
-</head>
-
-<body>
-    <p style="font-size: 90px;margin: 70% 0 0;font-weight: bold;text-align: center;">Destructuring</p>
-    <p style="text-align: center;font-weight: bold;font-size: 45px;padding: 10px 50px; color: #0000aa">ES6 允许按照一定模式,从数组和对象中提取值,对变量进行赋值,这被称为解构(Destructuring)</p>
-</body>
-<script type="text/javascript">
 // 以前,为变量赋值,只能直接指定值;
 // ES6 允许写成下面这样.
 
@@ -133,6 +122,3 @@ console.group('默认值');
     function f() {console.log('aaa');}
     let [x9 = f()] = [1];
 console.groupEnd();
-</script>
-
-</html>

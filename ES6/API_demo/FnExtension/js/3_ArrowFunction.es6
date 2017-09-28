@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'Arrow Function';
 
-<head>
-    <meta charset="UTF-8">
-    <title>Arrow Function</title>
-</head>
-
-<body>
-    <p style="font-size: 90px;margin: 70% 0;font-weight: bold;text-align: center;">Arrow Function</p>
-</body>
-<script type="text/javascript">
 
 // ======================================================================================================
 console.group('省略{}和return');
@@ -412,6 +402,3 @@ console.group('绑定this,新东西,ES7提案,浏览器尚不支持');
     // ::html("hahaha");
 console.groupEnd();
 console.log("");
-</script>
-
-</html>

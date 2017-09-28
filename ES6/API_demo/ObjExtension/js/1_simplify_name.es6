@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>ES6ObjExtend</title>
-</head>
-<body>
-	<p style="font-size: 90px;margin: 70% 0 0;font-weight: bold;text-align: center;">ES6ObjExtend</p>
-</body>
-<script type="text/javascript">
+document.getElementById('note').innerHTML = 'simplify_name';
 
 // ======================================================================================================
 console.group('属性的简洁表示法');
@@ -142,5 +133,3 @@ console.log(person.sayName.name);   // "sayName"
 
 console.groupEnd();
 console.log("");
-</script>
-</html>

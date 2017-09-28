@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'str to function';
 
-<head>
-    <meta charset="UTF-8">
-    <title>Destructuring</title>
-</head>
-
-<body>
-    <p style="font-size: 90px;margin: 70% 0 0;font-weight: bold;text-align: center;">Destructuring</p>
-    <p style="text-align: center;font-weight: bold;font-size: 45px;padding: 10px 50px; color: #0000aa">ES6 允许按照一定模式,从数组和对象中提取值,对变量进行赋值,这被称为解构（Destructuring）</p>
-</body>
-<script type="text/javascript">
 console.group('字符串的解构赋值');
     // 字符串也可以解构赋值.这是因为此时,字符串被转换成了一个类似数组的对象.
     const [a, b, c, d, e] = 'hello';
@@ -86,6 +75,3 @@ console.group('函数参数的解构赋值');
     var a3 = [1, undefined, 3].map((x = 'yes') => x);
     console.log(a3); // [ 1, 'yes', 3 ]
 console.groupEnd();
-</script>
-
-</html>

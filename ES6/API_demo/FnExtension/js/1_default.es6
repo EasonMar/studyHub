@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementById('note').innerHTML = 'default';
 
-<head>
-    <meta charset="UTF-8">
-    <title>FnExtension</title>
-</head>
-
-<body>
-    <p style="font-size: 90px;margin: 70% 0;font-weight: bold;text-align: center;">Default value</p>
-</body>
-<script type="text/javascript">
 console.group('函数参数的默认值');
 	// ES6 允许为函数的参数设置默认值,即直接写在参数定义的后面.
 	function log(x, y = 'World') {console.log(x, y)}
@@ -305,6 +295,3 @@ console.group('应用');
 	}
 console.groupEnd();
 console.log("")
-</script>
-
-</html>
