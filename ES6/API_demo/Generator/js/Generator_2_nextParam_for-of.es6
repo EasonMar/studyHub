@@ -1,32 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `<p style="font-size: 90px;margin: 50% 0 0;font-weight: bold;text-align: center;" id="note">2.next(Param)_for-of</p>`;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Generator</title>
-</head>
-
-<body>
-</body>
-<script type="text/javascript">
 /**
  * next 方法的参数
  *
- * yield表达式本身没有返回值,或者说总是返回undefined.
+ * yield表达式【本身没有返回值】,或者说总是【返回undefined】.
  * next方法可以带一个参数,该参数就会被当作【上一个】yield表达式的【返回值】.
- * 一定要注意是【上一个yield表达式】
+ * 一定要注意是【上一个yield表达式】 --- 从Generator异步的角度去思考为什么是"上一个yield表达式"!
  */
 function* f() {
     for (var i = 0; true; i++) {
         var reset = yield i;
-        console.log(reset, i); // 放在这里,只执行了2次.因为每次调用next只执行到yield处.
+        console.log(reset, i); 
         if (reset) { i = -1; }
     }
 }
 var g = f();
-g.next(); // { value: 0, done: false }
-g.next(); // { value: 1, done: false }
-g.next(true); // { value: 0, done: false }
+g.next(); // { value: 0, done: false }  --- console.log未执行
+g.next(); // { value: 1, done: false }  --- console.log执行第一次
+g.next(true); // { value: 0, done: false } --- console.log执行第二次,并且reset得到上一个yield返回值true.
 
 /**
  * 上面代码先定义了一个可以无限运行的 Generator 函数f,
@@ -65,7 +56,7 @@ b.next(13); // { value:42, done:true }
  * 第二次调用next方法,将上一次yield表达式的值设为12,因此y等于24,返回y / 3的值8；
  * 第三次调用next方法,将上一次yield表达式的值设为13,因此z等于13,这时x等于5,y等于24,所以return语句的值等于42.
  *
- * 注意,由于next方法的参数表示上一个yield表达式的返回值,所以在第一次使用next方法时,传递参数是无效的.
+ * 注意,由于【next方法的参数】表示【上一个yield表达式的返回值】,所以在【第一次使用next方法时,传递参数是无效的】.
  * V8 引擎直接忽略第一次使用next方法时的参数,只有从第二次使用next方法开始,参数才是有效的.
  * 从语义上讲,第一个next方法用来启动遍历器对象,所以不用带有参数.
  *
@@ -89,9 +80,9 @@ genObj.next('b'); // 2. b
  * 第一次调用next,到第一个yield处就停止,并未执行console.log(`1. ${yield}`);  
  * --- why？此时yield表达式已经执行完了,但yield所在的console.log语句却未执行？
  * --- 注意：要区别开yield表达式和yield所在的语句！
- * --- 语句会停,但是yield表达式不会停！
+ * --- yield所在的语句不会执行,但是yield表达式会执行！
  * 
- * 第二次调用next,第一个yield的返回值为a,并且执行完前面停止的console.log(`1. ${yield}`)语句;
+ * 第二次调用next,第一个yield的返回值为a,并且执行完前面的console.log(`1. ${yield}`)语句;
  * 执行到第二个yield处时,yield所处的语句又停止(---- 但是yield表达式会执行),
  * 所以并未执行第二个yield所处的语句：console.log(`2. ${yield}`) 
  * 
@@ -101,11 +92,16 @@ genObj.next('b'); // 2. b
  */
 
 
-
 /**
  * for...of 循环  ======  【需要在感性上好好认识for...of与Generator之间的关系】
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * for...of循环可以自动遍历【Generator函数】执行时生成的【Iterator对象】,且此时不再需要调用next方法.
+ * 
+ * *******************************************************************************
+ * 
+ * for...of循环可以自动遍历【Generator函数】执行时生成的【Iterator对象】
+ * 
+ * Generator函数执行生成的就是Iterator对象,然后Iterator对象是可以被for...of遍历的.
+ * 
+ * Generator函数里面的yield表达式中的值,就是当前成员信息中的value属性.
  */
 function* fooA() {
     yield 1;
@@ -119,15 +115,17 @@ function* fooA() {
 for (let v of fooA()) {
     console.log(v); // 1 2 3 4 5
 }
-/**
+/**************************************************************
  * 上面代码使用for...of循环,依次显示5个yield表达式的值.
- * 这里需要注意,一旦next方法的返回对象的done属性为true,for...of循环就会中止,【且不包含该返回对象】,
+ * 这里需要注意,一旦next方法的返回对象的【done属性为true】,for...of循环就会中止,且【不包含】该返回对象,
  * 所以上面代码的return语句返回的6,不包括在for...of循环之中.
+ * ---- 遇到return时,done属性会变成true ----
+ * ******************************************************************************
  */
 
 /**
  * 下面是一个利用 Generator 函数和for...of循环,实现斐波那契数列的例子.
- * 从代码中可见,使用for...of语句时不需要使用next方法.
+ * 从代码中可见,使用for...of语句时不需要使用next方法. --- for...of内部自动执行了.
  */
 function* fibonacci() {
     let [prev, curr] = [0, 1]; // 解构赋值
@@ -138,19 +136,19 @@ function* fibonacci() {
     }
 }
 
-for (let n of fibonacci()) {
+/*for (let n of fibonacci()) {
     if (n > 1000) break;
     console.log(n);
-}
+}*/
 
 
-/**
+/**************************************
  * 利用for...of循环,可以写出遍历任意对象(object)的方法.
- * 原生的 JavaScript 对象没有遍历接口,无法使用for...of循环,
- * 通过 Generator 函数为它加上这个接口,就可以用了. ======== 深度理解！！！！
+ * 【原生的 JavaScript 对象】没有遍历接口,无法使用for...of循环,
+ * 通过 Generator 函数为它加上这个接口,就可以用了.
  */
 function* objectEntries(obj) {
-    let propKeys = Reflect.ownKeys(obj);  // Reflect.ownKeys方法用于返回对象的所有属性
+    let propKeys = Reflect.ownKeys(obj);  // Reflect.ownKeys方法用于返回对象的所有属性 -- 用keys也行吧,后面就来了
     for (let propKey of propKeys) {
         yield [propKey, obj[propKey]];
     }
@@ -167,7 +165,7 @@ for (let [key, value] of objectEntries(jane)) {
  * 这时,我们通过 Generator 函数objectEntries为它加上遍历器接口,就可以用for...of遍历了.
  */
 
-/**
+/***********************
  * 加上遍历器接口的另一种写法是,将 Generator 函数加到对象的Symbol.iterator属性上面.
  *
  * ES5引入了Object.keys方法,返回一个数组,成员是参数对象自身的(不含继承的)所有可遍历(enumerable)属性的键名.
@@ -187,8 +185,7 @@ for (let [key, value] of janeB) {
 // first: Jane
 // last: Doe
 
-/**
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/******************************************
  * 除了for...of循环以外,扩展运算符(...)、解构赋值和Array.from方法内部调用的,都是遍历器接口.
  * 这意味着,它们都可以将 Generator 函数返回的 Iterator 对象,作为参数.
  */
@@ -216,6 +213,3 @@ for (let n of numbers()) {
 }
 // 1
 // 2
-</script>
-
-</html>

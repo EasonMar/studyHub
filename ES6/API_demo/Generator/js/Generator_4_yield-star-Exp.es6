@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `
+  <p style="font-size: 90px;margin: 50% 0 0;font-weight: bold;text-align: center;" id="note">4.yield-star-Exp</p>`;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Generator</title>
-</head>
 
-<body>
-</body>
-<script type="text/javascript">
-/**
+/**************
  * yield* 表达式
  *
  * 如果在 Generator 函数内部,调用另一个 Generator 函数,默认情况下是没有效果的.
@@ -32,7 +25,7 @@ for (let v of bar()) {
 // "x"
 // "y"
 
-/**
+/****************
  * 这个就需要用到yield*表达式,用来在一个 Generator 函数里面执行另一个 Generator 函数.
  */
 function* bar() {
@@ -67,7 +60,7 @@ for (let v of bar()) {
 // "y"
 
 
-/**
+/****************
  * 再来看一个对比的例子.
  *
  * outer2使用了yield*,outer1没使用.结果就是,outer1返回一个遍历器对象,outer2返回该遍历器对象的内部值.
@@ -98,7 +91,7 @@ gen.next().value // "open"
 gen.next().value // "hello!"
 gen.next().value // "close"
 
-/**
+/****************
  * 从语法角度看,如果yield表达式后面跟的是一个遍历器对象,需要在yield表达式后面加上星号,表明它返回的是一个遍历器对象.
  * 这被称为yield*表达式.
  */
@@ -143,10 +136,11 @@ function* concat(iter1, iter2) {
         yield value;
     }
 }
-/**
+/****************
  * 上面代码说明,yield*后面的Generator函数(没有return语句时),不过是for...of的一种简写形式,完全可以用后者替代前者.
  * 反之,在【有return语句】时,则需要用【var value = yield* iterator】的形式【获取return语句的值】.
- * ---- 所以return在【yield*表达式】里的表现、特性,跟在【Generator】中是有区别的.
+ * ---- yield* iterator是可以得到return语句值的！！
+ * ---- 所以return在【yield*表达式】里的表现、特性,跟【yield】是有区别的.
  *
  * 任何数据结构只要有 Iterator 接口,就可以被yield*遍历.
  *
@@ -176,13 +170,12 @@ it.next()
 it.next();
 // "v: foo"
 // {value: 4, done: false}
-// ---------- 这里想不明白为啥结果是这样？
-// ---------- return在【yield*表达式】里的表现、特性,跟在【Generator】中是有区别的.
+// ---------- 【yield*表达式】可以得到return语句的值, 注意区分yield* 和 yield的特性.
 
 it.next()
 // {value: undefined, done: true}
-/**
- * 上面代码在第四次调用next方法的时候,屏幕上会有输出,这是因为函数foo的return语句,向函数bar提供了返回值.
+/*********************** ********************* 
+ * 上面代码在第四次调用next方法的时候,屏幕上会有输出,这是因为【函数foo的return语句,提供了返回值】.
  *
  * 再看一个例子
  */
@@ -197,7 +190,7 @@ function* logReturned(genObj) {
     console.log(result);
 }
 
-[...logReturned(genFuncWithReturn())]
+console.log([...logReturned(genFuncWithReturn())]);
 // The result
 // 值为 [ 'a', 'b' ]
 /**
@@ -208,6 +201,8 @@ function* logReturned(genObj) {
  * 所以,最后的数据表达式得到的值等于[ 'a', 'b' ].
  * 但是,函数genFuncWithReturn的return语句的返回值The result,会返回给函数logReturned内部的result变量,因此会有终端输出.
  *
+ *
+ ********************** 
  * yield*命令可以很方便地取出嵌套数组的所有成员.
  */
 function* iterTree(tree) {
@@ -262,7 +257,7 @@ function make(array) {
     if (array.length == 1) return new Tree(null, array[0], null);
     return new Tree(make(array[0]), array[1], make(array[2]));
 }
-let tree = make([
+let trees = make([
     [
         ['a'], 'b', ['c']
     ], 'd', [
@@ -272,12 +267,9 @@ let tree = make([
 
 // 遍历二叉树
 var result = [];
-for (let node of inorder(tree)) {
+for (let node of inorder(trees)) {
     result.push(node);
 }
 
-result
+console.log(result);
 // ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-</script>
-
-</html>

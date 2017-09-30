@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `
+  <p style="font-size: 90px;margin: 50% 0 0;font-weight: bold;text-align: center;" id="note">3.throw_return</p>`;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Generator</title>
-</head>
 
-<body>
-</body>
-<script type="text/javascript">
 /**
  * Generator.prototype.throw()
  * 
@@ -276,6 +269,3 @@ g.next() // { value: 7, done: true }
 /**
  * 上面代码中,调用return方法后,就开始执行finally代码块,然后等到finally代码块执行完,再执行return方法.
  */
-</script>
-
-</html>

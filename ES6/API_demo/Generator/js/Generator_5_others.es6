@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `<p style="font-size: 90px;margin: 50% 0 0;font-weight: bold;text-align: center;" id="note">5.others</p>`;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Generator</title>
-</head>
-
-<body>
-</body>
-<script type="text/javascript">
 /**
  * 作为对象属性的Generator函数
  */
@@ -295,6 +286,3 @@ function doStuff() {
 /**
  * 上面的函数,可以用一模一样的for...of循环处理！两相一比较,就不难看出 Generator 使得数据或者操作,具备了类似数组的接口.
  */
-</script>
-
-</html>
