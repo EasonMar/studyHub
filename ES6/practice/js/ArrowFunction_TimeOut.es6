@@ -1,215 +1,206 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>timeOut</title>
-</head>
-<link href="https://assets.xrkcdn.com/framework/css/reset-1.0.0.css" rel="stylesheet" type="text/css">
+let html = `
 <style>
-body{
-    min-height: 500px;
-}
-.intro-bg {
-    display: none;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: fixed;
-    opacity: 0.7;
-    z-index: 999;
-    background-color: #000;
-    -webkit-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-}
+	body{
+	    min-height: 500px;
+	}
+	.intro-bg {
+	    display: none;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    position: fixed;
+	    opacity: 0.7;
+	    z-index: 999;
+	    background-color: #000;
+	    -webkit-transition: all 0.3s ease-out;
+	    transition: all 0.3s ease-out;
+	}
 
-.account-bind,
-.sorry {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translateX(-50%) translateY(-60%);
-    width: 82%;
-    min-width: 280px;
-    max-width: 360px;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    color: #000;
-    z-index: 999999;
-    background: #fff;
-    overflow: hidden;
-}
+	.account-bind,
+	.sorry {
+	    display: none;
+	    position: fixed;
+	    top: 50%;
+	    left: 50%;
+	    -webkit-transform: translateX(-50%) translateY(-60%);
+	    width: 82%;
+	    min-width: 280px;
+	    max-width: 360px;
+	    border-radius: 5px;
+	    -webkit-border-radius: 5px;
+	    color: #000;
+	    z-index: 999999;
+	    background: #fff;
+	    overflow: hidden;
+	}
 
-.bildmobilebox {
-    background-color: #fff;
-    padding: 22px 22px 14px;
-    position: relative;
-}
+	.bildmobilebox {
+	    background-color: #fff;
+	    padding: 22px 22px 14px;
+	    position: relative;
+	}
 
-.bildmobilebox p {
-    margin-top: 12px;
-    font-size: 14px;
-    line-height: 24px;
-    color: #686869;
-    padding: 0px 8px;
-}
+	.bildmobilebox p {
+	    margin-top: 12px;
+	    font-size: 14px;
+	    line-height: 24px;
+	    color: #686869;
+	    padding: 0px 8px;
+	}
 
-.bildmobilebox h3 {
-    padding: 0px 8px;
-    font-weight: bold;
-}
+	.bildmobilebox h3 {
+	    padding: 0px 8px;
+	    font-weight: bold;
+	}
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 22px;
-    height: 22px;
-    background: url(https://assets.xrkcdn.com/frontend-m/bxr_events/2017/Apr_fanli/static/cdn/images/close_5f8a1d5.png) no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover;
-    cursor: pointer;
-}
+	.close {
+	    position: absolute;
+	    top: 10px;
+	    right: 10px;
+	    width: 22px;
+	    height: 22px;
+	    background: url(https://assets.xrkcdn.com/frontend-m/bxr_events/2017/Apr_fanli/static/cdn/images/close_5f8a1d5.png) no-repeat;
+	    -webkit-background-size: cover;
+	    background-size: cover;
+	    cursor: pointer;
+	}
 
-.btnbox .btnsubmit {
-    display: block;
-    width: 100%;
-    border: none;
-    background-color: #00aaff;
-    line-height: 48px;
-    height: 48px;
-    font-size: 18px;
-    text-align: center;
-    color: #fff;
-    cursor: pointer;
-}
+	.btnbox .btnsubmit {
+	    display: block;
+	    width: 100%;
+	    border: none;
+	    background-color: #00aaff;
+	    line-height: 48px;
+	    height: 48px;
+	    font-size: 18px;
+	    text-align: center;
+	    color: #fff;
+	    cursor: pointer;
+	}
 
-.formbox {
-    background-color: #fff;
-}
+	.formbox {
+	    background-color: #fff;
+	}
 
-.formbox ul li {
-    position: relative;
-    border-top: 1px solid #f2f2f2;
-    margin: 0px 22px;
-}
+	.formbox ul li {
+	    position: relative;
+	    border-top: 1px solid #f2f2f2;
+	    margin: 0px 22px;
+	}
 
-.formbox ul li .box .btnsendcode {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    margin-top: -18px;
-    background-color: #ff6430;
-    color: #fff;
-    line-height: 36px;
-    font-size: 14px;
-    padding: 0 12px;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-}
+	.formbox ul li .box .btnsendcode {
+	    position: absolute;
+	    right: 8px;
+	    top: 50%;
+	    margin-top: -18px;
+	    background-color: #ff6430;
+	    color: #fff;
+	    line-height: 36px;
+	    font-size: 14px;
+	    padding: 0 12px;
+	    border-radius: 4px;
+	    -webkit-border-radius: 4px;
+	    -moz-border-radius: 4px;
+        cursor: pointer;
+	}
 
-.formbox ul li input[type=text],
-.formbox ul li input[type=tel],
-.formbox ul li input[type=date],
-.formbox ul li input[type=password],
-.formbox ul li input[type=email] {
-    display: block;
-    width: 100%;
-    background: none;
-    border: none;
-    line-height: 24px;
-    font-size: 16px;
-    padding: 12px 8px;
-    margin: 0;
-    color: #333;
-}
+	.formbox ul li input[type=text],
+	.formbox ul li input[type=tel],
+	.formbox ul li input[type=date],
+	.formbox ul li input[type=password],
+	.formbox ul li input[type=email] {
+	    display: block;
+	    width: 100%;
+	    background: none;
+	    border: none;
+	    line-height: 24px;
+	    font-size: 16px;
+	    padding: 12px 8px;
+	    margin: 0;
+	    color: #333;
+	}
 
-.formbox ul li input[type=text] {
-    padding: 20px 0px 20px 8px;
-}
+	.formbox ul li input[type=text] {
+	    padding: 20px 0px 20px 8px;
+	}
 
- ::-webkit-input-placeholder {
-    font-family: STHeiti, Microsoft YaHei, Tahoma, Geneva, sans-serif;
-    font-size: 14px;
-}
+	 ::-webkit-input-placeholder {
+	    font-family: STHeiti, Microsoft YaHei, Tahoma, Geneva, sans-serif;
+	    font-size: 14px;
+	}
 
-/* 提高theme.alert弹窗的层级 */
-.verify_alert-container {
-    z-index: 999999!important;
-}
+	/* 提高theme.alert弹窗的层级 */
+	.verify_alert-container {
+	    z-index: 999999!important;
+	}
 
 
-/* 失败弹层 */
-.sorry {
-    text-align: center;
-    padding-bottom: 20px
-}
+	/* 失败弹层 */
+	.sorry {
+	    text-align: center;
+	    padding-bottom: 20px
+	}
 
-.sorry img {
-    display: block;
-    margin: 20px auto;
-    width: 30%;
-}
+	.sorry img {
+	    display: block;
+	    margin: 20px auto;
+	    width: 30%;
+	}
 
-.timeBtn{
-    width: 200px;
-    height: 80px;
-    line-height: 80px;
-    text-align: center;
-    font-size: 30px;
-    color: #fff;
-    border-radius: 10px;
-    font-weight: bold;
-    background: #d90c0c;
-    margin: 100px auto 0;
-    cursor: pointer;
-}
+	.timeBtn{
+	    width: 200px;
+	    height: 80px;
+	    line-height: 80px;
+	    text-align: center;
+	    font-size: 30px;
+	    color: #fff;
+	    border-radius: 10px;
+	    font-weight: bold;
+	    background: #d90c0c;
+	    margin: 100px auto 0;
+	    cursor: pointer;
+	}
 </style>
+<div class="timeBtn">Dialog</div>
+<div class="intro-bg"></div>
+<div class="account-bind">
+    <div class="bildmobilebox">
+        <h3>领取新人大礼包</h3>
+        <p>请验证您的手机号码</p>
+        <div class="close"></div>
+    </div>
+    <form id="bindForm" action="/users/bindMobile" onsubmit="formsubmit();return false">
+        <div class="formbox">
+            <ul>
+                <li>
+                    <div class="box">
+                        <input name="phone" type="tel" verify_type="phone" placeholder="请输入手机号码" value="">
+                    </div>
+                </li>
+                <li>
+                    <div class="box" style="padding-right:140px;">
+                        <input name="code" type="text" verify_type="num" placeholder="请输入验证码" value="" verify_name="验证码">
+                        <span class="btnsendcode" id="btn">发送验证码</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="btnbox">
+            <a class="btnsubmit" id="btnsubmit" style="background:#ff6430">马上领取</a>
+        </div>
+    </form>
+</div>
+<div class="sorry">
+    <div class="bildmobilebox">
+        <div class="close"></div>
+        <h3>抱歉</h3>
+        <p>新人大礼包仅针对新注册用户发放</p>
+    </div>
+</div>`;
 
-<body>
-    <div class="timeBtn">Dialog</div>
-    <div class="intro-bg"></div>
-    <div class="account-bind">
-        <div class="bildmobilebox">
-            <h3>领取新人大礼包</h3>
-            <p>请验证您的手机号码</p>
-            <div class="close"></div>
-        </div>
-        <form id="bindForm" action="/users/bindMobile" onsubmit="formsubmit();return false">
-            <div class="formbox">
-                <ul>
-                    <li>
-                        <div class="box">
-                            <input name="phone" type="tel" verify_type="phone" placeholder="请输入手机号码" value="">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="box" style="padding-right:140px;">
-                            <input name="code" type="text" verify_type="num" placeholder="请输入验证码" value="" verify_name="验证码">
-                            <a class="btnsendcode" href="javascript:void(0)" id="btn">发送验证码</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="btnbox">
-                <a class="btnsubmit" id="btnsubmit" style="background:#ff6430">马上领取</a>
-            </div>
-        </form>
-    </div>
-    <div class="sorry">
-        <div class="bildmobilebox">
-            <div class="close"></div>
-            <h3>抱歉</h3>
-            <p>新人大礼包仅针对新注册用户发放</p>
-        </div>
-    </div>
-</body>
-<script src="http://assets.xrkcdn.com/framework/js/jquery-2.1.4.js"></script>
-<script src="http://assets.xrkcdn.com/framework/js/layout-1.0.0.js"></script>
-<script type="text/javascript">
+$('body').append(html);
+
 /*    
     var timer = 0; 
     function callbind() {
@@ -381,7 +372,7 @@ $('.timeBtn').tap(callbind, false);
 
 $('.btnsendcode').on_tap(() => {
     // if ($(this).hasClass('active')) return false;
-    console.log(this);  // window --- 所以绑定事件里的回调函数还是使用function比较方便.
+    // console.log(this);  // window --- 所以绑定事件里的回调函数还是使用function比较方便.
 
     if ($('.btnsendcode').hasClass('active')) return false;
     // 先删除code的verify_type,使得发送验证码时lo.verify不用验证code这一项！
@@ -402,6 +393,3 @@ $('.close').tap(() =>{
     $('.intro-bg').hide();
     $('.sorry').hide();
 },false);
-</script>
-
-</html>

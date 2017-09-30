@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `<p style="font-size: 90px;margin: 50% 0 0;font-weight: bold;text-align: center;" id="note">2_default_pointer_add2Obj</p>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>`;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Iterator</title>
-</head>
-
-<body>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</body>
-<script type="text/javascript">
 /**
  ** 默认Iterator接口 **
  * Iterator接口的目的,就是为所有数据结构,提供了一种统一的访问机制,即for...of循环(详见下文).
@@ -152,7 +136,7 @@ one.next = two;
 two.next = three;
 
 for (var i of one) {
-    console.log(i); // 1, 2, 3 --- 输出next返回对象中的value值
+    console.log(i); // 1, 2, 3 --- 输出next方法返回的对象中的value值
 }
 
 
@@ -260,6 +244,3 @@ for (let item of iterable_B) {
  *    $result = $iterator.next();
  * }
  */
-</script>
-
-</html>

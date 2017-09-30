@@ -2,7 +2,7 @@ document.getElementById('note').innerHTML = 'Obj';
 
 console.group('对象的解构赋值');
 
-    // 对象的属性没有次序,【变量必须与属性同名,才能取到正确的值】.
+    // 对象的属性没有次序,【变量必须与属性同名,才能取到正确的值】.(形式上与对象的key匹配)
     let { bar2, foo4 } = { foo4: "aaa", bar2: "bbb" };
     console.log("foo4=" + foo4) // "aaa"
     console.log("bar2=" + bar2) // "bbb"
@@ -13,7 +13,7 @@ console.group('对象的解构赋值');
     // 第二个例子的变量没有对应的同名属性,导致取不到值,最后等于undefined.
 
 
-    // 如果变量名与属性名不一致,必须写成下面这样.
+    // 如果变量名与属性名不一致,必须写成下面这样.(形式上与对象的value匹配)
     var { foo5: baz2 } = { foo5: 'aaa', bar: 'bbb' };
     console.log("baz2=" + baz2); // "aaa"
 
@@ -35,7 +35,7 @@ console.group('对象的解构赋值');
     */
 
     // ======================================================================================================
-    // 注意,采用这种写法时,变量的声明和赋值是一体的.
+    // 注意,采用这种写法时,变量的【声明和赋值是一体的】.
     // 对于let和const来说,变量不能重新声明,所以一旦赋值的变量以前声明过,就会报错.
     // let foo7;
     // let {foo7} = {foo7: 1}; // SyntaxError: Duplicate declaration "foo7"

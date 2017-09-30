@@ -1,44 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+let html = `
+	<style type="text/css">
+	    .gb-black-mask{
+	        position: fixed;
+	        top: 0;
+	        left: 0;
+	        width: 100%;
+	        height: 100%;
+	        background: rgba(0,0,0,.5);
+	    }
+	    .common-dialog{
+	        position: fixed;
+	        top: 50%;
+	        left: 50%;
+	        transform: translateX(-50%) translateY(200%);
+	        width: 50%;
+	        height: 40px;
+	    }
+	    .common-dialog input{
+	        position: absolute;
+	        left: 0;
+	        top: 0;
+	        width: 100%;
+	        height: 100%;
+	        -webkit-appearance: none;
+	        background: #999;
+	    }
+	</style>
+	<p style="font-size: 90px;margin: 70% 0;font-weight: bold;text-align: center;">Arrow Function Practice</p>`;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Arrow Function</title>
-    <style type="text/css">
-        .gb-black-mask{
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,.5);
-        }
-        .common-dialog{
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%) translateY(200%);
-            width: 50%;
-            height: 40px;
-        }
-        .common-dialog input{
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            -webkit-appearance: none;
-            background: #999;
-        }
-    </style>
-</head>
+$('body').append(html);
 
-<body>
-    <p style="font-size: 90px;margin: 70% 0;font-weight: bold;text-align: center;">Arrow Function Practice</p>
-</body>
-<script src="http://assets.xrkcdn.com/framework/js/jquery-2.1.4.js"></script>
-<script src="http://assets.xrkcdn.com/framework/js/layout-1.0.0.js"></script>
-<script type="text/javascript">
+
 // practice_one:Dialog
 /*
 	function Dialog(html) {
@@ -169,7 +161,3 @@ Dialog.prototype = {
 };
 
 */
-
-</script>
-
-</html>

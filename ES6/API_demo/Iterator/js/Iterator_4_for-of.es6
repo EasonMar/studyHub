@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `<p style="font-size: 90px;margin:50% 0 0;font-weight: bold;text-align: center;" id="note">4_for-of</p><p></p><p></p><p></p><p></p><p></p>`;
 
-<head>
-    <meta charset="UTF-8">
-    <title>Iterator</title>
-</head>
 
-<body>
-    <p></p>
-    <p></p>
-    <p></p>
-    <p></p>
-    <p></p>
-</body>
-<script type="text/javascript">
 /**
  * ES6借鉴C++、Java、C#和Python语言,引入了for...of循环,作为遍历所有数据结构的统一的方法.
  *
@@ -214,9 +201,9 @@ for (let x of Array.from(arrayLike)) {
 
 // 一种解决方法是,使用【Object.keys】方法将对象的键名生成一个数组,然后遍历这个数组.
 
-for (var key of Object.keys(someObject)) {
+/*for (var key of Object.keys(someObject)) {
     console.log(key + ': ' + someObject[key]);
-}
+}*/
 // 另一个方法是使用 Generator 函数将对象重新包装一下.
 function* entries(obj) {
     for (let key of Object.keys(obj)) {
@@ -256,12 +243,9 @@ for (let [key, value] of entries(obj)) {
  */
 
 // 下面是一个使用break语句,跳出for...of循环的例子.
-for (var n of fibonacci) {
+/*for (var n of fibonacci) {
     if (n > 1000)
         break;
     console.log(n);
-}
+}*/
 // 上面的例子,会输出斐波纳契数列小于等于1000的项.如果当前项大于1000,就会使用break语句跳出for...of循环.
-</script>
-
-</html>

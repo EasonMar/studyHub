@@ -21,6 +21,7 @@ console.group('函数参数的默认值');
 	// 首先,阅读代码的人,可以立刻意识到哪些参数是可以省略的,不用查看函数体或文档;
 	// 其次,有利于将来的代码优化,即使未来的版本在对外接口中,彻底拿掉这个参数,也不会导致以前的代码无法运行.
 
+
 	// 参数变量是默认声明的,所以不能用let或const"再次"声明.
 	// function foo(x = 5) {
 	//     let x = 1; // error
@@ -51,19 +52,19 @@ console.log("");
 
 console.group('【与解构赋值默认值结合使用】');
 	// 参数默认值可以与解构赋值的默认值,结合起来使用.   
-	// ----- 区分 【函数参数默认值】 和 【解构赋值的默认值】 -----
+	// ----- 区分 【函数参数默认值】 和 【解构赋值的默认值】 -----  【对象的解构】也可以指定默认值.
 
 	function foo1({x, y = 5}) {
 		console.log(x, y);
 	}
-	foo1({}) // undefined, 5
-	foo1({x: 1}) // 1, 5
-	foo1({x: 1, y: 2}) // 1, 2
-	// foo1() // TypeError: Uncaught TypeError: Cannot match against 'undefined' or 'null'.
+	foo1({}); // undefined, 5
+	foo1({x: 1}); // 1, 5
+	foo1({x: 1, y: 2}); // 1, 2
+	//--- foo1() // TypeError: Uncaught TypeError: Cannot match against 'undefined' or 'null'.
 
 	// 上面代码使用了"对象的解构赋值默认值",而没有使用函数参数的默认值.
 	// 只有当函数foo的参数是一个对象时,变量x和y才会通过"解构赋值"而生成.
-	// 如果函数foo调用时参数不是对象,变量x和y就不会生成,从而报错.
+	// 如果函数foo调用时参数不是对象,【变量x和y就不会生成,从而报错】.
 	// 如果参数对象没有y属性,y的默认值5才会生效.
 
 
@@ -103,7 +104,7 @@ console.group('【与解构赋值默认值结合使用】');
 
 	// x有值,y无值的情况
 	console.log(m1({x: 3})); // [3, 0]
-	console.log(m2({x: 3})); // [3, undefined]  当传入了函数参数时,函数参数的默认值失效...挺绕.
+	console.log(m2({x: 3})); // [3, undefined]  当传入了函数参数时,函数参数的默认值失效
 
 	// x和y都无值的情况
 	console.log(m1({})); // [0, 0];
@@ -176,7 +177,7 @@ console.log("")
 console.group('参数默认值-作用域');
 
 	// 一旦设置了参数的默认值,函数进行声明初始化时,参数会形成一个单独的作用域（context）.
-	// 等到初始化结束,这个作用域就会消失.这种语法行为,在不设置参数默认值时,是不会出现的.
+	// 等到初始化结束,这个作用域就会消失.【这种语法行为,在不设置参数默认值时,是不会出现的】.
 	var x1 = 1;
 
 	function f1(x1, y = x1) {
@@ -185,11 +186,11 @@ console.group('参数默认值-作用域');
 
 	f1(2); // 2
 	// 上面代码中,参数y的默认值等于变量x.调用函数f时,参数形成一个单独的作用域.
-	// 在这个作用域里面,默认值变量x指向第一个参数x,而不是全局变量x,所以输出是2.
+	// 在这个作用域里面,默认值变量x1指向第一个参数x1,而不是全局变量x1,所以输出是2.
 
 
 	// 再看下面的例子.
-	let x2 = 1;  // 用let会导致fun报错：Uncaught ReferenceError: x2 is not defined  ----  实际并无报错
+	let x2 = 1;  // 用let会导致fun报错：Uncaught ReferenceError: x2 is not defined  ----  实际并无报错？
 	// var x2 = 1; 
 
 	function f2(y = x2) {
@@ -272,8 +273,10 @@ console.group('参数默认值-作用域');
 console.groupEnd();
 console.log("")
 
+
+// ===================== 应用 =====================
 console.group('应用');
-	// 利用参数默认值,可以指定某一个参数不得省略,如果省略就抛出一个错误.
+	// 利用参数默认值,可以指定某一个参数不得省略,【如果省略就抛出一个错误】.
 	function throwIfMissing() {
 	  	throw new Error('Missing parameter');
 	}

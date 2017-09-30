@@ -47,6 +47,10 @@ cat.says('hello') //cat says hello
  * template string
  * 用反引号 ` 来标识起始,用${}来引用变量,而且所有的空格和缩进都会被保留在输出之中
  */
+let basket = {
+    count : 1,
+    onSale : 50
+}
 // 旧
 $("#result").append(
     "There are <b>" + basket.count + "</b> " +

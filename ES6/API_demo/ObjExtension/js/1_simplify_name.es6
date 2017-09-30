@@ -2,64 +2,64 @@ document.getElementById('note').innerHTML = 'simplify_name';
 
 // ======================================================================================================
 console.group('属性的简洁表示法');
-var foo = 'bar';
-var baz = {foo};
-console.log(baz); // {foo: "bar"}
+    var foo = 'bar';
+    var baz = {foo};
+    console.log(baz); // {foo: "bar"}
 
-// 等同于 var baz = {foo: foo};
-// 上面代码表明,ES6 允许在对象之中,直接写变量.这时,属性名为变量名, 属性值为变量的值.下面是另一个例子.
-function f(x, y) {return {x, y}; };
-console.log(f(1, 2)); // Object {x: 1, y: 2}
-// 等同于
-// function f(x, y) {
-//   return {x: x, y: y};
-// }
-
-
-// 除了属性简写,方法也可以简写.
-var o = {
-  	method() {
-    	return "Hello!";
-  	}
-};
-console.log(o.method);
-// 等同于
-// var o = {
-//   method: function() {
-//     return "Hello!";
-//   }
-// };
+    // 等同于 var baz = {foo: foo};
+    // 上面代码表明,ES6 允许在对象之中,直接写变量.这时,属性名为变量名, 属性值为变量的值.下面是另一个例子.
+    function f(x, y) {return {x, y}; };
+    console.log(f(1, 2)); // Object {x: 1, y: 2}
+    // 等同于
+    // function f(x, y) {
+    //   return {x: x, y: y};
+    // }
 
 
-// 这种写法用于函数的返回值,将会非常方便.
-function getPoint() {
-  var x = 1;
-  var y = 10;
-  return {x, y};
-}
-console.log(getPoint()); // {x:1, y:10}
+    // ====除了属性简写,方法也可以简写====
+    var o = {
+      	method() {
+        	return "Hello!";
+      	}
+    };
+    console.log(o.method);
+    // 等同于
+    // var o = {
+    //   method: function() {
+    //     return "Hello!";
+    //   }
+    // };
+
+    //  ========================================
+    // 这种写法用于函数的返回值,将会非常方便.
+    function getPoint() {
+      var x = 1;
+      var y = 10;
+      return {x, y};
+    }
+    console.log(getPoint()); // {x:1, y:10}
 
 
-// 注意,简洁写法的属性名总是字符串,这会导致一些看上去比较奇怪的结果.
-var obj = {
-  class () {}
-};
-console.log(obj.class);
+    // 注意,【简洁写法的属性名总是字符串】,这会导致一些看上去比较奇怪的结果.
+    var obj = {
+      class () {}
+    };
+    console.log(obj.class);
 
-// 等同于
-// var obj = {
-//   'class': function() {}
-// };
+    // 等同于
+    // var obj = {
+    //   'class': function() {}
+    // };
 
-// 上面代码中,class是字符串,所以不会因为它属于关键字,而导致语法解析报错.
+    // 上面代码中,class是字符串,所以不会因为它属于关键字,而导致语法解析报错.
 
 
-// 如果某个方法的值是一个Generator(?)函数,前面需要加上星号.
-var obj = {
-  * m(){
-    yield 'hello world';
-  }
-};
+    // 如果某个方法的值是一个Generator(?)函数,前面需要加上星号.
+    var obj = {
+      * m(){
+        yield 'hello world';
+      }
+    };
 
 console.groupEnd();
 console.log("");

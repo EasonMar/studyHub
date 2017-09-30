@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `<p style="font-size: 90px;margin:50% 0 0;font-weight: bold;text-align: center;" id="note">3_usage</p>`
 
-<head>
-    <meta charset="UTF-8">
-    <title>Iterator</title>
-</head>
 
-<body>
-</body>
-<script type="text/javascript">
 /**
  * 调用Iterator接口的场合
  *
@@ -125,6 +117,3 @@ for (let x of obj) {
  *
  * throw方法主要是配合Generator函数使用,一般的遍历器对象用不到这个方法.请参阅《Generator函数》一章.
  */
-</script>
-
-</html>

@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+document.getElementsByTagName('body')[0].innerHTML = `<p style="font-size: 90px;margin:50% 0 0;font-weight: bold;text-align: center;" id="note">1_definition</p>`
 
-<head>
-    <meta charset="UTF-8">
-    <title>Iterator</title>
-</head>
-
-<body>
-</body>
-<script type="text/javascript">
 /**
  * Iterator(遍历器)的概念
  * JavaScript 原有的表示“集合”的数据结构,主要是数组(Array)和对象(Object),ES6又添加了Map和Set.
@@ -74,6 +65,3 @@ var its = idMaker();
 console.log(  its.next().value  ); // '0'
 console.log(  its.next().value  ); // '1'
 console.log(  its.next().value  ); // '2'
-</script>
-
-</html>
