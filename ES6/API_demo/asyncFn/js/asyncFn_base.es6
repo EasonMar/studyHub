@@ -20,15 +20,15 @@ function example(){
 	};
 
 	var gen = function*() {
-	    var f1 = yield readFile('/etc/fstab');
-	    var f2 = yield readFile('/etc/shells');
-	    console.log(f1.toString());
+	    var f1 = yield readFile('/etc/fstab');  // 第一个yield可以通过第二个next的参数来赋值.
+	    var f2 = yield readFile('/etc/shells'); // 因为next传递的参数就是前一个yield的值.
+	    console.log(f1.toString());  // 而且gen需要使用next来执行(或自动执行模块)
 	    console.log(f2.toString());
 	};
 
 	// gen 写成async函数,就是下面这样.
 	var asyncReadFile = async function() {
-	    var f1 = await readFile('/etc/fstab');
+	    var f1 = await readFile('/etc/fstab');  // await的值就是Promise对象resolve(data)回调函数-参数的值.
 	    var f2 = await readFile('/etc/shells');
 	    console.log(f1.toString());
 	    console.log(f2.toString());

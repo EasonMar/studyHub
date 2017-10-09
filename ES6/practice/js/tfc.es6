@@ -1,6 +1,8 @@
+// 将所有内容封装在TFC容器里面...(感觉有点java的风格)
 const TFC = (year) => {
+    // 随机数
     let loveProbability = Math.random();
-    // async函数
+    // 定义coderLive为async函数
     const coderLive = async(day = 0) => {
         // await + Promise
         await new Promise(resolve => {
@@ -23,7 +25,8 @@ const TFC = (year) => {
         });
         return coderLive(++day);
     };
+    // 为什么要return？为了把async函数调用时返回的Promise对象传出去...
     return coderLive();
 }
 
-TFC(2017);
+console.log(TFC(2017)); // Promise
