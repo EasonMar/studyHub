@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<script type="text/javascript" src="./socket.io.min.js"></script>
+	<script type="text/javascript" src="./jquery-3.1.1.js"></script>
+
+	<style type="text/css" media="screen">
+		.person{
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			border-radius: 30%;
+			transition: all .8s;
+		}		
+	</style>	
+</head>
+
+<body>
+	<div id="login">
+		<input type="text" id="nickname">
+		<input type="button" value="创建" id="btnCreate">
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+			var person;
+			var socketio = null;
+			$('#btnCreate').click(function(){
+				var color = 'rgb(' + parseInt(Math.random() * 255) + ', ' + parseInt(Math.random() * 255) + ', ' + parseInt(Math.random() * 255) +')';
+				person = {
+					id: parseInt(Math.random() * 10000000000),
+					nickname: $('#nickname').val(),
+					background: color,
+					x: 0,
+					y: 0
+				}
+				$('#login').hide();
+				
+				// console.log(color);
+				$('<div class="person"></div>').attr('id', person.id).text(person.nickname).css({backgroundColor: person.background, left: person.x, top: person.y }).appendTo('body');
+				// 连接服务器 => 会触发服务端的 connection 方法
+				socketio = io.connect('ws://localhost:88');
+
+				socketio.emit('clientLogin', JSON.stringify(person));
+
+				//客户移动人物
+				socketio.on('clientMove', function(_person){
+					var personObj = JSON.parse(_person);
+					$('#' + personObj.id).css({left: personObj.x, top: personObj.y});
+				})
+
+				//用户上线通知
+				socketio.on('clientTips', function(_person){
+					var personObj = JSON.parse(_person); 
+					for(var key in personObj){
+						if(personObj[key].id == person.id){
+							continue;
+						}
+						$('<div class="person"></div>').attr('id', personObj[key].id).text(personObj[key].nickname).css({backgroundColor: personObj[key].background, left: personObj[key].x, top: personObj[key].y }).appendTo('body');
+					}
+				})
+			})
+
+			$(document).click(function(event){
+				if(!socketio){
+					return false;
+				}
+				person.x = event.pageX;
+				person.y = event.pageY;
+				socketio.emit('changePosition', JSON.stringify(person));
+				
+			})
+		})
+	</script>
+</body>
+</html>

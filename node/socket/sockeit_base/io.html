@@ -68,7 +68,7 @@
                 return false;
             });
 
-            // 绑定自定义事件. 只接收服务器传过来的事件？不受上面emit的影响？
+            // 绑定自定义事件. 只接收服务器传过来的事件,不受上面emit的影响
             socket.on('chat message', function(msg) {
                 $('#messages').append($('<li>').text(msg));
             });
