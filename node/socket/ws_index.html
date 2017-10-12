@@ -1,0 +1,58 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /**
+     * WebSocket 对象作为一个构造函数,用于新建 WebSocket 实例. 
+     * var ws = new WebSocket('ws://localhost:8080');
+     * 执行上面语句之后,客户端就会与服务器进行连接.
+     */
+    var ws = new WebSocket("ws://localhost:8080/echo"); // 连接socket服务器
+    console.log(ws);
+
+    /**
+     * WS实例对象的onopen属性,用于指定连接成功后的回调函数.
+     * 如果要指定多个回调函数,可以使用addEventListener方法.
+     */
+    ws.onopen = function() {
+
+        // WS实例对象的send()方法用于向服务器发送数据.
+        // 可发送文本、Blob对象、ArrayBuffer对象
+        // 例子演示了发送文本的场景
+        ws.send("node.js,您好呀");    // 发送数据到服务器端
+
+        alert("数据发送中...");
+
+        /**
+         * 实例对象的bufferedAmount属性，表示还有多少字节的【二进制数据】没有发送出去。
+         * 它可以用来判断发送是否结束。
+         */
+        if (ws.bufferedAmount === 0) {
+          // 发送完毕
+          alert("数据发送完毕");
+        } 
+    };
+
+    /**
+     * WS实例对象的onmessage属性,用于指定收到服务器数据后的回调函数.
+     * 注意,服务器数据可能是文本,也可能是二进制数据(blob对象或Arraybuffer对象).
+     */
+    ws.onmessage = function(evt) { 
+        var received_msg = evt.data;
+        alert("数据已接收..." + received_msg);
+    };
+
+    /**
+     * WS实例对象的onclose属性,用于指定连接关闭后的回调函数.
+     */
+    ws.onclose = function() {
+        // 关闭 websocket
+        alert("连接已关闭...");
+    };
+    </script>
+</body>
+
+</html>
