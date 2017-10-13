@@ -6,12 +6,12 @@ var cdn_type = 'less,png,es6,js,jpg,css,svg,gif' //需要放在CDN里面的文�
 
 
 ////////////////////////////////////////////以下为配置细项,请尽量不要去修改///////////////////////////////////////////////////////
-//启用打包
+//启用打包 --- 这里为第0个匹配项
 fis.match('::package', {
     postpackager: fis.plugin('loader')
 });
 
-//启用less编译
+//启用less编译 --- 这里为第1个匹配项
 fis.match('*.less', {
     parser: fis.plugin('less'),
     rExt: '.css',
@@ -35,7 +35,7 @@ fis.match('*.es6', {
 });
 
 
-//开始合并、打包各个模块
+//开始合并、打包各个模块 === 似乎没有用上
 fis.match('/module/**.{less,css}', {
     packTo: '/css/' + pageName + '.css'
 });
@@ -50,7 +50,7 @@ fis.match('::packager', {
 
 // 生成雪碧图
 fis.match('*.{less,css}', {
-    release: '/' + static_path + '/$0',
+    // release: '/' + static_path + '/$0',  //  失效了,被后面的第8个匹配:fis.match('*' release...)给覆盖掉了
     useSprite: true
 });
 
@@ -89,7 +89,9 @@ fis.match('htmlInsert/*.html', {
 fis.media('cdn').match('*.{' + cdn_type + '}', {
     domain: cdn_url,
     useHash: true, //设置为true则开启md5戳,不想打就设置为false,默认所有放在cdn中的文件都打上MD5戳；
-    release: '/' + static_path + '/cdn/$0'
+    // release: '/' + static_path + '/cdn/$0'
+    // release: '/'+static_path+'/$0' // 资源路径减少一个层次
+    // 前面已经有一个release路径等同于以上,这里可以不设置发布路径.
 });
 // 压缩js文件
 fis.media('cdn').match('*.{js,es6}', {
@@ -117,7 +119,7 @@ fis.media('cdn').match('*.{js,es6}', {
 //     optimizer: fis.plugin('clean-css')
 // });
 
-
+// 使用fis3 inspect命令可以清楚地看到各文件的匹配情况！
 
 //这里是一些不需要发布的文件列表,以下为默认值,需要时可以解封然后添加需要屏蔽的文件夹/文件。注：module文件夹不能禁掉
 fis.set('project.ignore', [
