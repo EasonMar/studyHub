@@ -18,12 +18,12 @@
 
 // ====================================================================================================
 // 基本用法
-// ES6 规定,Promise对象是一个【构造函数】,用来生成Promise实例.
+// ES6 规定,Promise对象是一个【构造函数】,用来生成Promise实例  --- 要先构造,然后才能使用,我们使用的是实例.【mark】
 
 // 下面代码创造了一个Promise实例.
 // var promise = new Promise(function(resolve, reject) {
 // ========== 下面这部分应该是模拟异步操作的伪代码 ==========
-//     // ... some code   
+//     // ... some code
 //     if (  异步操作成功  ) {
 //         resolve(value);
 //     } else {
@@ -35,7 +35,7 @@
 // 它们是两个函数,由 JavaScript 引擎提供,不用自己部署.
 
 // resolve函数的作用是,将Promise对象的状态从“未完成”变为“成功”(即从 Pending 变为 Resolved),
-// 在异步操作成功时调用,并将异步操作的结果,作为参数传递出去;  
+// 在异步操作成功时调用,并将异步操作的结果,作为参数传递出去;
 
 // reject函数的作用是,将Promise对象的状态从“未完成”变为“失败”(即从 Pending 变为 Rejected),
 // 在异步操作失败时调用,并将异步操作报出的错误,作为参数传递出去.
@@ -64,7 +64,7 @@
 function timeout(ms) {
     return new Promise((resolve, reject) => {
         // 这里setTimeout就是异步操作.
-        setTimeout(resolve, ms, 'done'); 
+        setTimeout(resolve, ms, 'done');
         // 这个done怎么理解啊...是怎么传给resolve的? --- 知识盲点
     });
 }
@@ -101,7 +101,7 @@ console.log('Hi!');
 // Resolved
 
 // 上面代码中,Promise 新建后立即执行,所以首先输出的是Promise.
-// 然后,【then方法】指定的回调函数,【将在当前脚本所有"同步任务"执行完才会执行】,所以Resolved最后输出.
+// 然后,【then方法】指定的回调函数,【将在当前脚本所有"同步任务"执行完才会执行】【mark】,所以Resolved最后输出.
 
 
 // =================================================================
@@ -118,9 +118,9 @@ function loadImageAsync(url) {
         image.src = url;
     });
 }
-// 上面代码中,使用Promise包装了一个图片加载的异步操作. 
+// 上面代码中,使用Promise包装了一个图片加载的异步操作.
 // 如果加载成功,就调用resolve方法,否则就调用reject方法.
-// ------ 这里没有指定具体的回调函数.
+// ------ 这里没有写明回调函数的具体内容.
 
 // =================================================================
 // 下面是一个用Promise对象实现的 Ajax 操作的例子.
@@ -146,21 +146,21 @@ function loadImageAsync(url) {
 //     });
 //     return promise;
 // };
-// 
+//
 // getJSON("/posts.json").then(function(json) {
 //     console.log('Contents: ' + json);
 // }, function(error) {
 //     console.error('出错了', error);
 // });
-// 
+//
 // 上面代码中,getJSON是对XMLHttpRequest对象的封装,
-// 用于发出一个针对JSON数据的HTTP请求,并且返回一个Promise对象. 
+// 用于发出一个针对JSON数据的HTTP请求,并且返回一个Promise对象.
 // 需要注意的是,在getJSON内部,resolve函数和reject函数调用时,都带有参数.
 
 
 // =================================================================
-// 如果调用resolve函数和reject函数时带有参数,那么它们的参数会被传递给回调函数. 
-// reject函数的参数通常是"Error对象的实例",表示抛出的错误; 
+// 如果调用resolve函数和reject函数时带有参数,那么它们的参数会被传递给回调函数.【mark】
+// reject函数的参数通常是"Error对象的实例",表示抛出的错误;
 // resolve函数的参数除了正常的值以外,还可能是另一个Promise实例,表示异步操作的结果有可能是一个值,
 // 也有可能是另一个异步操作,比如像下面这样.
 
@@ -171,8 +171,8 @@ function loadImageAsync(url) {
 // })
 
 // 上面代码中,p1和p2都是Promise的实例,但是p2的resolve方法将p1作为参数,即一个异步操作的结果是返回另一个异步操作.
-// 注意,【这时p1的状态就会传递给p2,也就是说,p1的状态决定了p2的状态.】 
-// 如果p1的状态是Pending,那么p2的回调函数就会等待p1的状态改变; 
+// 注意,【这时p1的状态就会传递给p2,也就是说,p1的状态决定了p2的状态.】
+// 如果p1的状态是Pending,那么p2的回调函数就会等待p1的状态改变;
 // 如果p1的状态已经是Resolved或者Rejected,那么p2的回调函数将会立刻执行.
 
 var p1 = new Promise(function(resolve, reject) {
@@ -185,18 +185,20 @@ var p2 = new Promise(function(resolve, reject) {
 
 p2.then(result => console.log(result)).catch(error => console.log(error)); // Error: fail
 
-// 上面代码中,p1是一个Promise,3 秒之后变为rejected. 
-// p2的状态在1秒之后改变,resolve方法返回的是p1. 
-// 由于p2返回的是另一个 Promise,导致p2自己的状态无效了,由p1的状态决定p2的状态. 
-// 所以,后面的then语句都变成针对后者(p1). 
+// 上面代码中,p1是一个Promise,3 秒之后变为rejected.
+// p2的状态在1秒之后改变,resolve方法返回的是p1.
+// 由于p2返回的是另一个 Promise,导致p2自己的状态无效了,由p1的状态决定p2的状态.
+// 所以,后面的then语句都变成针对后者(p1).
 // 又过了2秒,p1变为rejected,导致触发catch方法指定的回调函数.
+// 注意,调用resolve或reject并不会终结 Promise 的"参数函数"的执行.【mark】？
 
 var p3 = new Promise(function(resolve, reject) {
     setTimeout(() => reject(new Error('fail-1')), 3000)
 });
 var p4 = new Promise(function(resolve, reject) {
-    setTimeout(() => resolve(p3), 4000)  
-    // 如果p2时间比p1长,那么会因为p1没有设置回调函数,导致报一个内部错误.
+    setTimeout(() => resolve(p3), 4000)
+    // 如果p2时间比p1长,那么p1抛出的错误,没有对应的错误处理的回调函数(then or catch)进行接收,
+    // 导致报出内部错误. --> 见p3、p4
     // Uncaught (in promise) Error: fail
     // 教程有讲：如果不设置回调函数,Promise内部抛出的错误,不会反应到外部.
 });
