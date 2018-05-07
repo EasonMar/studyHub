@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>flex: Grid layout</title>
+    <style type="text/css">
+    	/*基本样式*/
+		* {margin: 0; padding: 0; }
+	    body {padding: 40px 30px; }
+	    .Grid-cell{margin: 5px; background: #ddd; }
+    </style>
+</head>
+
+<body>
+    <!-- 基本网格布局: 最简单的网格布局, 就是平均分布.在容器里面平均分配空间, 跟骰子布局很像, 但是需要设置item的自动缩放. -->
+    <style type="text/css">
+    	.Grid { display: flex; } 
+    	.Grid-cell { flex: 1; }  
+    </style>
+    <div class="Grid">
+        <div class="Grid-cell">Lorem ipsum dolor sit amet</div>
+        <div class="Grid-cell">Lorem ipsum dolor sit amet</div>
+        <div class="Grid-cell">Lorem ipsum dolor sit amet</div>
+    </div>
+
+    <!-- 百分比布局: 某个网格的宽度为固定的百分比, 其余网格平均分配剩余的空间. -->
+    <style type="text/css">
+    	/* 
+    	 * flex - flex-grow, flex-shrink 和 flex-basis的简写
+    	 * flex-grow = 0表示即使存在剩余空间, item也不放大
+    	 * flex-shrink = 0表示即使剩余空间不足, item也不缩小
+    	 * flex-basis属性定义了在分配多余空间之前, item占据的主轴空间
+    	 */
+ 		.Grid-cell.u-full { flex: 0 0 100%; } 
+ 		.Grid-cell.u-1of2 { flex: 0 0 50%; } 
+ 		.Grid-cell.u-1of3 { flex: 0 0 33.3333%; }   
+ 		.Grid-cell.u-1of4 { flex: 0 0 25%; }
+    </style>
+    <div class="Grid">
+	    <div class="Grid-cell u-1of4">Lorem ipsum dolor sit amet</div>
+	    <div class="Grid-cell">Lorem ipsum dolor sit amet</div>
+	    <div class="Grid-cell u-1of3">Lorem ipsum dolor sit amet</div>
+	</div>
+
+    <!-- 输入框的布局 -->
+    <!-- 我们常常需要在输入框的前方添加提示，后方添加按钮。 -->
+    <style type="text/css">
+        .InputAddOn { width: 50%; }
+
+        .InputAddOn { display: flex; } 
+        .InputAddOn-field { flex: 1; }
+    </style>
+    <div class="InputAddOn">
+        <span class="InputAddOn-item">Lorem</span>
+        <input class="InputAddOn-field">
+        <button class="InputAddOn-item">Lorem</button>
+    </div>
+
+    <!-- 悬挂式布局 -->
+    <!-- 有时，主栏的左侧或右侧，需要添加一个图片栏。 -->
+    <style type="text/css">
+        .Media {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .Media-figure {
+            margin-right: 1em;
+        }
+
+        .Media-body {
+            flex: 1;
+        }
+    </style>
+    <div class="Media">
+        <img class="Media-figure" src="logo.jpg" alt="">
+        <p class="Media-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+</body>
+
+</html>
