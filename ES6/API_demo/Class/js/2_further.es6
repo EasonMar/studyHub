@@ -1,11 +1,13 @@
 // 由于类的方法都定义在prototype对象上面,所以类的新方法可以添加在prototype对象上面. 
-// Object.assign方法可以很方便地一次向类添加多个方法. 
 
 class Point {
     constructor() {
         // ...
     }
 }
+
+// Object.assign方法,用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。
+// 因此Object.assign方法可以很方便地一次向类添加多个方法. 
 
 Object.assign(Point.prototype, {
     toString() {
@@ -76,16 +78,22 @@ const MyClass = class Me {
 };
 /**
  * 上面代码使用表达式定义了一个类.
- * 需要注意的是,这个类的名字是MyClass而不是Me,Me只在 Class 的内部代码可用,指代当前类.
+ * 需要注意的是,这个类的名字(标识符)是MyClass而不是Me,Me只在 Class 的内部代码可用,指代当前类.
  */
 let inst = new MyClass();
 inst.getClassName() // Me
+
+// 注意...这应该等同于Me.name
+MyClass.name // Me
+
 // Me.name // ReferenceError: Me is not defined
+
 /**
  * 上面代码表示,Me只在 Class 内部有定义.
  *
  * 如果类的内部没用到的话,可以省略Me,也就是可以写成下面的形式.
  * const MyClass = class { ... };
+ * 此时 MyClass.name === 'MyClass'
  */
 
 /**
@@ -131,7 +139,7 @@ person.sayName(); // "张三"
 
 
 
-/**************************************************
+/************************************************************
  * this 的指向
  * 类的方法内部如果含有this,它默认指向类的实例. 但是,必须非常小心,一旦单独使用该方法,很可能报错. 
 	class Logger {
@@ -149,7 +157,7 @@ person.sayName(); // "张三"
 	printName(); // TypeError: Cannot read property 'print' of undefined
  *
  * 上面代码中,printName方法中的this,默认指向Logger类的实例. 
- * 但是,如果将这个方法提取出来单独使用,this会指向该方法运行时所在的环境,因为找不到print方法而导致报错. 
+ * 但是,如果将这个方法提取出来【单独使用】,this会指向该方法运行时所在的环境,因为找不到print方法而导致报错. 
  *
  * 一个比较简单的解决方法是,在构造方法中绑定this,这样就不会找不到print方法了. 
  * 另一种解决方法是使用箭头函数. 
@@ -166,7 +174,7 @@ person.sayName(); // "张三"
 
 /**************************************************
  * Class 的取值函数(getter)和存值函数(setter)
- * 与 ES5 一样,在“类”的内部可以使用get和set关键字,对某个属性设置存值函数和取值函数,拦截该属性的存取行为. 
+ * 与 ES5 一样,在“类”的内部可以使用get和set关键字,对【某个属性】设置存值函数和取值函数,拦截该属性的存取行为. 
  * 下面代码中,prop属性有对应的存值函数和取值函数,因此赋值和读取行为都被自定义了. 
  */
 class MyClass {

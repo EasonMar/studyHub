@@ -5,15 +5,15 @@
  *
  *
  ****************************************
- * 第一种情况,super作为函数调用时,代表父类的构造函数.ES6 要求,子类的构造函数必须执行一次super函数.
+ * 第一种情况,super作为函数调用时,代表【父类的构造函数】.ES6 要求,子类的构造函数必须执行一次super函数.
 	class A {}
 
 	class B extends A {
 	  constructor() {
-	    super();
+	    super(); -------- 当super作为函数用的时候,代表父类构造函数,这里相当于ES5中的A.call(this)
 	  }
 	}
- * 上面代码中,子类B的构造函数之中的super(),代表调用父类的构造函数.这是必须的,否则 JavaScript 引擎会报错.
+ * 上面代码中,子类B的构造函数之中的super(),代表调用【父类的构造函数】.这是必须的,否则 JavaScript 引擎会报错.
  * 注意,super虽然代表了父类A的构造函数,但是返回的是子类B的实例,即super内部的this指的是B,因此super()在这里相当于:
  * A.prototype.constructor.call(this).
  */
@@ -48,7 +48,7 @@ new B() // B
 
 
 /*****************************************
- * 第二种情况,super作为对象时,在【普通方法中】,指向【父类的原型对象】；在静态方法中,指向父类.
+ * 第二种情况,super作为对象时,用在【普通方法中】,指向【父类的原型对象】；在静态方法中,指向父类.
 	class A {
 	  p() {
 	    return 2;
@@ -58,7 +58,8 @@ new B() // B
 	class B extends A {
 	  constructor() {
 	    super();
-	    console.log(super.p()); // 2
+	    console.log(super.p()); // 2 
+	    // -------- 当super当做对象来用时,代表父类的原型对象,这里就相当于ES5中的A.prototype.p.call(this)...
 	  }
 	}
 
@@ -86,7 +87,7 @@ new B() // B
  */
 
 /**
- * ES6 规定,通过super调用父类的方法时,super会绑定子类的this.
+ * ES6 规定,通过super调用父类的方法时,【super会绑定子类的this】. --- 等同于ES5的A.prototype.print.call(this)
 	class A {
 	  constructor() {
 	    this.x = 1;
@@ -138,7 +139,7 @@ new B() // B
 
 
 /**
- * 如果super作为对象,用在【静态方法之中】,这时super将指向父类,而不是父类的原型对象. 
+ * 如果super作为对象,用在【静态方法之中】,这时【super将指向父类】,而不是父类的原型对象. 
  */
 class Parent {
     static myMethod(msg) {

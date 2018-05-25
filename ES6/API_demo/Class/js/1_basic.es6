@@ -74,7 +74,7 @@ Point === Point.prototype.constructor; // true
  *	// 等同于
  *
  *	Point.prototype = {
- *	  constructor() {},
+ *	  constructor() {},  // ？？ 对于constructor放于这里表示疑问...
  *	  toString() {},
  *	  toValue() {},
  *	};
