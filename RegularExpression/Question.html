@@ -45,6 +45,14 @@ console.group('面试题');
         // ["c||3", index: 0, input: "c||3"]
     }
     console.log(data);
+
+    // 有更好的方法
+    var reg = RegExp(/(\w+)\|\|(\d+)/,'g')
+    var obj = {}
+    while(out = reg.exec(s2)){
+        obj[out[1]] = out[2]
+    }
+    console.log(obj);
 console.groupEnd();
 
 
