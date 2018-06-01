@@ -53,6 +53,7 @@
     -webkit-box-pack: end
 }
 
+/* 主轴对齐方式 START */
 [flex~="main:left"] {
     -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
@@ -80,7 +81,9 @@
     -ms-flex-pack: center;
     justify-content: center
 }
+/* 主轴对齐方式 END */
 
+/* 交叉轴对齐方式 START */
 [flex~="cross:top"] {
     -webkit-box-align: start;
     -webkit-align-items: flex-start;
@@ -115,7 +118,9 @@
     -ms-flex-align: stretch;
     align-items: stretch
 }
+/* 交叉轴对齐方式 END */
 
+/* ----这些是啥---- */
 [flex~="box:mean"]>*,
 [flex~="box:first"]>*,
 [flex~="box:last"]>*,
