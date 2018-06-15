@@ -14,6 +14,7 @@
 
 // Promise 实例具有then方法,也就是说,then方法是定义在原型对象Promise.prototype上的.
 // 它的作用是【为Promise实例添加状态改变时的回调函数】【mark】
+
 // 前面说过,then方法的第一个参数是Resolved状态的回调函数,第二个参数(可选)是Rejected状态的回调函数.
 
 // then方法【返回的是一个新的Promise实例】(注意,不是原来那个Promise实例).
@@ -29,10 +30,13 @@ getJSON("/posts.json").then(function(json) {
 // 第一个回调函数完成以后,【会将返回结果作为参数,传入第二个回调函数】!!!【mark】!!!
 
 // 采用链式的then,可以指定一组【按照次序调用的回调函数】【mark】
+
 // 这时,前一个回调函数,有可能返回的(注意是回调函数的返回,不是then的返回)还是一个Promise对象(即有异步操作),
 // 这时后一个回调函数,就会等待该Promise对象的状态发生变化,才会被调用!!!【mark】!!!
+
 // PS：因为后一个回调函数的参数传入Promise对象
-// 这就回到了前面- resolve函数的参数除了正常的值以外,还可能是另一个Promise实例 -的情况
+
+// 这就回到了前面 - resolve函数的参数除了正常的值以外,还可能是另一个Promise实例 -的情况
 
 getJSON("/post/1.json").then(function(post) {
     return getJSON(post.commentURL);
