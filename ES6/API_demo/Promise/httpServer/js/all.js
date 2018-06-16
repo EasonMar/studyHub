@@ -1,5 +1,3 @@
-// =================================================================
-// 下面是一个用Promise对象实现的 Ajax 操作的例子.
 let getJSON = function (url) {
     let promise = new Promise(function (resolve, reject) {
         // ======== 里面包裹着ajax异步操作 ========
@@ -23,8 +21,12 @@ let getJSON = function (url) {
     return promise;
 };
 
-let ajax = getJSON('http://127.0.0.1:8080/test/test_ajax.json');
-// let ajax = getJSON('http://127.0.0.1:8080/test/test_ajx.json');  // 错误时
-ajax
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
+let promises = [111, 222, 333].map(function (id) {
+    return getJSON('http://127.0.0.1:8080/test/' + id + ".json");
+});
+
+Promise.all(promises).then(res => {
+    console.log(res);
+}).catch(reason => {
+    console.log(reason);
+});

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "echo \"no command\"",
-    "server": "http-server"
+    "server": "hotnode ./server/app.js"
   },
   "keywords": [],
   "author": "",
