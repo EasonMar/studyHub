@@ -1,5 +1,3 @@
-# study
-学习仓库
-用作各方面做学习demo
+## study proRepository
 
-复制粘贴无用，要用新语法去重写之前的代码！ 
+### 具体见各部分内部README.md

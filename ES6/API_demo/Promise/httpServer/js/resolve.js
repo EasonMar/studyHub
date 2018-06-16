@@ -5,3 +5,5 @@ let jsPromise = Promise.resolve($.ajax('http://127.0.0.1:8080/test/test_ajax.jso
 jsPromise
     .then(res => console.log(res))
     .catch(err => console.log(err));
+
+// 为啥可以行得通？？怎么传参的？？
