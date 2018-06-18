@@ -1,0 +1,20 @@
+{% extends './layout_engine.html' %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="stylesheets/index.css">
+{% parent %}
+
+{% endblock %}
+
+{% block content %}
+    <p>This is just an awesome page.</p>
+    <h1>hello,{{data}}</h1>
+    <script>
+
+        //require('pages/index/main');
+    </script>
+{% endblock %}

@@ -1,0 +1,14 @@
+body{
+    background: #999;
+}
+
+h1{
+    width: 50%;
+    margin: 80px auto;
+    border-radius: 50px;
+    background: #fff;
+    text-align: center;
+    padding: 30px 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: darkblue;
+}
