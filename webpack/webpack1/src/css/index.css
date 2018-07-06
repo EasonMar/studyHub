@@ -1,0 +1,11 @@
+body{
+	background: #000;
+}
+
+div{
+	margin: 0 auto;
+	color: #fff;
+	text-align: center;
+	font-size: 28px;
+	font-weight: bold;
+}
