@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-
+var htmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	//页面入口文件配置
     entry: __dirname + '/src/js/app.js',
@@ -7,5 +7,12 @@ module.exports = {
     output: {
         path: __dirname +'/dist/',
         filename: '[name]-[hash].js'
-    }
+    },
+    plugins: [
+        new htmlWebpackPlugin({
+        	title: 'htmlWebpackPlugin',
+            filename: 'index.html',
+            template: 'index.html'
+        })
+    ]
 }
