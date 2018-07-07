@@ -1,6 +1,7 @@
 const path = require('path'); // webpack2 开始会常用path模块
 const ExtractTextPlugin = require('extract-text-webpack-plugin'); // // 把css从js中提取出来的插件
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 module.exports = {
     entry: './src/js/index.es',
     output: {
@@ -37,6 +38,11 @@ module.exports = {
         	title: 'htmlWebpackPlugin',
             filename: 'index.html',
             template: 'index.html'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'common',
+            filename: 'js/[name].js',
+            minChunks: 2
         })
     ]
 }
