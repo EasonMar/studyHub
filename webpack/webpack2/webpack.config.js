@@ -6,7 +6,8 @@ module.exports = {
     entry: './src/js/index.es',
     output: {
         path: path.join(__dirname, 'dist'), // 指定打包之后的文件夹
-        filename: 'js/[name]-[hash:5].js'
+        filename: 'js/[name]-[hash:5].js',
+        publicPath: './'  // 指定静态资源的根目录
     },
     module: {
         /* 在webpack2.0版本已经将 module.loaders 改为 module.rules 为了兼容性考虑以前的声明方法任然可用，
@@ -17,7 +18,12 @@ module.exports = {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    'presets': ['es2015', 'stage-0']
+                    'presets': [
+                        ['es2015',{
+                            'modules': false
+                        }], 
+                        'stage-0'
+                    ]
                 }
             }]
         }, {
@@ -43,6 +49,15 @@ module.exports = {
             name: 'common',
             filename: 'js/[name].js',
             minChunks: 2
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: true
+            },
+            output: {
+                comments: false
+            },
+            sourceMap: false
         })
     ]
 }
