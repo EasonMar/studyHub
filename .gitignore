@@ -65,3 +65,6 @@ output/
 
 # webpack build output
 dist/
+
+# parcel cache
+.cache/
