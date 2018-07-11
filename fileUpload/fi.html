@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>file handle</title>
+    <style type="text/css">
+    body {
+        margin: 80px 0 0 80px;
+    }
+
+    input {
+        display: block;
+        margin-bottom: 40px;
+    }
+    </style>
+</head>
+
+<body>
+    <form action="fi.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="file1" value="" accept="image/jpeg,image/png,image/jpg,image/gif">
+        <input type="file" name="file2" value="" accept="image/jpeg,image/png,image/jpg,image/gif">
+        <input type="file" name="file3" value="" accept="image/jpeg,image/png,image/jpg,image/gif">
+        <input type="submit" value="提交">
+    </form>
+    <input type="file" name="filejs" value="" accept="image/jpeg,image/png,image/jpg,image/gif" onchange="previewImg(this)">
+</body>
+<script type="text/javascript" src="https://assets.xrkcdn.com/framework/js/jquery-2.1.4.js?xrk_co=1"></script>
+<script type="text/javascript">
+// 预览图片
+function previewImg(input, imgObj) {
+    var maxsize = 300 * 1024; //超过300k进行压缩
+    // 是否支持 FileReader
+    // FileReader 对象允许Web应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 File 或 Blob 对象指定要读取的文件或数据
+    if (typeof FileReader === 'undefined') {
+        alert("抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！");
+        input.setAttribute('disabled', 'disabled');
+    }
+    if (input.files && input.files[0]) {
+        var file = input.files[0],
+            reader = new FileReader();
+        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+            alert('不是有效的图片文件!');
+            return;
+        }
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+            var result = this.result; //获取到base64的图片
+            console.log(result);
+            //大于300k图片进行压缩
+            if (result.length >= maxsize) {
+                // getId(imgObj).setAttribute('src', result); //回显图片
+                // getId(imgObj).classList.add('on'); //回显图片
+                
+            } else {
+                // getId(imgObj).setAttribute('src', result);
+                // getId(imgObj).classList.add('on');
+                var img = new Image();
+                img.src = result;
+                $('body').append(img);
+                // getId(imgObj).setAttribute('src', result);
+                // getId(imgObj).classList.add('on');
+            }
+        }
+    }
+}
+</script>
+
+</html>
