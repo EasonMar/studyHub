@@ -5,28 +5,59 @@
     <meta charset="UTF-8">
     <title>file handle</title>
     <style type="text/css">
-    body {
-        margin: 80px 0 0 80px;
-    }
+        body {
+            margin: 80px 0 0 80px;
+            user-select: none;
+        }
 
-    input {
-        display: block;
-        margin-bottom: 40px;
-    }
+        input {
+            display: block;
+            margin-bottom: 40px;
+        }
+        img {
+            max-width: 80%;
+        }
+        .ajax{
+            background: darkred;
+            width: 180px;
+            height: 40px;
+            line-height: 40px;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 100px;
+        }
     </style>
 </head>
 
 <body>
+    <!-- 正常表单上传文件 -->
     <form action="fi.php" method="post" enctype="multipart/form-data">
         <input type="file" name="file1" value="" accept="image/jpeg,image/png,image/jpg,image/gif">
         <input type="file" name="file2" value="" accept="image/jpeg,image/png,image/jpg,image/gif">
         <input type="file" name="file3" value="" accept="image/jpeg,image/png,image/jpg,image/gif">
         <input type="submit" value="提交">
     </form>
-    <input type="file" name="filejs" value="" accept="image/jpeg,image/png,image/jpg,image/gif" onchange="previewImg(this)">
+    
+    <!-- ajax控制的input -->
+    <input type="file" id="file" name="myfile" value="" accept="image/jpeg,image/png,image/jpg,image/gif" onchange="previewImg(this)">
+    <!-- 可一次性多选文件 -->
+    <!-- <input type="file" id="file" name="myfile" value="" accept="image/jpeg,image/png,image/jpg,image/gif" onchange="previewImg(this)" multiple="multiple"> -->
+    
+    <!-- ajax提交按钮 -->
+
+    <!-- 方案一提交按钮 -->
+    <div class="ajax">ajax submit</div>
+
+    <!-- 方案二提交按钮 -->
+    <!-- <div class="ajax" onclick="UploadFile()">ajax submit</div> -->
 </body>
 <script type="text/javascript" src="https://assets.xrkcdn.com/framework/js/jquery-2.1.4.js?xrk_co=1"></script>
 <script type="text/javascript">
+
 // 预览图片
 function previewImg(input, imgObj) {
     var maxsize = 300 * 1024; //超过300k进行压缩
@@ -46,24 +77,78 @@ function previewImg(input, imgObj) {
         reader.readAsDataURL(file);
         reader.onload = function(e) {
             var result = this.result; //获取到base64的图片
-            console.log(result);
             //大于300k图片进行压缩
             if (result.length >= maxsize) {
-                // getId(imgObj).setAttribute('src', result); //回显图片
-                // getId(imgObj).classList.add('on'); //回显图片
-                
+                alert('超过限制大小！')
             } else {
-                // getId(imgObj).setAttribute('src', result);
-                // getId(imgObj).classList.add('on');
                 var img = new Image();
                 img.src = result;
                 $('body').append(img);
-                // getId(imgObj).setAttribute('src', result);
-                // getId(imgObj).classList.add('on');
             }
         }
     }
 }
+
+// ajax上传图片
+
+// 方案一：$.ajax的配置很生疏
+// ajax file
+function ajaxFile(){
+    var formData = new FormData();
+
+    // PS：
+    // 从代码$('#file')[0].files[0]中可以看到一个<input type="file">标签能够单次上传多个文件，
+    // 只需要在<input type="file">里添加multiple或multiple="multiple"属性。
+    formData.append("userfile", $('[name=myfile]')[0].files[0]);
+    $.ajax({
+        url:'./fi.php',
+        type:'POST',
+        data: formData,
+        cache: false, // 上传文件不需要缓存    
+        success: function(data){
+            console.log(JSON.parse(data));
+        },
+        error: function (returndata) {  
+            console.log(returndata);  
+        },
+        // 关键配置
+        processData: false, // 因为data值是FormData对象,不需要对数据做处理
+        contentType: false // 因为是FormData对象,所以这里设置为false？
+    });
+}
+$('.ajax').click(ajaxFile);
+
+// 方案二 - 原生ajax
+// var xhr;
+
+// function UploadFile() {
+//     var fileObj = document.getElementById("file").files[0];
+//     var FileController = 'fi.php';
+//     var form = new FormData();
+//     form.append("myfile", fileObj);
+//     createXMLHttpRequest();
+//     xhr.onreadystatechange = handleStateChange;
+//     xhr.open("post", FileController, true);
+//     xhr.send(form);
+// }
+// function createXMLHttpRequest() {
+//     if (window.ActiveXObject) {
+//         xhr = new ActiveXObject("Microsoft.XMLHTTP");
+//     } else if (window.XMLHttpRequest) {
+//         xhr = new XMLHttpRequest();
+//     }
+//     console.log('init xhr');
+//     createXMLHttpRequest = function(){}
+// }
+// function handleStateChange() {
+//     if (xhr.readyState == 4) {
+//         if (xhr.status == 200 || xhr.status == 0) {
+//             var result = xhr.response;
+//             console.log(JSON.parse(result));
+//         }
+//     }
+// }
+
 </script>
 
 </html>
