@@ -4,33 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>file handle</title>
-    <style type="text/css">
-        body {
-            margin: 80px 0 0 80px;
-            user-select: none;
-        }
-
-        input {
-            display: block;
-            margin-bottom: 40px;
-        }
-        img {
-            max-width: 80%;
-        }
-        .ajax{
-            background: darkred;
-            width: 180px;
-            height: 40px;
-            line-height: 40px;
-            color: white;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-bottom: 100px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
 </head>
 
 <body>
@@ -56,99 +30,6 @@
     <!-- <div class="ajax" onclick="UploadFile()">ajax submit</div> -->
 </body>
 <script type="text/javascript" src="https://assets.xrkcdn.com/framework/js/jquery-2.1.4.js?xrk_co=1"></script>
-<script type="text/javascript">
-
-// 预览图片
-function previewImg(input, imgObj) {
-    var maxsize = 300 * 1024; //超过300k进行压缩
-    // 是否支持 FileReader
-    // FileReader 对象允许Web应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 File 或 Blob 对象指定要读取的文件或数据
-    if (typeof FileReader === 'undefined') {
-        alert("抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！");
-        input.setAttribute('disabled', 'disabled');
-    }
-    if (input.files && input.files[0]) {
-        var file = input.files[0],
-            reader = new FileReader();
-        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
-            alert('不是有效的图片文件!');
-            return;
-        }
-        reader.readAsDataURL(file);
-        reader.onload = function(e) {
-            var result = this.result; //获取到base64的图片
-            //大于300k图片进行压缩
-            if (result.length >= maxsize) {
-                alert('超过限制大小！')
-            } else {
-                var img = new Image();
-                img.src = result;
-                $('body').append(img);
-            }
-        }
-    }
-}
-
-// ajax上传图片
-
-// 方案一：$.ajax的配置很生疏
-// ajax file
-function ajaxFile(){
-    var formData = new FormData();
-
-    // PS：
-    // 从代码$('#file')[0].files[0]中可以看到一个<input type="file">标签能够单次上传多个文件，
-    // 只需要在<input type="file">里添加multiple或multiple="multiple"属性。
-    formData.append("userfile", $('[name=myfile]')[0].files[0]);
-    $.ajax({
-        url:'./fi.php',
-        type:'POST',
-        data: formData,
-        cache: false, // 上传文件不需要缓存    
-        success: function(data){
-            console.log(JSON.parse(data));
-        },
-        error: function (returndata) {  
-            console.log(returndata);  
-        },
-        // 关键配置
-        processData: false, // 因为data值是FormData对象,不需要对数据做处理
-        contentType: false // 因为是FormData对象,所以这里设置为false？
-    });
-}
-$('.ajax').click(ajaxFile);
-
-// 方案二 - 原生ajax
-// var xhr;
-
-// function UploadFile() {
-//     var fileObj = document.getElementById("file").files[0];
-//     var FileController = 'fi.php';
-//     var form = new FormData();
-//     form.append("myfile", fileObj);
-//     createXMLHttpRequest();
-//     xhr.onreadystatechange = handleStateChange;
-//     xhr.open("post", FileController, true);
-//     xhr.send(form);
-// }
-// function createXMLHttpRequest() {
-//     if (window.ActiveXObject) {
-//         xhr = new ActiveXObject("Microsoft.XMLHTTP");
-//     } else if (window.XMLHttpRequest) {
-//         xhr = new XMLHttpRequest();
-//     }
-//     console.log('init xhr');
-//     createXMLHttpRequest = function(){}
-// }
-// function handleStateChange() {
-//     if (xhr.readyState == 4) {
-//         if (xhr.status == 200 || xhr.status == 0) {
-//             var result = xhr.response;
-//             console.log(JSON.parse(result));
-//         }
-//     }
-// }
-
-</script>
-
+<script type="text/javascript" src="./js/preview.js"></script>
+<script type="text/javascript" src="./js/upload.js"></script>
 </html>
