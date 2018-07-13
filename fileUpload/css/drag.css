@@ -1,33 +1,41 @@
 body{
 	user-select: none;
+    font-family: "arial,微软雅黑";
+    font-weight: bold;
 }
 
 img{
 	max-width: 80%;
+    margin: 20px;
 }
 
 #div1 {
     transition: .5s;
     background: skyblue;
+    opacity: 0;
     text-align: center;
     font-size: 25px;
-    color: blue;
+    color: white;
     line-height: 80px;
 
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 10;
 }
 
 #ul1 {
     position: relative;
-    z-index: 1;
     margin: 100px;
-    min-height: 50px;
-    border: 4px solid green;
+    min-height: 100px;
     border-radius: 10px;
+    background: pink;
+}
+
+#ul1 li{
+    text-align: center;
 }
 
 #div1.fade {
@@ -44,8 +52,9 @@ img{
 	line-height: 50px;
 	font-size: 25px;
 	border-radius: 15px;
-	background: green;
-	color: yellow;
+	background: orangered;
+	color: white;
 	text-align: center;
 	cursor: pointer;
+    z-index: 11;
 }

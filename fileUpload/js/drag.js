@@ -39,6 +39,7 @@ window.onload = function() {
         
             // 去掉后缀，留下文件名
             var name = file.name.replace(/[.][^.]*$/g,'');
+            // var name = file.name;
 
             
             if (file.type.indexOf('image') != -1) {
@@ -52,16 +53,21 @@ window.onload = function() {
                     ul1.appendChild(li1);
                     fd = null; // 释放当前fd对象
                 }
-                formData.append(name, file);
+                // 不考虑后缀的话，如果name相同，则会被替换掉
+                formData.append(name, file); 
             } else { 
 
-                alert(name+"不是图片类型文件，请选择图片进行上传"); 
+                console.log(name+"不是图片类型文件，请选择图片进行上传"); 
             }
         });
     }
 
+    // 上传图片
     $('.submit').click(function(){
-        console.log(formData);
+        if(!formData) return false;
+        for (var key of formData.keys()) {
+           console.log(key); 
+        }
         // 上传图片
         $.ajax({
             url:'./fi.php',
@@ -70,13 +76,26 @@ window.onload = function() {
             cache: false, // 上传文件不需要缓存    
             success: function(data){
                 console.log(JSON.parse(data));
+                formData = null;
+                message('上传成功！');
             },
             error: function (returndata) {  
                 console.log(returndata);  
+                message('上传失败！');
             },
             // 关键配置
             processData: false, // 因为data值是FormData对象,不需要对数据做处理
             contentType: false // 因为是FormData对象,所以这里设置为false
         });       
     })
+
+    // 显示信息
+    function message(msg){
+        div1.innerHTML = msg;
+        div1.className = 'fade';
+        ul1.innerHTML = '';
+        setTimeout(function(){
+            div1.className = '';
+        },1000)
+    }
 }

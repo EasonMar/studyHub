@@ -9,11 +9,11 @@
 	foreach ($_FILES as $f) {
 		
 		// 文件限制
-		if ((($f["type"] == "image/gif")		
-				|| ($f["type"] == "image/jpeg")
-				|| ($f["type"] == "image/pjpeg"))
-				&& ($f["size"] < 200000))
-		{
+		// if ((($f["type"] == "image/gif")		
+		// 		|| ($f["type"] == "image/jpeg")
+		// 		|| ($f["type"] == "image/pjpeg"))
+		// 		&& ($f["size"] < 200000))
+		// {
 			// 文件上传后移动到特定文件夹
 			if ($f["error"] > 0){
 				$data["code"] = $f["error"];
@@ -31,11 +31,14 @@
 					$data["Stored_in"] = "upload/" . $f["name"];
 				}
 			}
-		}else{
-			$data["code"] = 416;
-			$data["msg"] = "Invalid file";
-		}
-		$res[$f["name"]] = $data;
+		// }else{
+		// 	$data["code"] = 416;
+		// 	$data["msg"] = "Invalid file";
+		// }
+		
+		// 不考虑后缀的话，如果文件名相同,则会被替换掉
+		$res[preg_replace('/[.][^.]*$/', '', $f["name"])] = $data; 
+		// $res[$f["name"]] = $data;
 	}
 
 	echo json_encode($res);
