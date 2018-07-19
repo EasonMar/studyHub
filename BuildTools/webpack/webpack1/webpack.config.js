@@ -3,7 +3,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	//页面入口文件配置
     // entry: __dirname + '/src/js/app.js',
-    entry:'javascript/app.js', // 配置文件也可以用别名？
+    entry:'javascript/app.js', // 配置resolve之后，这里也可以用别名了？
     //入口文件输出配置
     output: {
         path: __dirname +'/dist/',
@@ -26,7 +26,10 @@ module.exports = {
     module: {
         //加载器配置
         loaders: [
-            { test: /[.]css$/, loader: 'style-loader!css-loader' }  // '!'表示级联调用
+            { 
+                test: /[.]css$/, 
+                loader: 'style-loader!css-loader' // '!'表示级联调用
+            }  
         ]
     },
 }

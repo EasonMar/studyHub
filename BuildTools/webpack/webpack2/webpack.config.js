@@ -1,4 +1,4 @@
-const path = require('path'); // webpack2 开始会常用path模块
+const path = require('path'); // webpack2 开始会经常用path模块来解析路径
 const ExtractTextPlugin = require('extract-text-webpack-plugin'); // // 把css从js中提取出来的插件
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
@@ -39,17 +39,23 @@ module.exports = {
         }]
     },
     plugins: [
-        new ExtractTextPlugin('css/[name]-[hash:5].css'),
+        // 抽离css样式,防止将样式打包在js中引起页面样式加载错乱的现象
+        new ExtractTextPlugin('css/[name]-[hash:5].css'), 
+        
         new htmlWebpackPlugin({
         	title: 'htmlWebpackPlugin',
             filename: 'index.html',
             template: 'index.html'
         }),
+        
+        // The CommonsChunkPlugin is an opt-in feature that creates a separate file (known as a chunk), 
+        // consisting of common modules shared between multiple entry points.
         new webpack.optimize.CommonsChunkPlugin({
             name: 'common',
             filename: 'js/[name].js',
             minChunks: 2
         }),
+        
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: true
