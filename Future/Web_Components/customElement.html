@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Custom Element</title>
+</head>
+
+<body>
+    <script>
+        class ButtonHelloElement extends HTMLButtonElement {
+            constructor() {
+                super();
+                this.addEventListener('click', function () {
+                    console.log('Hello World');
+                })
+            }
+        }
+
+        customElements.define("button-hello", ButtonHelloElement, {
+            extends: "button"
+        });
+    </script>
+    <button is="button-hello">测试</button>
+    <div class="logo">我是logo</div>
+</body>
+
+</html>

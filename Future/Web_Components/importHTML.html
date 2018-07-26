@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>import HTML</title>
+    <link rel="import" href="./customElement.html">
+</head>
+
+<body>
+    <p>import HTML</p>
+</body>
+<script>
+    const link = document.querySelector("link[rel=import]");
+    const header = link.import;
+    document.querySelector('p').addEventListener('click', function () {
+        console.log(header);
+        console.log(header.querySelector('.logo'));
+        console.log(header.querySelector('.logo').innerHTML);
+        console.log(header.querySelector('button'));
+    })
+</script>
+
+</html>

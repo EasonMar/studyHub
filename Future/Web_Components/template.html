@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Template</title>
+</head>
+
+<body>
+    <template id="template">
+        <p>简单模板</p>
+    </template>
+</body>
+<script>
+    let num = 3;
+    
+    const fragment = document.getElementById('template').content.cloneNode(true);
+
+    console.log(fragment.firstChild);
+    while(num-- > 1){
+        // 题外话
+        // frameElement：返回嵌入当前window对象的元素(比如 <iframe> 或者 <object>),如果当前window对象已经是顶层窗口,则返回null.
+        // frameElement.firstChild.before(frameElement)
+        
+        // .firstChild：返回文档的首个子节点
+        // Javascript新的DOM的方法：before(),after(),prepend(),append()等新增DOM
+        /**
+         * before()是个ChildNode方法，也就是节点方法。节点方法对应于元素方法。区别在于，节点可以直接是文本节点，甚至注释等。但是，元素必须要有HTML标签。
+         * 因此，before()的参数既可以是DOM元素，也可以是DOM节点，甚至可以直接字符内容; 
+         * 语法如下：
+         * ChildNode.before(节点或字符串... 其它更多节点);
+         */ 
+        fragment.firstChild.before(num);
+    }
+
+    document.body.appendChild(fragment);
+</script>
+
+</html>
