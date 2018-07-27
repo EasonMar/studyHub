@@ -9,16 +9,19 @@
 </head>
 
 <body>
-    <template id="template">
-        <p>简单模板</p>
-    </template>
+    <div id="normalDiv"><span>普通div</span></div>
+    <template id="template"><p>简单模板</p></template>
 </body>
 <script>
-    let num = 3;
+    let num = 4;
     
+    // Node.cloneNode() 方法返回调用该方法的节点的一个副本.
+    // 参数为是否采用深度克隆,如果为true,则该节点的所有后代节点也都会被克隆,如果为false,则只克隆该节点本身.
     const fragment = document.getElementById('template').content.cloneNode(true);
+    // const fragment = document.getElementById('normalDiv').content.cloneNode(true); // 换普通div是不行的
 
     console.log(fragment.firstChild);
+
     while(num-- > 1){
         // 题外话
         // frameElement：返回嵌入当前window对象的元素(比如 <iframe> 或者 <object>),如果当前window对象已经是顶层窗口,则返回null.
@@ -32,7 +35,11 @@
          * 语法如下：
          * ChildNode.before(节点或字符串... 其它更多节点);
          */ 
-        fragment.firstChild.before(num);
+        // fragment.firstChild.before(num);
+        fragment.firstChild.before(fragment.firstChild.cloneNode(true));
+        console.log(fragment.firstChild.textContent);
+        console.log(fragment.lastChild.textContent);
+        fragment.firstChild.textContent += fragment.lastChild.textContent + num;
     }
 
     document.body.appendChild(fragment);
