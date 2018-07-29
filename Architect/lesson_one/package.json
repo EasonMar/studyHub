@@ -1,0 +1,24 @@
+{
+  "name": "lesson_one",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "start": "",
+    "build": "",
+    "server:build": "gulp",
+    "start:dev": "cross-env NODE_ENV=development & hotnode ./build/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "cross-env": "^5.2.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-watch": "^5.0.1",
+    "lodash": "^4.17.10"
+  }
+}
