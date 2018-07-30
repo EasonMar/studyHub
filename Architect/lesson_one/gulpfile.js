@@ -12,9 +12,9 @@ gulp.task('builddev', () => watch(
             .pipe(babel({
                 // 关闭外部的babelrc
                 babelrc: false,
-                plugins: []
+                presets: ['env']
             }))
-            .pipe(gulp.dest('build'))
+            .pipe(gulp.dest('dist'))
     }
 ));
 

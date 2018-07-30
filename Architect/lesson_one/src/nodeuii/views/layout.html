@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}My Site{% endblock %}</title>
+        {% block head %}
+            <!-- 放置公共样式 -->
+            <!-- <link rel="stylesheet" href="main.css"> -->
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+</html>

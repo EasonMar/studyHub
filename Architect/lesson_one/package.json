@@ -8,17 +8,25 @@
     "start": "",
     "build": "",
     "server:build": "gulp",
-    "start:dev": "cross-env NODE_ENV=development & hotnode ./build/app.js"
+    "start:dev": "cross-env NODE_ENV=development hotnode ./dist/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "cross-env": "^5.2.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
-    "gulp-watch": "^5.0.1",
+    "gulp-watch": "^5.0.1"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "co": "^4.6.0",
+    "koa": "^2.5.2",
+    "koa-route": "^3.2.0",
+    "koa-swig": "^2.2.1",
     "lodash": "^4.17.10"
   }
 }
