@@ -6,7 +6,7 @@ const watch = require('gulp-watch');
 
 gulp.task('builddev', () => watch(
     './src/nodeuii/**/*.js', {
-        ignoreInitial: false
+        ignoreInitial: false // 是否忽略第一次构建
     }, () => {
         gulp.src('src/nodeuii/**/*js')
             .pipe(babel({
@@ -26,3 +26,17 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 gulp.task("default", _task)
+
+// // 如果不用gulp-watch，则需要改写成如下
+// gulp.task("default", _task, () => {
+//     gulp.watch('./src/nodeuii/**/*.js', _task)
+// })
+
+// gulp.task("builddev", () => {
+//     gulp.src('src/nodeuii/**/*js')
+//         .pipe(babel({
+//             babelrc: false,
+//             presets: ['env']
+//         }))
+//         .pipe(gulp.dest('dist'))
+// })
