@@ -1,0 +1,12 @@
+{
+  "name": "tpdemo",
+  "version": "1.0.0",
+  "description": "typescript demo project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cp" : "tsc -w"
+  },
+  "author": "",
+  "license": "ISC"
+}
