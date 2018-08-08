@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="parent">
+        我是父节点
+        <div id="child">
+            我是旧的子节点
+        </div>
+    </div>
+    <input type="button" id="insertNode" value="插入节点" />
+    <script>
+        var parent = document.getElementById("parent");
+        var child = document.getElementById("child");
+        document.getElementById("insertNode").addEventListener('click', function () {
+            var newNode = document.createElement("div");
+            newNode.textContent = "我是新节点";
+            parent.insertBefore(newNode, child);
+        }, false);
+    </script>
+
+</body>
+
+</html>
