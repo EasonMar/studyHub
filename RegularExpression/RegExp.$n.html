@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body style="margin:20px">
+    <p style="color:red;font-size: 28px">该特性是非标准的，请尽量不要在生产环境中使用它</p>
+    <p><span style="color:red">RegExp.$1...$9</span>属性用于返回正则表达式模式中某个子表达式匹配的文本</p>
+    <p>正则表达式中每个小括号内的部分表达式就是一个子表达式</p>
+    <p>该属性是RegExp全局对象的一个<span style="color:blue">只读属性</span>，所有主流浏览器均支持该属性</p>
+</body>
+<script>
+    var re = /(\w+)\s(\w+)/;
+    var str = 'John Smith';
+    str.replace(re, '$2, $1'); // "Smith, John"
+    console.log(RegExp.$1); // "John"
+    console.log(RegExp.$2); // "Smith"
+
+    var stR = 'aaa bbb';
+    re.test(stR);
+    console.log(RegExp.$1); // "aaa"
+    console.log(RegExp.$2); // "bbb"
+</script>
+
+</html>
