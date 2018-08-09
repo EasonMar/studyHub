@@ -1,5 +1,5 @@
 /**
- * HTML解析
+ * Compile对象：HTML解析
  * @param node [HTML节点]
  * @param vm   [Vue实例]
  */
