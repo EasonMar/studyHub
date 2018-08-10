@@ -49,5 +49,5 @@ Compile.prototype = {
                 new Watcher(vm, node, name, 'nodeValue'); // 创建监听/订阅
             }
         }
-    },
+    }
 }
