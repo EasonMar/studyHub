@@ -4,7 +4,7 @@
 
 <body>
   <div id="app">
-    <input type="text" id="a" v-model="text"> {{text}}
+    <input type="text" id="a" v-model="word"> {{word}}
   </div>
   <script src="src/Batcher.js"></script>
   <script src="src/Dep.js"></script>
@@ -16,9 +16,10 @@
     var vm = new Vue({
       el: 'app',
       data: {
-        text: 'hello world'
+        word: 'hello world'
       }
     });
+    // 为什么在控制台操控vm没有任何影响？
   </script>
 </body>
 

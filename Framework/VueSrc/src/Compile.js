@@ -6,7 +6,8 @@
 function Compile(node, vm) {
     if (node) {
         this.$frag = this.nodeToFragment(node, vm);
-        return this.$frag;
+        return this.$frag; 
+        // 返回处理过后的节点, 最后再塞回到页面内
     }
 }
 Compile.prototype = {
@@ -17,7 +18,8 @@ Compile.prototype = {
 
         while (child = node.firstChild) {
             self.compileElement(child, vm);
-            frag.append(child); // 将所有子节点添加到fragment中
+            frag.append(child); 
+            // 将所有子节点添加到fragment中
         }
         return frag;
     },
@@ -27,18 +29,22 @@ Compile.prototype = {
         // 节点类型为元素
         if (node.nodeType === 1) {
             var attr = node.attributes;
+            
             // 解析属性
             for (var i = 0; i < attr.length; i++) {
                 if (attr[i].nodeName == 'v-model') {
                     var name = attr[i].nodeValue; // 获取v-model绑定的属性名
+
+                    // 这里绑了个input事件！！所有的驱动源头在这里！
                     node.addEventListener('input', function(e) {
                         // 给相应的data属性赋值，进而触发该属性的set方法
                         vm[name] = e.target.value;
                     });
+                    
                     // node.value = vm[name]; // 将data的值赋给该node
                     new Watcher(vm, node, name, 'value'); // 创建监听/订阅
                 }
-            };
+            }
         }
         // 节点类型为text
         if (node.nodeType === 3) {
