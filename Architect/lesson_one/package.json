@@ -9,6 +9,7 @@
     "build": "",
     "server:dev": "gulp",
     "server:prod": "cross-env NODE_ENV=production gulp",
+    "server:lint": "cross-env NODE_ENV=lint gulp",
     "start:dev": "cross-env NODE_ENV=development hotnode ./dist/app.js",
     "docs": "jsdoc ./src/nodeuii/**/*.js -d ./docs/jsdocs"
   },
@@ -21,6 +22,7 @@
     "cross-env": "^5.2.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
+    "gulp-eslint": "^5.0.0",
     "gulp-rollup": "^2.16.2",
     "gulp-sequence": "^1.0.0",
     "jsdoc": "^3.5.5",

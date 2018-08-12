@@ -3,10 +3,12 @@ const babel = require('gulp-babel');
 const rollup = require('gulp-rollup');
 const replace = require('rollup-plugin-replace');
 const gulpSequence = require('gulp-sequence');
+const eslint = require('gulp-eslint');
 
 // 只编译node不认识的东西即可
 
 let _task = ["builddev"];
+if (process.env.NODE_ENV === 'lint') _task = ["lint"];
 
 // 如果是上线环境
 if (process.env.NODE_ENV === 'production') {
@@ -17,8 +19,6 @@ if (process.env.NODE_ENV === 'production') {
 		gulp.watch('./src/nodeuii/**/*.js', _task)
 	})
 }
-
-
 
 gulp.task("builddev", () => {
     gulp.src('src/nodeuii/**/*.js')
@@ -60,3 +60,16 @@ gulp.task('configclear', function() {
     // Rollup 是一个 JavaScript 模块打包器，可以将小块代码编译成大块复杂的代码
     // 清洗过程中，process.env.NODE_ENV默认是拿不到的，所以要使用gulp-replace替换掉process.env.NODE_ENV
 });
+
+gulp.task("lint", () => {
+    return gulp.src('src/nodeuii/**/*.js')
+    // eslint() attaches the lint output to the "eslint" property
+    // of the file object so it can be used by other modules.
+    .pipe(eslint())
+    // eslint.format() outputs the lint results to the console.
+    // Alternatively use eslint.formatEach() (see Docs).
+    .pipe(eslint.format())
+    // To have the process exit with an error code (1) on
+    // lint error, return the stream and pipe to failAfterError last.
+    .pipe(eslint.failAfterError());
+})
