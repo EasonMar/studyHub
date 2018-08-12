@@ -13,5 +13,4 @@ export default (app, router) => {
     app.use(router.get('', insIndexController.indexAction()));
 
     app.use(router.get('/ajax', insIndexController.interface()));
-
 }

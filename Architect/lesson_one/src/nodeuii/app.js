@@ -5,10 +5,15 @@ import router from 'koa-route';
 import initController from './controllers/index';
 
 import swig from 'koa-swig';
+import errorHandler from './middlewares/errorHandler';
 import co from 'co';
 
 import polyfill from 'babel-polyfill';
 const app = new Koa();
+
+// 在初始化路由之前, 配置errorHandler
+// 本质是保证errorHandler定义在所有中间件的最前面, 这样可以确保errorHandler是兜底的操作
+errorHandler.error(app);
 
 initController(app, router);
 
@@ -23,4 +28,4 @@ app.context.render = co.wrap(swig({
 
 app.listen(config.port, () => {
 	console.log(`lesson_one is listenning on ${config.port}`)
-})
+});

@@ -1,8 +1,9 @@
 import path from 'path';
 import _ from 'lodash';
 let config = {
-    // "viewDir": path.join(__dirname, '../views/') // 以上两者等价
+    // "viewDir": path.join(__dirname, '../views/') 
     "viewDir": path.join(__dirname, '..', 'views') 
+    // 以上两者等价
 }
 const init = () => {
     if (process.env.NODE_ENV == 'development') {
