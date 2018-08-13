@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block title %}Lesson One{% endblock %}
+{% block head %}
+<!-- 把父级的内容拿过来 -->
+{% parent %}
+    <!-- 放置自己的样式 -->
+    <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+{% block content %}
+    <p>Hello Lesson One.</p>
+{% endblock %}
