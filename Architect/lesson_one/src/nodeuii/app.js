@@ -9,7 +9,7 @@ import co from 'co';
 import polyfill from 'babel-polyfill';
 import errorHandler from './middlewares/errorHandler';
 // 应用log4js
-const log4js = require('log4js');
+import log4js from 'log4js';
 // 配置
 log4js.configure({
     appenders: { cheese: { type: 'file', filename: __dirname + '/logs/eason.log' } },

@@ -24,7 +24,8 @@ gulp.task("builddev", () => {
     gulp.src('src/nodeuii/**/*.js')
         .pipe(babel({
             babelrc: false,
-            presets: ['env']
+            presets: ['env'],
+            plugins: ['transform-decorators-legacy']
         }))
         .pipe(gulp.dest('dist'));
 })
@@ -34,7 +35,8 @@ gulp.task("buildprod", () => {
         .pipe(babel({
             babelrc: false,
             ignore: ["./src/nodeuii/config/*.js"], // 忽略配置文件config, 交给后面rollup去处理
-            presets: ['env']
+            presets: ['env'],
+            plugins: ['transform-decorators-legacy']
         }))
         .pipe(gulp.dest('dist'));
 })

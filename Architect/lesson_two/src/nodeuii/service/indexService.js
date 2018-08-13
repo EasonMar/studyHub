@@ -3,10 +3,10 @@
  * @author yuanzhijia@yidengxuetang.com
  */
 /**
- * IndexModle类 生成一段异步数据
+ * IndexService类 生成一段异步数据
  * @class
  */
-export default class IndexModle {
+export default class IndexService {
     /**
      * @constructor
      * @param {string} app koa2上下文
