@@ -25,6 +25,18 @@
     re.test(stR);
     console.log(RegExp.$1); // "aaa"
     console.log(RegExp.$2); // "bbb"
+
+
+    // RegExp.rightContext = RegExp["$'"]：最新匹配项的右侧子串，非标准属性
+    // RegExp.leftContext = RegExp['$`']：最新匹配项的左侧子串，非标准属性
+    var strTest = '"a", "b"',
+		regTest = /"([^"]*)"/g;
+	regTest.test(strTest); // 此时最新匹配项是"a"
+	console.log('rightSide：' + RegExp["$'"]);	// rightSide：, "b"   
+	console.log('leftSide：' + RegExp['$`']); 	// leftSide：
+	regTest.test(strTest); // 此时最新匹配项是"b"
+	console.log('rightSide：' + RegExp["$'"]); // rightSide：  
+	console.log('leftSide：' + RegExp['$`']);  // leftSide："a", 
 </script>
 
 </html>

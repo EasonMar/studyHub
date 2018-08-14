@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>正则表达式</title>
+</head>
+
+<body>
+	<p style="font-size: 90px;margin: 50% 0;font-weight: bold;text-align: center;">正则表达式demo</p>
+</body>
+<script type="text/javascript">
+	/* RegExp对象方法测试 */
+
+	// test 方法 ====================================
+	console.group('test 方法');
+	// 当你想要知道一个模式是否存在于一个字符串中时，就可以使用 test()
+	// 和 exec() (或者组合使用),一样，在相同的全局正则表达式实例上多次调用test将会越过之前的匹配
+	// 如果正则表达式设置了全局标志，test() 的执行会改变正则表达式 lastIndex属性。
+	// 连续的执行test()方法，后续的执行将会从 lastIndex 处开始匹配字符串，(exec() 同样改变正则本身的 lastIndex属性值).
+	const s1 = "a||1@b||2@c||3";
+	var p1 = /a/g;
+	console.log(p1.test(s1)); // true
+	console.log(p1.test(s1)); // false
+	console.groupEnd();
+
+	// exec 方法 ====================================
+	console.group('exec 方法');
+	const s2 = "a||1@b||2@c||3";
+	var p21 = /\|\|/g;
+	console.log(p21.exec(s2)); // ["||", index: 1, input: "a||1@b||2@c||3"]
+	console.log(p21.exec(s2)); // ["||", index: 6, input: "a||1@b||2@c||3"]
+	console.log(p21.exec(s2)); // ["||", index: 11, input: "a||1@b||2@c||3"]
+	console.log(p21.exec(s2)); // null
+	console.log(p21.exec(s2)); // ["||", index: 1, input: "a||1@b||2@c||3"]
+	console.groupEnd();
+
+	// 循环方式匹配全局
+	console.group('循环方式匹配全局');
+	var p22 = /\|\|/g;
+	while (result = p22.exec(s2)) {
+		console.log(result + ' ===>  index:' + result.index + ' input:' + result.input);
+	}
+	console.groupEnd();
+
+	// 非全局 - 未配置global的情况
+	console.group('非全局情形');
+	var p23 = /\|\|/;
+	console.log(p23.exec(s2)); // ["||", index: 1, input: "a||1@b||2@c||3"]
+	console.log(p23.exec(s2)); // ["||", index: 1, input: "a||1@b||2@c||3"]
+	console.log(p23.exec(s2)); // ["||", index: 1, input: "a||1@b||2@c||3"]
+	console.groupEnd();
+
+	// compile ====================================
+	// 该方法可以重新指定正则实例的规则与修饰符
+	// console.group('compile 方法');
+	// p23.compile('@b', 'g'); // pattern改为'@b',修饰符改为g-全局
+	// console.log(p23.exec(s2)); // console.log( p23.exec(s2) )
+	// console.log(p23.exec(s2)); // null
+	// console.log(p23.exec(s2)); // console.log( p23.exec(s2) )
+	// console.groupEnd();
+
+	// stringObject match方法与regexp ====================================
+	// 字符串的match方法 - stringObject.match(regexp)
+	// 返回值:存放匹配结果的数组.该数组的内容依赖于 regexp 是否具有全局标志 g
+	console.group('match 方法');
+	console.log(s2.match(p21)); // ["||", "||", "||"]
+	console.log(s2.match(p23)); // ["||", index: 1, input: "a||1@b||2@c||3", groups: undefined]
+	console.log(s2.match(/\w\|\|\d/g)); //  ["a||1", "b||2", "c||3"]
+
+	const s3 = "aac||123@bbc||223@cdd||323";
+	console.log(s3.match(/\w+\|\|\d+/g)); // !!!这样写更健壮
+	console.groupEnd();
+
+	// stringObject replace方法与regexp ====================================
+	// $部分还有很多想不通的,需要慢慢看
+	console.group('replace 方法');
+	let str = "Welcome to Microsoft! " +
+		"We are proud to announce that Microsoft has " +
+		"one of the largest Web Developers sites in the world."
+	console.log(str.replace(/Microsoft/g, "W3School")); // 全局匹配-替换
+
+	let str1 = "Doe, John";
+	console.log(str1.replace(/(\w+)\s*,\s*(\w+)/, "$2 $1")); // John Doe    \s 匹配任意的空白符,包括空格,制表符(Tab),换行符,中文全角空格等
+
+	let str2 = '"a", "b"';
+	console.log(str2.replace(/"([^"]*)"/g, "'$1'")); // 'a', 'b' ---？$1不是匹配到的第一个吗？
+	// 确实整个pattern中只有一个分组！只不过配置了global，所以进行了多次匹配，$1是每次匹配的第一个
+
+	console.log(str2.replace(/"([^"]*)"/g, "$$")); // $, $       ---？$$ = 转义$
+
+	console.log(str2.replace(/"([^"]*)"/g, "$'")); // ', "b"',   -- RegExp.rightContext = RegExp["$'"]：最新匹配项的右侧子串，非标准属性
+	console.log(str2.replace(/"([^"]*)"/g, "$`")); // ', "a"',   -- RegExp.leftContext = RegExp['$`']：最新匹配项的左侧子串，非标准属性
+
+	var strTest = '"a", "b"',
+		regTest = /"([^"]*)"/g;
+	regTest.test(strTest); // 此时最新匹配项是"a"
+	console.log('rightSide：' + RegExp["$'"]);	// rightSide：, "b"   
+	console.log('leftSide：' + RegExp['$`']); 	// leftSide：
+	regTest.test(strTest); // 此时最新匹配项是"b"
+	console.log('rightSide：' + RegExp["$'"]); // rightSide：  
+	console.log('leftSide：' + RegExp['$`']);  // leftSide："a", 
+
+
+	let str3 = 'aaa bbb ccc';
+	console.log(str3.replace(/\b\w+\b/g, function (word) {
+		return word.substring(0, 1).toUpperCase() + word.substring(1);  // Aaa Bbb Ccc
+	}));
+	console.groupEnd();
+
+	// replace --- 是字符串方法 --- 这个demo好！
+	console.group('隐藏手机号码中间四位');
+	var tel = '13544534667';  // 注意要存为字符串
+	console.log(tel.replace(/(\d{3})\d{4}(\d{4})/g, "$1****$2"));
+	console.groupEnd();
+
+
+</script>
+
+</html>
