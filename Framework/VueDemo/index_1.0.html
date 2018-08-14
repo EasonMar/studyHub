@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue Test</title>
+	<script type="text/javascript" src="js/vue_1.0.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>{{message}}</h1>
+		<input type="text" name="txt" v-model="message">
+		<pre>
+			{{ $data | json}}
+		</pre>
+	</div>
+</body>
+<script type="text/javascript">
+	new Vue({
+		el:"#app",
+		data:{
+			message:'Hello Vue'
+		}
+	})
+</script>
+</html>
