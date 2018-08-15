@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue Test</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style type="text/css">
+		li.done{
+			background: rgba(0,0,0,.4);
+			color: #fff;
+		}
+	</style>
+	<script type="text/javascript" src="js/vue_1.0.js"></script>
+</head>
+<body>
+	<div id="app" style="margin: 30px">
+		<ul class="list-group">
+			<li v-for="task in tasks" 
+				class="list-group-item" 
+				:class="{'done':task.complete}"
+				@click="doneSelect(task)"
+			>{{ task.content }}</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript">
+	new Vue({
+		el:"#app",
+		data:{
+			tasks:[{
+				content:"看第一",complete: false
+			},{
+				content:"打篮球",complete: false
+			},{
+				content:"敲代码",complete: false
+			}]
+		},
+		methods:{
+			doneSelect: function(task){
+				task.complete = !task.complete;
+			}
+		}
+	})
+</script>
+</html>

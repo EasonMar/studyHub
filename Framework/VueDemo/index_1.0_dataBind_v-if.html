@@ -7,7 +7,9 @@
 </head>
 <body>
 	<div id="app">
-		<h1>{{message}}</h1>
+		<p v-if="!message">
+			<span>***请务必输入用户名信息***</span>
+		</p>
 		<input type="text" name="txt" v-model="message">
 		<pre>
 			{{ $data | json}}
@@ -18,7 +20,7 @@
 	new Vue({
 		el:"#app",
 		data:{
-			message:'Hello Vue'
+			message:''
 		}
 	})
 </script>

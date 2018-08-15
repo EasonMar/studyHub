@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue Test</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script type="text/javascript" src="js/vue_1.0.js"></script>
+</head>
+<body>
+	<div id="app">
+		<hello-component title="Hellow"></hello-component>
+		<hello-component title="Component"></hello-component>
+		<component-demo></component-demo>
+		<component-demo></component-demo>
+	</div>
+</body>
+<template id="hello">
+	<h1 style="margin: 10px" class="alert alert-success">{{ title }}</h1>
+</template>
+<script type="text/javascript">
+	Vue.component('component-demo',{
+		template: `<p style="margin-top: 30px;padding: 10px;">
+						<button type="button" class="btn btn-lg btn-primary" @click="updateNum">
+							按钮+1
+						</button>
+						<span class="label label-danger" style="font-size: 25px;margin-left: 13px">score：{{ num }}
+						</span>
+					</p>`,
+		data: function(){
+			return {
+				num:0
+			}
+		},
+		methods:{
+			updateNum:function(e){
+				this.num += 1;
+			}
+		}
+	});
+	Vue.component('hello-component',{
+		template:"#hello",
+		props:['title']
+	})
+	new Vue({
+		el:"#app"
+	})
+</script>
+</html>
