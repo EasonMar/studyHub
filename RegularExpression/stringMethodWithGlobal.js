@@ -101,3 +101,21 @@ var str = "Welcome to Microsoft! " +
 		  "one of the largest Web Developers sites in the world."
 // 全局匹配-替换
 console.log(str.replace(/Microsoft/g, "替换"));  // Welcome to 替换! We are proud to announce that 替换 has ...省略
+
+// replace with RegExp.$n
+var str = "Doe, John";
+var reg = /(\w+)\s*,\s*(\w+)/
+console.log(str.replace(reg, "$2 $1")); // John Doe    \$n 为正则捕获的第n个分组
+
+// nice
+var tel = '13544534667';  // 注意要存为字符串
+var reg = /(\d{3})\d{4}(\d{4})/g;
+console.log(tel.replace(reg, "$1****$2"));
+
+
+// 回调函数
+var str = 'aaa bbb ccc';
+var reg = /\b\w+\b/g;
+console.log(str.replace(reg, function (word) {
+    return word.substring(0, 1).toUpperCase() + word.substring(1);  // Aaa Bbb Ccc
+}));

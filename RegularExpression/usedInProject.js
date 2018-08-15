@@ -25,6 +25,3 @@ let reg = /\d(?:[.]\d{1,2}){0,1}[^%]\s/g;
 data.match(reg).map((d, i) => {
     console.log(`(${i+1})  ${d} => ${Math.round((parseFloat(d)) * 100)}`);
 });
-
-
-// 四、正则的非

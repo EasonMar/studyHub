@@ -15,28 +15,51 @@
     <p>该属性是RegExp全局对象的一个<span style="color:blue">只读属性</span>，所有主流浏览器均支持该属性</p>
 </body>
 <script>
-    var re = /(\w+)\s(\w+)/;
-    var str = 'John Smith';
-    str.replace(re, '$2, $1'); // "Smith, John"
-    console.log(RegExp.$1); // "John"
-    console.log(RegExp.$2); // "Smith"
-
-    var stR = 'aaa bbb';
-    re.test(stR);
+    var reg = /(\w+)\s(\w+)/;
+    var str = 'aaa bbb';
+    reg.test(str); // --- test
     console.log(RegExp.$1); // "aaa"
     console.log(RegExp.$2); // "bbb"
 
 
+    var str = 'John Smith';
+    str.replace(reg, '$2, $1'); // "Smith, John"  --- replace
+    console.log(RegExp.$1); // "John"
+    console.log(RegExp.$2); // "Smith"
+
+
+    var str = '"a", "b"';
+    var reg = /"([^"]*)"/g;
+    console.log(str.replace(reg, "'$1'")); // 'a', 'b' ---？$1不是匹配到的第一个吗？
+    // 确实整个pattern中只有一个分组！只不过配置了global，所以进行了多次匹配，$1是每次匹配的第一个
+
+
+
+    // 其他奇奇怪怪的东西
+    var str = '"a", "b"';
+    var reg = /"([^"]*)"/g;
+    console.log(str.replace(reg, "$$")); // $, $       ---？$$ = 转义$
+    console.log(str.replace(reg, "$'")); // ', "b"',   -- RegExp.rightContext = RegExp["$'"]：最新匹配项的右侧子串，非标准属性
+    console.log(str.replace(reg, "$`")); // ', "a"',   -- RegExp.leftContext = RegExp['$`']：最新匹配项的左侧子串，非标准属性
+
+
+
     // RegExp.rightContext = RegExp["$'"]：最新匹配项的右侧子串，非标准属性
     // RegExp.leftContext = RegExp['$`']：最新匹配项的左侧子串，非标准属性
-    var strTest = '"a", "b"',
-		regTest = /"([^"]*)"/g;
-	regTest.test(strTest); // 此时最新匹配项是"a"
-	console.log('rightSide：' + RegExp["$'"]);	// rightSide：, "b"   
-	console.log('leftSide：' + RegExp['$`']); 	// leftSide：
-	regTest.test(strTest); // 此时最新匹配项是"b"
-	console.log('rightSide：' + RegExp["$'"]); // rightSide：  
-	console.log('leftSide：' + RegExp['$`']);  // leftSide："a", 
+    var str = '"a", "b"',
+    var reg = /"([^"]*)"/g;
+    reg.test(str); // 此时最新匹配项是"a"
+    console.log('rightSide：' + RegExp["$'"]);   // rightSide：, "b"   
+    console.log('leftSide：' + RegExp['$`']);    // leftSide：
+    reg.test(str); // 此时最新匹配项是"b"
+    console.log('rightSide：' + RegExp["$'"]); // rightSide：  
+    console.log('leftSide：' + RegExp['$`']);  // leftSide："a", 
+    
+
+    // 这个demo好！
+    var tel = '13544534667';  // 注意要存为字符串
+    var reg = /(\d{3})\d{4}(\d{4})/g;
+    console.log(tel.replace(reg, "$1****$2"));
 </script>
 
 </html>
