@@ -24,7 +24,7 @@ const app = new Koa();
 const container = createContainer();
 // 每一次请求都要new一次类
 app.use(scopePerRequest(container)); // 拉外部的service(前端叫models),按照切面的形式注入到constructor,给下面的方法具体去使用
-// 装载service
+// 装载service实例，准备灌到controller/indexController.js的构造函数内
 container.loadModules([__dirname + "/service/*.js"], {
     formatName: "camelCase",
     resolverOptions: {
