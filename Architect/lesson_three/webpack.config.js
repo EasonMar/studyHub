@@ -1,8 +1,15 @@
 const merge = require('webpack-merge');  // 需要了解其API
 
+const HappWebpackPlugin = require('./config/happyWebpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlAfterWebpackPlugin = require('./config/htmlAfterWebpackPlugin');
+
+const { join } = require('path');
+
 // 获取命令行参数
 const argv = require('yargs-parser')(process.argv.slice(2)); // 需要了解其API
 const mode = argv.mode || 'development';
+const _modeflag = (mode == "production" ? true : false);
 
 const _mergeConfig = require(`./config/webpack.${mode}.js`);
 
@@ -17,11 +24,20 @@ for (let item of files) {
     if (/.+\/([a-zA-Z]+-[a-zA-Z]+)\.entry\.ts$/g.test(item)) {
         const entrykey = RegExp.$1;
         _entry[entrykey] = item;
+        cosnt[dist, template] = entrykey.split('-');
+        _plugins.push(new HtmlWebpackPlugin({
+            filename: `../views/${dist}/pages/${template}.html`,
+            template: `./src/webapp/views/${dist}/pages/${template}.html`,
+            inject: false, // 避免资源再插入一遍
+            chunks: [entrykey], // ？
+            // 压缩
+            minify: {
+                collapseWhitespace: _modeflag,
+                removeAttributeQuotes: _modeflag
+            }
+        }))
     }
 }
-
-const HappWebpackPlugin = require('./config/happyWebpack');
-const HTMLWebpackPlugin = require('./config/htmlAfterWebpackPlugin');
 
 // 最终webpack配置
 let webpackConfig = {
@@ -32,10 +48,15 @@ let webpackConfig = {
             use: 'happypack/loader?id=happyTS' // 文件大了才能体现出来
         }]
     },
+    output: {
+        path: join(__dirname, './dist/assets'),
+        publicPath: '/',
+        filename: 'scripts/[name].bundle.js'
+    },
     plugins: [
         ..._plugins,
         ...HappWebpackPlugin,
-        new HTMLWebpackPlugin()
+        new HtmlAfterWebpackPlugin()
     ],
     resolve: {
         extensions: [".ts", ".css"]
