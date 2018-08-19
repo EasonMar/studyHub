@@ -20,11 +20,20 @@ for (let item of files) {
     }
 }
 
+const HappWebpackPlugin = require('./config/happyWebpack');
+
 // 最终webpack配置
 let webpackConfig = {
     entry: _entry,
+    module: {
+        rules: [{
+            test: /\.ts?$/,
+            use: 'happypack/loader?id=happyTS' // 文件大了才能体现出来
+        }]
+    },
     plugins: [
         ..._plugins,
+        ...HappWebpackPlugin
     ],
     resolve: {
         extensions: [".ts", ".css"]
