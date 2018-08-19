@@ -32,6 +32,8 @@
     "happypack": "^5.0.0",
     "jsdoc": "^3.5.5",
     "rollup-plugin-replace": "^2.0.0",
+    "ts-loader": "^4.5.0",
+    "typescript": "^3.0.1",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
     "webpack-merge": "^4.1.4",

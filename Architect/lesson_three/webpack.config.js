@@ -21,6 +21,7 @@ for (let item of files) {
 }
 
 const HappWebpackPlugin = require('./config/happyWebpack');
+const HTMLWebpackPlugin = require('./config/htmlAfterWebpackPlugin');
 
 // 最终webpack配置
 let webpackConfig = {
@@ -33,7 +34,8 @@ let webpackConfig = {
     },
     plugins: [
         ..._plugins,
-        ...HappWebpackPlugin
+        ...HappWebpackPlugin,
+        new HTMLWebpackPlugin()
     ],
     resolve: {
         extensions: [".ts", ".css"]
