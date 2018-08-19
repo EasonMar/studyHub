@@ -89,3 +89,21 @@ console.log(math.add(2, 4));
 //     @nonenumerable
 //     name() { return `${this.first} ${this.last}` }
 // }
+// // 从上面代码中，我们一眼就能看出，Person类是可测试的，而name方法是只读和不可枚举的。
+
+
+// 如果同一个方法有多个修饰器，会像剥洋葱一样，先从外到内进入，然后由内向外执行。
+function dec(id) {
+    console.log('evaluated', id);
+    return (target, property, descriptor) => console.log('executed', id);
+}
+
+class Example {
+    @dec(1)
+    @dec(2)
+    method() {}
+}
+// evaluated 1
+// evaluated 2
+// executed 2
+// executed 1
