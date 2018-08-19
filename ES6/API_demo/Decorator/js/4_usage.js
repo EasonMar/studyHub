@@ -1,20 +1,20 @@
 /**
- * 实际开发中，React 与 Redux 库结合使用时，常常需要写成下面这样. 
+ * 实际开发中, React 与 Redux 库结合使用时, 常常需要写成下面这样. 
  *
  * class MyReactComponent extends React.Component {}
  * export default connect(mapStateToProps, mapDispatchToProps)(MyReactComponent); 
  * 
- * 有了装饰器，就可以改写上面的代码.  --- 认真捋一捋
+ * 有了装饰器, 就可以改写上面的代码.  --- 认真捋一捋
  * 
  * @connect(mapStateToProps, mapDispatchToProps)
  * export default class MyReactComponent extends React.Component {}
  *
- * 相对来说，后一种写法看上去更容易理解. 
+ * 相对来说, 后一种写法看上去更容易理解. 
  */
 
 
 /**
- * 用 Decorator 写法的组件，看上去一目了然.  --- 认真捋一捋
+ * 用 Decorator 写法的组件, 看上去一目了然.  --- 认真捋一捋
  *
  * @Component({
  *    tag: 'my-component',
@@ -34,14 +34,14 @@
 /**
  * core-decorators.js
  *
- * core-decorators.js是一个第三方模块，提供了几个常见的修饰器，通过它可以更好地理解修饰器. 
+ * core-decorators.js是一个第三方模块, 提供了几个常见的修饰器, 通过它可以更好地理解修饰器. 
  */
 
 import { autobind, readonly, override, deprecate, suppressWarnings } from 'core-decorators';
 
 /**
  * 1. @autobind
- * autobind修饰器使得方法中的this对象，绑定原始对象。
+ * autobind修饰器使得方法中的this对象, 绑定原始对象。
  */
 class Person {
     @autobind
@@ -70,7 +70,7 @@ var dinner = new Meal();
 
 /**
  * 3. @override
- * override修饰器检查子类的方法，是否正确覆盖了父类的同名方法，如果不正确会报错。
+ * override修饰器检查子类的方法, 是否正确覆盖了父类的同名方法, 如果不正确会报错。
  */
 class Parent {
     speak(first, second) {}
@@ -95,11 +95,11 @@ class Parent {
 
 /**
  * 4. @deprecate (别名@deprecated)
- * deprecate或deprecated修饰器在控制台显示一条警告，表示该方法将废除。
+ * deprecate或deprecated修饰器在控制台显示一条警告, 表示该方法将废除。
  */
 
 
 /**
  * 5. @suppressWarnings
- * suppressWarnings修饰器抑制deprecated修饰器导致的console.warn()调用。但是，异步代码发出的调用除外。
+ * suppressWarnings修饰器抑制deprecated修饰器导致的console.warn()调用。但是, 异步代码发出的调用除外。
  */
