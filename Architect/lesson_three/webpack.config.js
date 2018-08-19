@@ -24,7 +24,7 @@ for (let item of files) {
     if (/.+\/([a-zA-Z]+-[a-zA-Z]+)\.entry\.ts$/g.test(item)) {
         const entrykey = RegExp.$1;
         _entry[entrykey] = item;
-        cosnt[dist, template] = entrykey.split('-');
+        const [dist, template] = entrykey.split('-');
         _plugins.push(new HtmlWebpackPlugin({
             filename: `../views/${dist}/pages/${template}.html`,
             template: `./src/webapp/views/${dist}/pages/${template}.html`,
