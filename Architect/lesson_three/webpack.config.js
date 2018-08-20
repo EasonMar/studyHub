@@ -29,7 +29,7 @@ for (let item of files) {
             filename: `../views/${dist}/pages/${template}.html`,
             template: `./src/webapp/views/${dist}/pages/${template}.html`,
             inject: false, // 避免资源再插入一遍
-            chunks: [entrykey], // ？
+            chunks: [entrykey], // Allows you to add only some chunks
             // 压缩
             minify: {
                 collapseWhitespace: _modeflag,

@@ -22,7 +22,7 @@ const assetsHelp = data => {
 
 class HtmlAfterWebpackPlugin {
     apply(compiler) {
-        // compiler.hooks.run.tap(pluginName, compilation => {
+        // compiler.hooks.run.tap(pluginName, compilation => { // 这种写法已经不行了
         compiler.hooks.compilation.tap(pluginName, compilation => {
             compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tap(pluginName, htmlPluginData => {
                 const result = assetsHelp(htmlPluginData.assets);
