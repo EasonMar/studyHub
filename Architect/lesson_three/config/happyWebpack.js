@@ -14,7 +14,7 @@ const happyThreadPool = HappyWebpack.ThreadPool({
 module.exports = [
     new HappyWebpack({
         id: 'happyTS',
-        threadPool: happyThreadPool,
+        threadPool: happyThreadPool, // 共享线程池
         verbose: true,
         loaders: [{
         	path: "ts-loader",
