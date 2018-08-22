@@ -1,8 +1,8 @@
 // #### 类的创建 ####
 class Person {
-    name: string; // 这里必须声明name属性，才能在构造函数内部使用this.name
-    age: number; // 这里必须声明age属性，才能在构造函数内部使用this.age
-    constructor(name: string, age: number) {
+    name: string; // 这里必须声明name属性，才能在构造函数内部使用this.name --- 否则就要在属性名前加public
+    age: number; // 这里必须声明age属性，才能在构造函数内部使用this.age --- 否则就要在属性名前加public  
+    constructor(name: string, age: number, public sex: string) {
         this.name = name;
         this.age = age;
     }
@@ -11,14 +11,14 @@ class Person {
     }
 }
 
-let p = new Person("Eason", 28);
+let p = new Person("Eason", 28, 'male');
 console.log(p.print());
 
 // #### 类的继承 ####
 class Student extends Person {
     school: string;
     constructor(school: string) {
-        super("Eason", 28) // 这里写死name age？可以不写死吗
+        super("Eason", 28, 'female') // 这里写死name age？可以不写死吗
         this.school = school;
         // super("Eason", 28) // 'super' must be called before accessing 'this' in the constructor of a derived class.
     }
