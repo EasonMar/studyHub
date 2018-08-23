@@ -1,6 +1,6 @@
 /**
  * Our First Interface
- */ 
+ */
 // The easiest way to see how interfaces work is to start with a simple example:
 function printLabel(labelledObj: { label: string }) {
     console.log(labelledObj.label);
@@ -26,5 +26,31 @@ function printLabelWithInterface(labelledObj: LabelledValue) {
     console.log(labelledObj.label);
 }
 
-let myObjWithInterface = {size: 10, label: "lable value2"};
+let myObjWithInterface = { size: 10, label: "lable value2" };
 printLabelWithInterface(myObjWithInterface);
+
+/**
+ * Optional Properties
+ * 
+ * Interfaces with optional properties are written similar to other interfaces, 
+ * with each optional property denoted by a ? at the end of the property name in the declaration.
+ */
+
+interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+
+function createSquare(config: SquareConfig): { color: string; area: number } {
+    let newSquare = { color: "white", area: 100 };
+    if (config.color) {
+        newSquare.color = config.color;
+    }
+    if (config.width) {
+        newSquare.area = config.width * config.width;
+    }
+    return newSquare;
+}
+
+let mySquare = createSquare({ color: "black" });
+console.log(mySquare);
