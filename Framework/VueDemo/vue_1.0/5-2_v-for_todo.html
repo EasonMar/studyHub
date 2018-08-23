@@ -17,14 +17,18 @@
 		<task :items="tasks"></task>
 	</div>
 	<template id="task-template">
+			<p>
+				<span>剩余数量：</span>
+				<span>{{ remain }}</span>
+			</p>
 		<ul class="list-group">
-			<li v-for="ite in items" 
+			<li v-for="task in items" 
 				class="list-group-item" 
-				:class="{'done':ite.complete}"
-				@click="doneSelect(ite)"
+				:class="{'done':task.complete}"
+				@click="doneSelect(task)"
 			>
-				{{ ite.content }}
-				<span @click="deleItem(ite)" class="glyphicon glyphicon-remove" style="margin-left: 10px"></span>
+				{{ task.content }}
+				<span @click="deleItem(task)" class="glyphicon glyphicon-remove" style="margin-left: 10px"></span>
 			</li>
 		</ul>
 	</template>
@@ -38,9 +42,16 @@
 				task.complete = !task.complete;
 			},
 			deleItem: function(task){
-				console.log(this.items); // 获取到vue实例(vm)的task
-				console.log(task);
-				this.items.$remove(task); // 执行vm的原生方法$remove?
+				console.log(this.items); // 获取组件的items属性
+				console.log(task); // 传入方法的task值[就是items属性内中的其中一个]
+				// this.items.$remove(task); // 不理解？
+			}
+		},
+		computed: {
+			remain: function(){
+				return this.items.filter(function(task){
+					return !task.complete;
+				}).length
 			}
 		}
 	})

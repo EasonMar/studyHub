@@ -1,5 +1,5 @@
 /**
- * Our First Interface
+ * Our First Interface --- 我们的第一个接口
  */
 // The easiest way to see how interfaces work is to start with a simple example:
 function printLabel(labelledObj: { label: string }) {
@@ -30,7 +30,7 @@ let myObjWithInterface = { size: 10, label: "lable value2" };
 printLabelWithInterface(myObjWithInterface);
 
 /**
- * Optional Properties
+ * Optional Properties --- 可选属性
  * 
  * Interfaces with optional properties are written similar to other interfaces, 
  * with each optional property denoted by a ? at the end of the property name in the declaration.
@@ -54,3 +54,41 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
 
 let mySquare = createSquare({ color: "black" });
 console.log(mySquare);
+
+/**
+ * Readonly properties --- 只读属性
+ * 
+ * Some properties should only be modifiable when an object is first created. 
+ * You can specify this by putting readonly before the name of the property:
+ */
+interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+// You can construct a Point by assigning an object literal. After the assignment, x and y can’t be changed.
+let p1: Point = { x: 10, y: 20 };
+// p1.x = 5; // error!
+
+
+/**
+ * Function Types
+ * 
+ * To describe a function type with an interface, we give the interface a call signature. 
+ * This is like a function declaration with only the parameter list and return type given. 
+ * Each parameter in the parameter list requires both name and type.
+ */
+interface SearchFunc {
+    (source: string, subString: string): boolean;
+}
+let mySearch: SearchFunc;
+mySearch = function (source: string, subString: string) {
+    let result = source.search(subString);
+    return result > -1;
+}
+// For function types to correctly type-check, the names of the parameters do not need to match. 
+// We could have, for example, written the above example like this:
+// let mySearch: SearchFunc;
+// mySearch = function(src: string, sub: string): boolean {
+//     let result = src.search(sub);
+//     return result > -1;
+// }

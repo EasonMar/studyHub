@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <hero></hero>
+    </div>
+    <template id="hero-template">
+        <ul>
+            <li v-for="member in list">
+                {{ member.name }}【{{ member.gender }}】
+            </li>
+        </ul>
+    </template>
+    <script src="./js/vue_1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script>
+        Vue.component('hero',{
+            template: '#hero-template',
+            data: function(){
+                return {
+                    list: []
+                }
+            },
+            // 生命周期：在实例创建完成后被立即调用
+            created: function(){
+                var me = this;
+                // GET /someUrl
+                this.$http.get('http://127.0.0.1/JCYD_PHP/Practice/PHP_basic/vue_request.php').then(response => {
+                    // get body data
+                    me.list = response.body.member;
+                }, response => {
+                    alert('error');
+                    me.list = [];
+                });
+            }
+        });
+        new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>
