@@ -44,7 +44,31 @@
 			deleItem: function(task){
 				console.log(this.items); // 获取组件的items属性
 				console.log(task); // 传入方法的task值[就是items属性内中的其中一个]
-				// this.items.$remove(task); // 不理解？
+				this.items.$remove(task); // 不理解 -- 见官网的解释
+				/**
+				 *List Rendering --> Array Change Detection --> Caveats
+				  Due to limitations of JavaScript, Vue.js cannot detect the following changes to an Array:
+				  When you directly set an item with the index, e.g. vm.items[0] = {};
+				  When you modify the length of the Array, e.g. vm.items.length = 0.
+				  To deal with caveat (1), Vue.js augments observed Arrays with a $set() method:
+
+				  	 // same as `example1.items[0] = ...` but triggers view update
+				  	 example1.items.$set(0, { childMsg: 'Changed!'})
+
+				  To deal with caveat (2), just replace items with an empty array instead.
+
+				  In addition to $set(), Vue.js also augments Arrays with a convenience method $remove(), which searches for and removes an item from target Array by calling splice() internally. So instead of:
+
+				  	 var index = this.items.indexOf(item)
+				  	 if (index !== -1) {
+				  	 this.items.splice(index, 1)
+				  	 }
+
+				  You can just do:
+
+				  	this.items.$remove(item)
+				  
+				**/ 
 			}
 		},
 		computed: {
