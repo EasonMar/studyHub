@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "webpack --mode development"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "vue-async-data": "^1.0.2"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
   }
 }
