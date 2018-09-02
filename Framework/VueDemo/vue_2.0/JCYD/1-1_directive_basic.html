@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue Test</title>
+	<style>
+		body{
+			margin: 50px;
+		}
+	</style>
+	<script type="text/javascript" src="js/vue_v2.5.17.js"></script>
+</head>
+<body>
+	<!-- 原生指令 -->
+	<!-- <div v-on="click:onClick, keyup:onKeyup, keydown:onKeydown"></div> -->
+	
+	<div id="app">
+		<!-- 自定义指令 -->
+		<input v-focus>
+	</div>
+</body>
+<script type="text/javascript">
+	Vue.directive('focus',{
+		inserted: function(el){
+			el.focus(); // HTML DOM focus()方法，很多原生DOM方法都生疏了o(╥﹏╥)o
+		}
+	});
+
+	new Vue({
+		el: '#app'
+	})
+
+	// // 注册
+	// Vue.directive('my-directive', {
+	// 	/**
+	// 	 * 有下面这些钩子函数
+	// 	 */ 
+
+	// 	bind: function () {
+	// 		// 做绑定的准备工作
+	// 		// 比如添加事件监听，或是其他只需要执行一次的复杂操作
+	// 	},
+	// 	inserted: function () {
+	// 		// 被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于document中）
+	// 	},
+	// 	update: function () {
+	// 		// 根据获得的新值执行对应的更新
+	// 		// 对于初始值也会调用一次
+	// 	},
+	// 	componentUpdated: function () {
+	// 		// 被绑定元素所在模板完成一次更新周期时调用
+	// 	},
+	// 	unbind: function () {
+	// 		// 做清理操作
+	// 		// 比如移除bind时绑定的事件监听器
+	// 	}
+	// })
+
+	// // 注册 (指令函数)
+	// Vue.directive('my-directive', function () {
+	// // 这里将会被 `bind` 和 `update` 调用
+	// })
+
+	// // getter，返回已注册的指令
+	// var myDirective = Vue.directive('my-directive')
+</script>
+</html>
