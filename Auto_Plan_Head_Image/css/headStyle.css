@@ -1,0 +1,762 @@
+body {
+    background: #eee;
+}
+
+.none{
+    display: none;
+}
+
+/* 搜索页面 */
+
+.con {
+    width: 94%;
+    margin: 40px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.search {
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px #aaa solid;
+    position: relative;
+}
+
+#search_bar {
+    width: 50%;
+    position: relative;
+    height: 50px;
+    border-radius: 15px;
+    line-height: 50px;
+    padding-left: 20px;
+    border: 1px #ccc solid;
+    float: left;
+    font-size: 20px;
+}
+.search .clearBtn{
+    position: absolute;
+    top: 10px;
+    left: 43.8%;
+    height: 30px;
+    line-height: 28px;
+    color: #999;
+    border-radius: 8px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+/*页面内主按钮*/
+.btn {
+    width: 150px;
+    margin-left: 5%;
+    position: relative;
+    height: 50px;
+    border-radius: 15px;
+    line-height: 50px;
+    background: #5bc0de;
+    cursor: pointer;
+    float: left;
+    color: #fff;
+    text-align: center;
+    font-size: 26px;
+}
+.btn:hover{
+    background: #31b0d5;
+}
+
+.search>.btn{
+    margin-left: 30px;
+    background: #337ab7;
+}
+.search>.btn:hover{
+    background: #286090;
+}
+.btn.upload{
+    background: #337ab7;
+}
+.btn.upload:hover{
+    background: #286090;
+}
+.btn.new{
+    background: #5cb85c;
+}
+.btn.new:hover{
+    background: #449d44;
+}
+
+/*只显示多版本 - 按钮*/
+.btn.multi{
+    font-size: 20px;
+    background: #aaa;
+}
+.btn.multi:hover{
+    background: #999;
+}
+.btn.multi.active{
+    background: #337ab7;
+}
+.btn.multi.active:hover{
+    background: #286090;
+}
+
+.res_num {
+    width: 8%;
+    margin-left: 20px;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    float: left;
+    color: #666;
+    text-align: left;
+    font-size: 16px;
+}
+
+.result {
+    width: 100%;
+    overflow-y: scroll;
+    height: 640px;
+}
+.result.update{
+    height: 560px;
+}
+
+/* 条目文字-超出不换行*/
+.result span.com,.result span.name{
+    white-space: nowrap;
+}
+
+.edit_total{
+    margin: 20px auto 0;
+    width: 50%;
+    overflow: hidden;
+}
+
+/*编辑区域按钮*/
+.edit>.btn{
+    width: 28%;
+    margin-left: 12px;
+    position: relative;
+    height: 36px;
+    border-radius: 8px;
+    line-height: 36px;
+    background: #5bc0de;
+    cursor: pointer;
+    float: left;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+}
+.edit>.btn:hover{
+    background: #31b0d5;
+}
+/*确认 - 按钮*/
+.edit>.btn.confirm{
+    background: #337ab7;
+}
+.edit>.btn.confirm:hover{
+    background: #286090;
+}
+
+/*删除 - 按钮*/
+.edit>.btn.delBtn{
+    background: #d9534f;
+}
+.edit>.btn.delBtn:hover{
+    background: #c9302c;
+}
+/*编辑 - 按钮*/
+.edit>.btn.editBtn{
+    background: #5cb85c;
+}
+.edit>.btn.editBtn:hover{
+    background: #449d44;
+}
+
+/*更新页 - 底部编辑按钮*/
+.update+.edit_total .btn{
+    margin-left: 130px;
+}
+
+li {
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    border-bottom: 1px #ddd solid;
+    overflow: hidden;
+    position: relative;
+}
+
+li>.code {
+    display: inline-block;
+    width: 16%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    color: #222;
+    text-align: center;
+    border-right: 1px #ddd solid;
+}
+
+li>.listcolor,
+li>.com {
+    display: inline-block;
+    width: 9.27%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    color: #222;
+    text-align: center;
+    border-right: 1px #ddd solid;
+}
+
+li > .com {
+    width: 7.5%;
+    font-weight: bold;
+}
+
+li>.listcolor i {
+    background: #fcf1df;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+li>.listcolor .cValue {
+    width: 90px;
+    display: inline-block;
+}
+
+li .name {
+    display: inline-block;
+    width: 22.25%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    color: #222;
+    text-align: center;
+    border-right: 1px #ddd solid;
+}
+
+li .show {
+    display: inline-block;
+    width: 12.36%;
+    height: 40px;
+    line-height: 30px;
+    font-size: 20px;
+    color: #222;
+    text-align: center;
+    position: relative;
+    border-right: 1px #ddd solid;
+}
+
+li .edit {
+    display: inline-block;
+    width: 18.54%;
+    height: 40px;
+    line-height: 30px;
+    font-size: 20px;
+    color: #222;
+    text-align: center;
+    position: relative;
+    vertical-align: middle;
+}
+
+/*li .image {
+    position: absolute;
+    width: 100px;
+    top: 5px;
+    right: 188px;
+    height: 70px;
+    overflow: hidden;
+}*/
+
+li img {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 76px;
+    cursor: pointer;
+}
+
+li img.active {
+    box-shadow: 0 0 10px rgba(0, 0, 255, .8);
+}
+
+.latest>.code {
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+}
+
+.latest>.code:after {
+    content: "latest";
+    position: absolute;
+    top: -16px;
+    right: 106px;
+    color: #fff;
+    background-color: red;
+    width: 36px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 20px;
+    border-radius: 9px;
+    text-align: center;
+}
+
+#preview {
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    background: #fff;
+}
+
+
+/* demo  */
+
+#demo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding-top: 24px;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+#demo .phone {
+    position: relative;
+    width: 472px;
+    height: 888px;
+    overflow: hidden;
+    margin: 0 auto;
+    background: url('../img/iphone.png') no-repeat center;
+    background-size: contain;
+}
+
+#demo .phone .back {
+    background: #fff;
+    width: 375px;
+    height: 666px;
+    position: absolute;
+    top: 115px;
+    left: 49px;
+    overflow: hidden;
+}
+
+#demo .phone .back>img {
+    position: absolute;
+    width: 100%;
+}
+
+#demo .info {
+    margin: 66% 10px 12px;
+    padding: 14px 24px 0;
+    background: #fff;
+    border-radius: 4px;
+    position: relative;
+}
+
+#demo .info-head {
+    position: absolute;
+    left: 50%;
+    background: #fff;
+    overflow: hidden;
+    width: 120px;
+    font-weight: 700;
+    line-height: 28px;
+    border-radius: 14px;
+    margin-left: -60px;
+    z-index: 40;
+    top: -14px;
+    text-align: center;
+    -webkit-box-shadow: 0 2px 5px 2px #d6d6d6;
+}
+
+#demo .info-list {
+    overflow: hidden;
+}
+
+#demo .info-list li {
+    float: left;
+    width: 44%;
+    height: 56px;
+}
+
+#demo .info-list li .content {
+    text-align: center;
+    margin-top: 4px;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+#demo .info-list li .content span {
+    margin: 0 2px;
+}
+
+#demo .info-list li .title {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 8px;
+    line-height: 14px;
+    color: #000;
+}
+
+#demo .info-list li:nth-of-type(1) {
+    margin-right: 6%;
+    border-bottom: solid 1px #e5e5e5;
+}
+
+#demo .info-list li:nth-of-type(2) {
+    border-right: none;
+    margin-left: 6%;
+    border-bottom: solid 1px #e5e5e5;
+}
+
+#demo .info-list li:nth-of-type(3) {
+    border-bottom: none;
+    margin-bottom: 4px;
+    margin-right: 6%;
+}
+
+#demo .info-list li:nth-of-type(4) {
+    border-bottom: none;
+    border-right: none;
+    margin-bottom: 4px;
+    margin-left: 6%;
+}
+
+#demo .info-center {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px;
+    margin-top: -32px;
+    background: white;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#demo .info-detail {
+    display: block;
+    width: 42px;
+    height: 42px;
+    padding: 6px;
+    margin-left: 11px;
+    margin-top: 11px;
+    font-size: 11px;
+    background: #c3cdea;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#demo .info-detail:active {
+    background: #f2f2f2;
+}
+
+#demo .interests-box {
+    width: 100%;
+    background: #fff;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    z-index: 80;
+    height: 420px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#demo .info-arrow {
+    width: 100%;
+    height: 22px;
+    position: relative;
+    overflow: hidden;
+}
+
+#demo .info-arrow-bg {
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    opacity: 0.5;
+    border-radius: 50%;
+    margin-left: -22px;
+    background: #000;
+}
+
+#demo .info-arrow::after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 50%;
+    top: 6px;
+    z-index: 20;
+    margin-left: -6px;
+    border-left: solid 2px #fff !important;
+    border-top: solid 2px #fff !important;
+    -webkit-transform: rotate(225deg);
+    -webkit-transition: transform 0.4s;
+}
+
+#demo .normal-box {
+    background: #fff;
+    margin: 0 10px 12px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+#demo .normal-box .title {
+    height: 52px;
+    line-height: 56px;
+    padding: 0 18px 14px;
+    text-align: center;
+    position: relative;
+}
+
+#demo .normal-box .title-main {
+    font-weight: bold;
+    font-size: 19px;
+}
+
+#demo .normal-box .title .bottom-line {
+    position: absolute;
+    left: 50%;
+    bottom: 0px;
+    width: 90%;
+    height: 1px;
+    -webkit-transform: translate(-50%, 0);
+    background: #e5e5e5;
+}
+
+#demo .normal-box .title .pingan-diseases-mark {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    display: block;
+    width: 44px;
+    height: 22px;
+    line-height: 24px;
+    background: transparent !important;
+    font-size: 12px;
+    text-align: center;
+}
+
+#demo .normal-box .title .pingan-diseases-mark em {
+    position: relative;
+    z-index: 20;
+    font-style: normal;
+}
+
+#demo .normal-box .title .pingan-diseases-mark strong {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    opacity: 0.1;
+    border-radius: 11px 11px;
+    overflow: hidden;
+}
+
+#demo .normal-box .list {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    padding: 0px 18px;
+}
+
+#demo .normal-box .list .item {
+    margin-bottom: 10px;
+}
+
+#demo .normal-box .list .item .content-highlight {
+    font-size: 15px;
+    margin: 0px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#demo .normal-box .list .item .color {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#demo .normal-box .list .item .inner-hyperTitle {
+    font-size: 18px;
+    padding-bottom: 8px;
+}
+
+#demo .normal-box .list .item .inner-title {
+    padding-left: 14px;
+    font-size: 17px;
+    line-height: 22px;
+    font-weight: normal;
+    position: relative;
+}
+
+#demo .normal-box .list .item .inner-title .point {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    position: absolute;
+    left: 2px;
+    top: 8px;
+}
+
+#demo .normal-box .list .item .inner-title.no-after {
+    margin-bottom: 8px;
+}
+
+#demo .normal-box .list .item .inner-list {
+    margin-left: 14px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+
+#demo .normal-box .list .item .inner-list p {
+    font-size: 15px;
+    color: #666666;
+    line-height: 22px;
+    margin-bottom: 4px;
+}
+
+#demo .normal-box .list .huomian-item {
+    margin-bottom: 18px;
+}
+
+#demo .normal-box .list .huomian-item .inner-title {
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 20px;
+    padding-left: 0px;
+}
+
+#demo .normal-box .additional-container {
+    padding-left: 32px;
+    margin-bottom: 30px;
+}
+
+#demo .normal-box .additional-container .item-title {
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: top;
+}
+
+#demo .float-container {
+    position: absolute;
+    display: -webkit-box;
+    width: 100%;
+    vertical-align: top;
+    left: 0px;
+    bottom: 0px;
+    z-index: 60;
+    height: 44px;
+    margin-top: 0px;
+}
+
+#demo .float-container a {
+    width: 100%;
+    display: block;
+    -webkit-box-flex: 1;
+    font-size: 16px;
+    line-height: 18px;
+    padding-top: 8px;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    vertical-align: top;
+    margin: 5px 10px;
+    border-radius: 5px 5px;
+}
+
+#demo .float-container a.care::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 18px;
+    vertical-align: top;
+    margin-top: 0px;
+    background: url('https://assets.xrkcdn.com/frontend-m/v/static/icon_s/icon_customer.png') 0px 0px no-repeat;
+    background-size: 50px;
+    margin-right: 10px;
+}
+
+#demo .is_author .float-container {
+    height: 44px;
+}
+
+.backBtn {
+    width: 10%;
+    height: 50px;
+    background: #3995f3;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    line-height: 50px;
+    text-align: center;
+    margin: 30px auto 0;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+
+li input{
+    display: inline-block;
+    width: 90%;
+    line-height: 30px;
+    font-size:20px;
+    text-align: center;
+}
+
+input[type=text]{
+    border: 1px solid #aaa;
+    border-radius: 6px;
+}
+
+.show input{
+    font-size: 14px;
+}
+
+
+/*placeHolder*/
+::-webkit-input-placeholder { /* WebKit browsers */ 
+    font-size:16px;
+    color: #ccc;
+} 
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+    font-size:16px;
+    color: #ccc;
+} 
+::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+    font-size:16px;
+    color: #ccc;
+} 
+:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+    font-size:16px;
+    color: #ccc;
+}
+
+/*弹框样式修改*/
+#tb_tb .theme_tips_white_con {
+    max-width: 600px!important;
+}
