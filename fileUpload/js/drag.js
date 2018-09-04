@@ -1,6 +1,7 @@
 window.onload = function() {
     var div1 = document.getElementById("div1"),
-        formData;
+        formData,
+        hasImage = false; // 判断是否有图片传入标志位
     
     // 进入
     div1.ondragenter = function() {
@@ -41,8 +42,7 @@ window.onload = function() {
             var name = file.name.replace(/[.][^.]*$/g,'');
             // var name = file.name;
 
-            
-            if (file.type.indexOf('image') != -1) {
+            if (/image/.test(file.type)) {
                 // 预览图片
                 fd.readAsDataURL(file);
                 fd.onload = function() {
@@ -54,17 +54,19 @@ window.onload = function() {
                     fd = null; // 释放当前fd对象
                 }
                 // 不考虑后缀的话，如果name相同，则会被替换掉
-                formData.append(name, file); 
+                formData.append(name, file);
+                hasImage = true;
             } else { 
-
                 console.log(name+"不是图片类型文件，请选择图片进行上传"); 
+                hasImage = false;
             }
         });
+
     }
 
     // 上传图片
     $('.submit').click(function(){
-        if(!formData) return false;
+        if(!hasImage) return false;
         for (var key of formData.keys()) {
            console.log(key); 
         }
@@ -78,10 +80,12 @@ window.onload = function() {
                 console.log(JSON.parse(data));
                 formData = null;
                 message('上传成功！');
+                hasImage = false;
             },
             error: function (returndata) {  
                 console.log(returndata);  
                 message('上传失败！');
+                hasImage = false;
             },
             // 关键配置
             processData: false, // 因为data值是FormData对象,不需要对数据做处理

@@ -2,7 +2,7 @@
 	// 第二种后台
 	
 	if(isset($_FILES["myfile"])){
-		$ret = array();
+		$res = array();
 
 		// DIRECTORY_SEPARATOR是一个PHP常量，代表反斜杠，因为windows系统和linux系统的反斜杠不一样。
 		$uploadDir = 'upload'.DIRECTORY_SEPARATOR;
@@ -15,9 +15,9 @@
 		if(!is_array($_FILES["myfile"]["name"])){
 			$fileName = $_FILES["myfile"]["name"];
 			move_uploaded_file($_FILES["myfile"]["tmp_name"],$dir.$fileName);
-			$ret['file'] = DIRECTORY_SEPARATOR.$uploadDir.$fileName;
+			$res['file'] = DIRECTORY_SEPARATOR.$uploadDir.$fileName;
 		}
 		
-		echo json_encode($ret);
+		echo json_encode($res);
 	}
 ?>

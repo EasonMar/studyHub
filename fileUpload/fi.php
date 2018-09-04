@@ -3,7 +3,7 @@
 	
 	// 输出json给前端
 
-	$ret = array();
+	$res = array();
 	$data = array();
 	// 遍历$_FILES数组
 	foreach ($_FILES as $f) {
