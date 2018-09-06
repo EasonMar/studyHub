@@ -117,6 +117,7 @@ body {
     overflow-y: scroll;
     height: 640px;
 }
+
 .result.update{
     height: 560px;
 }
@@ -759,4 +760,27 @@ input[type=text]{
 /*弹框样式修改*/
 #tb_tb .theme_tips_white_con {
     max-width: 600px!important;
+}
+
+
+/*drag area*/
+
+.drag_area {
+    transition: .3s;
+    width: 96%;
+    height: 400px;
+    border-radius: 10px;
+    border: 2px dashed #999;
+    color: #999;
+    font-size: 30px;
+    text-align: center;
+    line-height: 400px;
+    margin: 30px auto;
+}
+
+.drag_area.dragging{
+    background: #999;
+    color: #fff;
+    border: 6px dashed #fff;
+    font-size: 30px;
 }

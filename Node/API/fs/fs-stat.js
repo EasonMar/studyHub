@@ -35,3 +35,9 @@ fs.stat('./src/cong1.jpg', function (err, stats) {
  *    birthtime: 2018-07-18T09:03:06.692Z 	// 表示文件的创建时间
  * }
  */
+
+// 注意：自动化头图项目中
+// formidable.parse(req, function(err, fields, files){})
+// 其中的files已经带有了mtime这个值, 可以考虑作为创建独立模板图片的时间！
+// 
+// 但是在node端要用files[key].lastModifiedDate.toLocaleDateString()才能取出来！
