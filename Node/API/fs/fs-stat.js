@@ -41,3 +41,5 @@ fs.stat('./src/cong1.jpg', function (err, stats) {
 // 其中的files已经带有了mtime这个值, 可以考虑作为创建独立模板图片的时间！
 // 
 // 但是在node端要用files[key].lastModifiedDate.toLocaleDateString()才能取出来！
+// 
+// 最终还是使用了上传操作时，当前的系统时间

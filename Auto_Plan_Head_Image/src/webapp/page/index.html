@@ -220,8 +220,7 @@ $('.result').on('change', '[name=code]', async function() {
     console.log('head_code change');
 
     // 判断code值在数据库内是否存在
-    // var had = await has_code(_code);
-    var had = false;
+    var had = await has_code(_code);
     if(had){
         theme.tips({
             "word": "<span style='font-size:26px'>此独立模板代码已经存在！</span>",
@@ -345,8 +344,8 @@ $('.upload').click(async function() {
 
     // rebuild基准样式表HCS/head.css
     let rebuild = await rebuild_css();
-    if(rebuild) {
-        // $('form').submit();
+    if(rebuild) {        
+        // 新建FormData，塞入form表单数据
         var uploadFormData = new FormData($('form')[0]);
         // 遍历imageFormData
         for(var pair of imageFormData.entries()) {
