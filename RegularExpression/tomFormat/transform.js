@@ -267,7 +267,30 @@ var data = `安徽 	安庆市	大观区	安庆艾诺体检分院 	大观区皇�
 重庆 	重庆市	江北区	重庆美年大健康江北分院 	江北区海尔路6号9栋  XXXX
 重庆 	重庆市	渝北区	重庆普惠体检分院 	渝北区黄泥磅紫荆路13号佳华世纪城F区1幢2层 XXXX`
 
-var reg = /(.{2,3})\s+(.+[市州区县])\s+(.+[市区旗道镇])\s+(.+[院部店](（.+）)?)\s+(.+)\s+?XXXX/g
-var result = data.replace(reg, `$1  $2  $3 [{"name":"$4","address":"$6"}]`);
 
-fs.writeFileSync('output.txt', result, 'utf-8');
+//         (1省)[空格]( 2市  )   [空格](  3区  )   [空格](4店名 (不捕获分组) )   [空格](5地址)
+// 备注：不捕获分组（可能存在中文括号）) 
+// var reg = /(.{2,3})\s+(.+[市州区县])\s+(.+[市区旗道镇])\s+(.+[院部店](（.+）)?)\s+(.+)\s+?XXXX/g
+// 																	（中括号内不能是空格）
+var reg = /(.{2,3})\s+(.+[市州区县])\s+(.+[市区旗道镇])\s+(.+[院部店](?:（\S+）)?)\s+(.+)\s+?XXXX/g
+
+// 优化正则，使其可以生成能不被parse成json的字符串
+var temp = '[' + data.replace(reg, `{"province":"$1","city":"$2","area":"$3","addr":[{"name":"$4","address":"$5"}]},`);
+var lastdot = temp.lastIndexOf(','); // 最后一个逗号要去除,否则JSON.parse会报错
+var result = temp.substring(0,lastdot) + ']';
+
+// 提取省份的对象
+var provinceJson = {};
+
+// 省份提取
+JSON.parse(result).map(function(data) {
+    let { province, city, area, addr } = data;
+    if(provinceJson.hasOwnProperty(province)){
+    	provinceJson[province].push({city, area, addr});
+    }else{
+    	provinceJson[province] = [{city, area, addr}];
+    }
+});
+
+// 写文档
+fs.writeFileSync('handle.json', JSON.stringify(provinceJson), 'utf-8');
