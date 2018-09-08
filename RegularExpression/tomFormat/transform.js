@@ -292,5 +292,23 @@ JSON.parse(result).map(function(data) {
     }
 });
 
+// fs.writeFileSync('handle.json', JSON.stringify(provinceJson), 'utf-8');
+
+// 市区提取 === 最终结果
+var provincesArr = Object.keys(provinceJson);
+var finalData = {};
+provincesArr.map(function(p){
+	finalData[p] = {};
+	provinceJson[p].map(function(data){
+		let {city, area, addr} = data;
+		if(finalData[p].hasOwnProperty(city)){
+			finalData[p][city][area] = addr;
+		}else{
+			finalData[p][city] = {};
+			finalData[p][city][area] = addr;
+		}
+	})
+});
+
 // 写文档
-fs.writeFileSync('handle.json', JSON.stringify(provinceJson), 'utf-8');
+fs.writeFileSync('complete.json', JSON.stringify(finalData), 'utf-8');
