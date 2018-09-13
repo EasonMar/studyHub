@@ -10,11 +10,12 @@
 <!-- 监听事件的注册必须要放在前面，用脚指头想都知道要这样 -->
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
-	window.onerror = function(){
+	try{
 		if(a==1){}
-
+	}catch(e){
+		console.log(e);
 	}
-if(b==1){}
+	if(b==1){}
 </script>
 <!-- <script type="text/javascript" src="js/index.js"></script> -->
 </html>
