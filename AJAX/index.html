@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax学习</title>
+</head>
+
+<body>
+    <p>
+        <input type="text" id="test-response-text">
+    </p>
+    <p>AJAX is not a programming language.</p>
+    <p>AJAX just uses a combination of:</p>
+    <ul>
+        <li>A browser built-in XMLHttpRequest object (to request data from a web server)</li>
+        <li>JavaScript and HTML DOM (to display or use the data)</li>
+    </ul>
+    <p>The keystone of AJAX is the XMLHttpRequest object.</p>
+    <h2>XMLHttpRequest Object Methods</h2>
+    <table class="w3-table-all notranslate">
+        <tbody>
+            <tr>
+                <th style="width:35%">Method</th>
+                <th style="width:65%">Description</th>
+            </tr>
+            <tr>
+                <td>new XMLHttpRequest()</td>
+                <td>Creates a new XMLHttpRequest object</td>
+            </tr>
+            <tr>
+                <td>abort()</td>
+                <td>Cancels the current request</td>
+            </tr>
+            <tr>
+                <td>getAllResponseHeaders()</td>
+                <td>Returns header information</td>
+            </tr>
+            <tr>
+                <td>getResponseHeader()</td>
+                <td>Returns specific header information</td>
+            </tr>
+            <tr>
+                <td>open(<em>method,url,async,user,psw</em>)</td>
+                <td>Specifies the request<br><br><em>method</em>: the request type GET or POST<br>
+                    <em>url</em>: the file location<br>
+                    <em>async</em>: true (asynchronous) or false (synchronous)<br><em>user</em>: optional user name<br><em>psw</em>:
+                    optional password</td>
+            </tr>
+            <tr>
+                <td>send()</td>
+                <td>Sends the request to the server<br>Used for GET requests</td>
+            </tr>
+            <tr>
+                <td>send(<em>string</em>)</td>
+                <td>Sends the request to the server.<br>Used for POST requests</td>
+            </tr>
+            <tr>
+                <td>setRequestHeader()</td>
+                <td>Adds a label/value pair to the header to be sent</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>XMLHttpRequest Object Properties</h2>
+    <table class="w3-table-all notranslate">
+        <tbody>
+            <tr>
+                <th style="width:35%">Property</th>
+                <th style="width:65%">Description</th>
+            </tr>
+            <tr>
+                <td>onreadystatechange</td>
+                <td>Defines a function to be called when the readyState property changes</td>
+            </tr>
+            <tr>
+                <td>readyState</td>
+                <td>Holds the status of the XMLHttpRequest.<br>
+                    0: request not initialized <br>
+                    1: server connection established<br>
+                    2: request received <br>
+                    3: processing request <br>
+                    4: request finished and response is ready </td>
+            </tr>
+            <tr>
+                <td>responseText</td>
+                <td>Returns the response data as a string</td>
+            </tr>
+            <tr>
+                <td>responseXML</td>
+                <td>Returns the response data as XML data</td>
+            </tr>
+            <tr>
+                <td>status</td>
+                <td>Returns the status-number of a request<br>200: "OK"<br>403: "Forbidden"<br>404: "Not Found"<br>
+                    For a complete list go to the <a href="/tags/ref_httpmessages.asp">Http Messages Reference</a>
+                </td>
+            </tr>
+            <tr>
+                <td>statusText</td>
+                <td>Returns the status-text (e.g. "OK" or "Not Found")</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+<script src='https://assets.xrkcdn.com/framework/js/jquery-2.1.4.js'></script>
+<script>
+    function success(text) {
+        var textarea = document.getElementById('test-response-text');
+        textarea.value = text;
+    }
+    function fail(code) {
+        var textarea = document.getElementById('test-response-text');
+        textarea.value = 'Error code: ' + code;
+    }
+</script>
+<script src="./js/javascriptAJAX.js"></script>
+</html>
