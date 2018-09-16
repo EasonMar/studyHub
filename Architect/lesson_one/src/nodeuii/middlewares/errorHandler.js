@@ -1,8 +1,9 @@
 const errorHandler = {
     error(app, logger) {
+
         app.use(async(ctx, next) => {
             try{
-                // node服务没有错,则直接跑后面的中间件.
+                // node服务没有错,则直接跑后面的中间件. --- 第一个next：最底部的兜底,只要服务器出错,都会跑回到这里
                 await next();
             }catch(error){
                 // console.log(error);
@@ -18,10 +19,12 @@ const errorHandler = {
                 ctx.body = "请求出错(⊙^⊙)…"
             }
         })
+
+
         app.use(async(ctx, next) => {
             await next(); // 为什么next放在最前面？
-            // 想起来了 ---> koa2的awaite next()执行过程是比较特别的，执行完其他中间件后，最后会回来执行next后面的代码！
-            // 所以这里的意思是，先执行后面的中间件，执行完后再回来走下面的部分.
+            // 想起来了 ---> koa2的await next()执行过程是比较特别的，执行完其他中间件后，最后会回来执行next后面的代码！
+            // 所以这里的意思是，先执行后面的中间件，完后再回来走await后面的部分.
             if (404 != ctx.status) return;
             // 腾讯公益404
             ctx.body = '<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js" charset="utf-8" homePageUrl="/" homePageName="回到我的主页"></script>';

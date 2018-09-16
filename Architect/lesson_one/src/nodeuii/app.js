@@ -10,7 +10,7 @@ import polyfill from 'babel-polyfill';
 import errorHandler from './middlewares/errorHandler';
 // 应用log4js
 import log4js from 'log4js';
-// 配置
+// 配置log4js
 log4js.configure({
     appenders: { cheese: { type: 'file', filename: __dirname + '/logs/eason.log' } },
     categories: { default: { appenders: ['cheese'], level: 'error' } }

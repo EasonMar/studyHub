@@ -1,22 +1,29 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
+
+// 进行流清洗(就是tree-shaking)
 const rollup = require('gulp-rollup');
-const replace = require('rollup-plugin-replace');
-const gulpSequence = require('gulp-sequence');
+
+// 清洗过程中，process.env.NODE_ENV默认是拿不到的，所以要使用rollup-plugin-replace来替换其中内容：Replace strings in files while bundling them.
+const replace = require('rollup-plugin-replace'); 
+
+// 因为gulp是异步的，没法确定任务执行的顺序，要使用 gulp-sequence 来强制任务执行顺序：Run a series of gulp tasks in order.
+const gulpSequence = require('gulp-sequence'); 
+
 const eslint = require('gulp-eslint');
 
 // 只编译node不认识的东西即可
 
-let _task = ["builddev"];
-if (process.env.NODE_ENV === 'lint') _task = ["lint"];
+let _tasks = ["builddev"];
+if (process.env.NODE_ENV === 'lint') _tasks = ["lint"];
 
 // 如果是上线环境
 if (process.env.NODE_ENV === 'production') {
-	_task = gulpSequence("buildprod","configclear"); // 返回的是函数
-	gulp.task("default", _task);  // 生产环境不用watch了
+	_tasks = gulpSequence("buildprod","configclean"); // 返回的是函数
+	gulp.task("default", _tasks);  // 生产环境不用watch了
 }else{
-	gulp.task("default", _task, () => {
-		gulp.watch('./src/nodeuii/**/*.js', _task)
+	gulp.task("default", _tasks, () => {
+		gulp.watch('./src/nodeuii/**/*.js', _tasks)
 	})
 }
 
@@ -40,7 +47,7 @@ gulp.task("buildprod", () => {
 })
 
 // 怎么理解这部分？反正输出的是清洗过的config配置文件
-gulp.task('configclear', function() {
+gulp.task('configclean', function() {
     gulp.src('src/nodeuii/**/*.js')
         // transform the files here.
         .pipe(rollup({
