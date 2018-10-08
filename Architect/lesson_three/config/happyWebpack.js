@@ -11,6 +11,7 @@ const happyThreadPool = HappyWebpack.ThreadPool({
     size: os.cpus().length
 })
 
+// 为什么要导出一个数组呢？
 module.exports = [
     new HappyWebpack({
         id: 'happyTS',
