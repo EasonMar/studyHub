@@ -1,8 +1,26 @@
+/* 
+ * 这个CSS3属性基本没应用过！需要学习学习
+ * https://blog.csdn.net/wuyu0920/article/details/80623756
+ * https://www.zhangxinxu.com/wordpress/2017/03/css3-font-face-src-local/
+ */
+@font-face {
+    font-family: 'MyFont';
+    src: url('./Serendity Script.woff2') format('woff2'),
+         url('./Serendity Script.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
 body{
     background: #000;
-    font-size: 50px;
+    font-size: 80px;
 }
+
 .hello {
+    padding-top: 100px;
     color: #fff;
     background: url('./icon.png') no-repeat;
+    font-family: 'MyFont';
 }
+
+
