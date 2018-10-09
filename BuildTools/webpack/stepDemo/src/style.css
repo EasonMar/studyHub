@@ -4,4 +4,5 @@ body{
 }
 .hello {
     color: #fff;
+    background: url('./icon.png') no-repeat;
 }

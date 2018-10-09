@@ -18,3 +18,4 @@ npx webpack --config webpack.config.js  // 指定配置文件
 ```
 npm run build -- --colors
 ```
+6. 整个配置中我们使用 Node 内置的 path 模块，并在它前面加上 __dirname这个全局变量。可以防止不同操作系统之间的文件路径问题，并且可以使相对路径按照预期工作
