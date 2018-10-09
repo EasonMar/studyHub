@@ -18,4 +18,3 @@ npx webpack --config webpack.config.js  // 指定配置文件
 ```
 npm run build -- --colors
 ```
-6. 
