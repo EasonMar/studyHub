@@ -1,0 +1,16 @@
+{
+  "name": "stepDemo",
+  "version": "1.0.0",
+  "description": "webpack guide demo",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
+  }
+}
