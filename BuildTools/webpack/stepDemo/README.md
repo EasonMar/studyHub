@@ -19,3 +19,13 @@ npx webpack --config webpack.config.js  // 指定配置文件
 npm run build -- --colors
 ```
 6. 整个配置中我们使用 Node 内置的 path 模块，并在它前面加上 __dirname这个全局变量。可以防止不同操作系统之间的文件路径问题，并且可以使相对路径按照预期工作
+7. 类似这样的结构会非常有用：以这种方式加载资源，你可以以更直观的方式将模块和资源组合在一起。无需依赖于含有全部资源的 /assets 目录，而是将资源与代码组合在一起。这种配置方式会使你的代码更具备可移植性，因为现有的统一放置的方式会造成所有资源紧密耦合在一起。假如你想在另一个项目中使用 /my-component，只需将其复制或移动到 /components 目录下。只要你已经安装了任何扩展依赖(external dependencies)，并且你已经在配置中定义过相同的 loader，那么项目应该能够良好运行
+```
+- |- /assets
++ |– /components
++ |  |– /my-component
++ |  |  |– index.jsx
++ |  |  |– index.css
++ |  |  |– icon.svg
++ |  |  |– img.png
+```
