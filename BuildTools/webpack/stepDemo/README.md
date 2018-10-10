@@ -29,3 +29,4 @@ npm run build -- --colors
 + |  |  |– icon.svg
 + |  |  |– img.png
 ```
+7. 如果我们更改了我们的一个入口起点的名称，甚至添加了一个新的名称，会发生什么？生成的包将被重命名在一个构建中，但是我们的index.html文件仍然会引用旧的名字。我们用 HtmlWebpackPlugin 来解决这个问题。
