@@ -34,3 +34,4 @@ npm run build -- --colors   // 不知道具体效果是怎样的
 9. Manifest，这个是必须掌握的一个东西！[参考链接](https://webpack.docschina.org/concepts/manifest)
 10. 当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。例如，如果将三个源文件（a.js, b.js 和 c.js）打包到一个 bundle（bundle.js）中，而其中一个源文件包含一个错误，那么堆栈跟踪就会简单地指向到 bundle.js。这并通常没有太多帮助，因为你可能需要准确地知道错误来自于哪个源文件。为了更容易地追踪错误和警告，JavaScript 提供了 `source map` 功能，将编译后的代码映射回原始源代码。如果一个错误来自于 b.js，`source map` 就会明确的告诉你(在开发环境使用)
 11. `webpack-dev-server` 为你提供了一个简单的 web 服务器，并且能够实时重新加载(live reloading)
+12. `webpack-dev-middleware` 是一个容器(wrapper)，它可以把 webpack 处理后的文件传递给一个服务器(server)。对指南中的例子有疑问：为什么有`webpack --watch`的效果？

@@ -19,6 +19,7 @@ module.exports = {
     ],
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'  // 确保文件资源能够在 根目录 下正确访问
     }
 };
