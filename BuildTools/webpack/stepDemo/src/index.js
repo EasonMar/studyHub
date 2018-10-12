@@ -15,13 +15,16 @@ function component() {
     return element;
 }
 
-document.body.appendChild(component());
+let element = component(); // 当 print.js 改变导致页面重新渲染时，重新获取渲染的元素 --- 少了这一句，更改print.js会导致页面刷新？Why,读懂语法就知道why了
+document.body.appendChild(element);
 
 
 // 当 print.js 内部发生变更时可以告诉 webpack 接受更新的模块
 if (module.hot) {
     module.hot.accept('./print.js', function () {
         console.log('Accepting the updated printMe module!');
-        printMe();
+        document.body.removeChild(element);
+        element = component(); // 重新渲染页面后，component 更新 click 事件处理
+        document.body.appendChild(element);
     })
 }
