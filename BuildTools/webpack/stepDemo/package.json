@@ -1,5 +1,8 @@
 {
   "name": "stepDemo",
+  "sideEffects": [
+    "*.css"
+  ],
   "version": "1.0.0",
   "description": "webpack guide demo",
   "private": true,
