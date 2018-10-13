@@ -55,5 +55,10 @@ npm run build -- --colors   // 不知道具体效果是怎样的
 6. 社区还有许多其他 loader 和示例，可以使 HMR 与各种框架和库(library)平滑地进行交互……
 
 ## Tree shaking
-1. tree shaking 是一个术语，通常用于描述移除 JavaScript 上下文中的未引用代码(dead-code)2
+1. tree shaking 是一个术语，通常用于描述移除 JavaScript 上下文中的未引用代码(dead-code)
 2. 在一个纯粹的 ESM 模块世界中，识别出哪些文件有副作用很简单。然而，我们的项目无法达到这种纯度，所以，此时有必要向 webpack 的 compiler 提供提示哪些代码是“纯粹部分”。这种方式是通过 package.json 的 "sideEffects" 属性来实现的。
+
+## 生产环境构建
+1. 开发环境(development)和生产环境(production)的构建目标差异很大。
+- 在开发环境中，我们需要具有强大的、具有实时重新加载(live reloading)或热模块替换(hot module replacement)能力的 source map 和 localhost server。
+- 而在生产环境中，我们的目标则转向于关注更小的 bundle，更轻量的 source map，以及更优化的资源，以改善加载时间。

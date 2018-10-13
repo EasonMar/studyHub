@@ -5,13 +5,11 @@
   ],
   "version": "1.0.0",
   "description": "webpack guide demo",
+  "main": "webpack.config.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch",
-    "start": "webpack-dev-server --open",
-    "server": "node server.js",
-    "build": "webpack"
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +26,7 @@
     "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.4.0",
     "webpack-dev-server": "^3.1.9",
+    "webpack-merge": "^4.1.4",
     "xml-loader": "^1.2.1"
   },
   "dependencies": {
