@@ -49,10 +49,10 @@ npm run build -- --colors   // 不知道具体效果是怎样的
 ## 模块热替换(Hot Module Replacement 或 HMR)
 1. 模块热替换(Hot Module Replacement 或 HMR)是 webpack 提供的最有用的功能之一。它允许在运行时更新各种模块，而无需进行完全刷新。
 2. HMR 不适用于生产环境，这意味着它应当只在开发环境使用。启用此功能实际上相当简单。而我们要做的，就是更新 webpack-dev-server 的配置，和使用 webpack 内置的 HMR 插件。
-3. 的确输出了例子中所描述的log，但是并么有展示出printMe新的输出逻辑？这是什么情况？ --- 后面有说到这个`问题`
-4. 模块热替换可能比较难掌握。为了说明这一点，我们回到刚才的示例中。如果你继续点击示例页面上的按钮，你会发现控制台仍在打印这旧的 printMe 功能。这是因为按钮的 onclick 事件仍然绑定在旧的 printMe 函数上。为了让它与 HRM 正常工作，我们需要使用 module.hot.accept 更新绑定到新的 printMe 函数上
-5. 借助于 style-loader 的帮助，CSS 的模块热替换实际上是相当简单的。当更新 CSS 依赖模块时，此 loader 在后台使用 module.hot.accept 来修补(patch) <style> 标签
-6. 社区还有许多其他 loader 和示例，可以使 HMR 与各种框架和库(library)平滑地进行交互……
+3. 的确输出了例子中所描述的log，但是并么有展示出 `printMe` 新的输出逻辑？这是什么情况？ --- 后面有说到这个`问题`
+4. 模块热替换可能比较难掌握。为了说明这一点，我们回到刚才的示例中。如果你继续点击示例页面上的按钮，你会发现控制台仍在打印这旧的 printMe 功能。这是因为按钮的 onclick 事件仍然绑定在旧的 printMe 函数上。为了让它与 HRM 正常工作，我们需要使用 `module.hot.accept` 更新绑定到新的 printMe 函数上
+5. 借助于 `style-loader` 的帮助，CSS 的模块热替换实际上是相当简单的。当更新 CSS 依赖模块时，此 loader 在后台使用 `module.hot.accept` 来修补(patch) `<style>` 标签
+6. 社区还有许多其他 loader 和示例，可以使 HMR 与各种框架和库(library)平滑地进行交互
 
 ## Tree shaking
 1. tree shaking 是一个术语，通常用于描述移除 JavaScript 上下文中的未引用代码(dead-code)
@@ -62,3 +62,14 @@ npm run build -- --colors   // 不知道具体效果是怎样的
 1. 开发环境(development)和生产环境(production)的构建目标差异很大。
 - 在开发环境中，我们需要具有强大的、具有实时重新加载(live reloading)或热模块替换(hot module replacement)能力的 source map 和 localhost server。
 - 而在生产环境中，我们的目标则转向于关注更小的 bundle，更轻量的 source map，以及更优化的资源，以改善加载时间。
+
+2. 指定环境：可以使用 webpack 内置的 DefinePlugin 为所有的依赖定义这个变量
+```
+技术上讲，NODE_ENV 是一个由 Node.js 暴露给执行脚本的系统环境变量。
+通常用于决定在开发环境与生产环境(dev-vs-prod)下，服务器工具、构建脚本和客户端 library 的行为。
+然而，与预期不同的是，无法在构建脚本 webpack.config.js 中，将 process.env.NODE_ENV 设置为 "production"，请查看 #2537。
+因此，例如 process.env.NODE_ENV === 'production' ? '[name].[hash].bundle.js' : '[name].bundle.js' 这样的条件语句，
+在 webpack 配置文件中，无法按照预期运行。
+```
+
+3. `--optimize-minimize` 标记将在后台引用 `UglifyJSPlugin`。和以上描述的 `DefinePlugin` 实例相同，`--define process.env.NODE_ENV="'production'"` 也会做同样的事情。并且，`webpack -p` 将自动地调用上述这些标记，从而调用需要引入的插件。
