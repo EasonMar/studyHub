@@ -78,5 +78,6 @@ npm run build -- --colors   // 不知道具体效果是怎样的
 1. 代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
 2. 有三种常用的代码分离方法：
 - 入口起点：使用 `entry` 配置手动地分离代码( 如果入口 chunks 之间包含重复的模块，那些重复模块都会被引入到各个 bundle 中。这种方法不够灵活，并且不能将核心应用程序逻辑进行动态拆分代码 )
-- 防止重复：使用 `SplitChunks` 去重和分离 chunk。
+- 防止重复：使用 `SplitChunks` 去重和分离 chunk。( CommonsChunkPlugin 已经从 webpack v4（代号 legato）中移除。想要了解最新版本是如何处理 chunk，请查看 SplitChunksPlugin。The SplitChunks 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk )
 - 动态导入：通过模块的内联函数调用来分离代码。
+3. 
