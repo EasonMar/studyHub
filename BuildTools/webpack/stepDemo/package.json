@@ -1,5 +1,5 @@
 {
-  "name": "stepDemo",
+  "name": "stepdemo",
   "sideEffects": [
     "*.css"
   ],

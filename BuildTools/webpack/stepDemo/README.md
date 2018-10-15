@@ -79,5 +79,16 @@ npm run build -- --colors   // 不知道具体效果是怎样的
 2. 有三种常用的代码分离方法：
 - 入口起点：使用 `entry` 配置手动地分离代码( 如果入口 chunks 之间包含重复的模块，那些重复模块都会被引入到各个 bundle 中。这种方法不够灵活，并且不能将核心应用程序逻辑进行动态拆分代码 )
 - 防止重复：使用 `SplitChunks` 去重和分离 chunk。( CommonsChunkPlugin 已经从 webpack v4（代号 legato）中移除。想要了解最新版本是如何处理 chunk，请查看 SplitChunksPlugin。The SplitChunks 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk )
-- 动态导入：通过模块的内联函数调用来分离代码。
-3. 
+- 动态导入：通过模块的内联函数 `import()` 调用来分离代码。
+```
+动态地加载模块。调用 import() 之处，被作为分离的模块起点，意思是，被请求的模块和它引用的所有子模块，会分离到一个单独的 chunk 中。
+chunkFilename，它决定非入口 chunk 的名称。在注释中使用了 webpackChunkName。这样做会导致我们的 bundle 被命名为 lodash.bundle.js ，而不是 [id].bundle.js 
+```
+3. Prefetching/Preloading modules
+```
+webpack 4.6.0+ adds support for prefetching and preloading.
+Using these inline directives while declaring your imports allows webpack to output “Resource Hint” which tells the browser that for:
+- prefetch: resource is probably needed for some navigation in the future
+- preload: resource might be needed during the current navigation
+```
+4. bundle 分析(bundle analysis) ：如果我们以分离代码作为开始，那么就以检查模块作为结束，分析输出结果是很有用处的。官方分析工具 是一个好的初始选择。
