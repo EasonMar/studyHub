@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+    // 新的配置项：mode
     mode: 'development',
     entry: {
         index: './src/index.js'
@@ -17,5 +18,18 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Caching'
         })
-    ]
+    ],
+    // 新的配置项：optimization
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+        }
+    }
 };
