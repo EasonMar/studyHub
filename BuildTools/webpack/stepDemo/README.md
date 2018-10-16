@@ -102,3 +102,7 @@ Using these inline directives while declaring your imports allows webpack to out
 2. 通过使用 output.filename 进行文件名替换，可以确保浏览器获取到修改后的文件。`[hash]` 替换可以用于在文件名中包含一个构建相关(build-specific)的 hash，但是更好的方式是使用 `[chunkhash]` 替换，在文件名中包含一个 chunk 相关(chunk-specific)的哈希。
 3. webpack 提供了一个优化功能，可以根据提供的选项将运行时代码拆分成单独的块，直接将 `optimization.runtimeChunk` 设置为 `single`，就能创建单个运行时 `bundle(one runtime bundle)`
 4. 将第三方库(library)（例如 lodash 或 react）提取到单独的 `vendor chunk` 文件中，是比较推荐的做法，这是因为，它们很少像本地的源代码那样频繁修改。因此通过实现以上步骤，利用客户端的长效缓存机制，可以通过命中缓存来消除请求，并减少向服务器获取资源，同时还能保证客户端代码和服务器端代码版本一致。 这可以通过使用 `SplitChunksPlugin` 插件的 `cacheGroups` 选项来实现。
+5. 每个 module.id 会基于默认的解析顺序(resolve order)进行增量。也就是说，当解析顺序发生变化，ID 也会随之改变。因此，简要概括：
+- main bundle 会随着自身的新增内容的修改，而发生变化。
+- vendor bundle 会随着自身的 module.id 的修改，而发生变化。
+- manifest bundle 会因为当前包含一个新模块的引用，而发生变化。
