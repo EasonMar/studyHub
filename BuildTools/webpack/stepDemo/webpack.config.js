@@ -8,14 +8,14 @@ module.exports = {
         index: './src/index.js'
     },
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].[chunkhash].js',
         chunkFilename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
-            title: 'index'
+            title: 'Caching'
         })
     ]
 };
