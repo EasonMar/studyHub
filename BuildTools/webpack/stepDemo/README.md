@@ -104,5 +104,5 @@ Using these inline directives while declaring your imports allows webpack to out
 4. 将第三方库(library)（例如 lodash 或 react）提取到单独的 `vendor chunk` 文件中，是比较推荐的做法，这是因为，它们很少像本地的源代码那样频繁修改。因此通过实现以上步骤，利用客户端的长效缓存机制，可以通过命中缓存来消除请求，并减少向服务器获取资源，同时还能保证客户端代码和服务器端代码版本一致。 这可以通过使用 `SplitChunksPlugin` 插件的 `cacheGroups` 选项来实现。
 5. 每个 module.id 会基于默认的解析顺序(resolve order)进行增量。也就是说，当解析顺序发生变化，ID 也会随之改变。因此，简要概括：
 - main bundle 会随着自身的新增内容的修改，而发生变化。
-- vendor bundle 会随着自身的 module.id 的修改，而发生变化。
+- vendor bundle 会随着自身的 module.id 的修改，而发生变化 ( `vendor` 的 hash 发生变化是我们要修复的 )
 - manifest bundle 会因为当前包含一个新模块的引用，而发生变化。
