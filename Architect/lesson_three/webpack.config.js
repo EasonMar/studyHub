@@ -52,7 +52,9 @@ for (let item of files) {
 // 最终webpack配置
 let webpackConfig = {
     entry: _entry,
+    // 这些选项决定了如何处理项目中的不同类型的模块
     module: {
+        // 创建模块时，匹配请求的规则数组。这些规则能够修改模块的创建方式。这些规则能够对模块(module)应用 loader，或者修改解析器(parser)
         rules: [{
             test: /\.ts?$/,
 
@@ -70,7 +72,9 @@ let webpackConfig = {
         ...HappWebpackPlugin,
         new HtmlAfterWebpackPlugin()
     ],
+    // 这些选项能设置模块如何被解析
     resolve: {
+        // 自动解析确定的扩展。能够使用户在引入模块时不带扩展
         extensions: [".ts", ".css"]
     }
 }
