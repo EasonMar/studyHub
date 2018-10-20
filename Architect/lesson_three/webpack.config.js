@@ -33,7 +33,7 @@ for (let item of files) {
         // 需要了解 HtmlWebpackPlugin的API(chunks、minify)
         _plugins.push(new HtmlWebpackPlugin({
             
-            // '../views/'：此相对路径基于webpackConfig.output.path = join(__dirname, './dist/assets')
+            // '../views/'：此配置是基于webpackConfig.output.path = join(__dirname, './dist/assets')而言的
             filename: `../views/${dist}/pages/${template}.html`,
             
             // 此相对路径基于webpack.config.js

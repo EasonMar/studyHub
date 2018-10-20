@@ -11,7 +11,8 @@ const happyThreadPool = HappyWebpack.ThreadPool({
     size: os.cpus().length
 })
 
-// 为什么要导出一个数组呢？
+// 为什么要导出一个数组呢？因为他是作为plugin来用, plugins在webpack配置中就是放在数组内
+// 详细配置需要看happypack的官方文档
 module.exports = [
     new HappyWebpack({
         id: 'happyTS',
@@ -23,5 +24,19 @@ module.exports = [
         		happyPackMode: true
         	}
         }]
+    }),
+    // 处理css
+    new HappyWebpack({
+        id: 'happyCSS',
+        threadPool: happyThreadPool,
+        // 参考官网配置
+        loaders: [{
+                loader: 'css-loader',
+                options: {
+                    importLoaders: 1
+                }
+            },
+            'postcss-loader'
+        ]
     })
 ]

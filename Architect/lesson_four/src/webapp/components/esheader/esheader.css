@@ -1,0 +1,11 @@
+// 要用cssNext来写样式, 告别Less
+:root {
+    --headerColor: blue;
+}
+
+.components-esheader {
+    & h1 {
+        color: yellow;
+        color: var(--headerColor);
+    }
+}

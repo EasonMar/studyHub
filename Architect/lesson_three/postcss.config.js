@@ -1,6 +1,1 @@
-module.exports = {
-    parser: 'sugarss',
-    plugins: {
-        'postcss-preset-env': {}
-    }
-}
+// 第三课这里根本没写东西

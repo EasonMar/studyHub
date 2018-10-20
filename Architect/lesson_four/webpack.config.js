@@ -3,6 +3,7 @@ const merge = require('webpack-merge');  // 需要了解webpack-merge的API
 const HappyWebpackPlugin = require('./config/happyWebpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlAfterWebpackPlugin = require('./config/htmlAfterWebpackPlugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const { join } = require('path');
 
@@ -33,7 +34,7 @@ for (let item of files) {
         // 需要了解 HtmlWebpackPlugin的API(chunks、minify)
         _plugins.push(new HtmlWebpackPlugin({
             
-            // '../views/'：此相对路径基于webpackConfig.output.path = join(__dirname, './dist/assets')
+            // '../views/'：此配置是基于webpackConfig.output.path = join(__dirname, './dist/assets')而言的
             filename: `../views/${dist}/pages/${template}.html`,
             
             // 此相对路径基于webpack.config.js
@@ -57,9 +58,17 @@ let webpackConfig = {
         // 创建模块时，匹配请求的规则数组。这些规则能够修改模块的创建方式。这些规则能够对模块(module)应用 loader，或者修改解析器(parser)
         rules: [{
             test: /\.ts?$/,
-
+            exclude: /node_modules/,
             // 下面的配置并不是路径，而是happypack的使用配置，见happypack官网doc
             use: 'happypack/loader?id=happyTS' // 文件大了才能体现出来
+        },{
+            // 处理CSS - 具体配置需要看extract-text-webpack-plugin官网配置
+            test: /\.css?$/,
+            exclude: /node_modules/,
+            use: ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: 'happypack/loader?id=happyCSS'
+            })
         }]
     },
     output: {
