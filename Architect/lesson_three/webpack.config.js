@@ -1,6 +1,6 @@
 const merge = require('webpack-merge');  // 需要了解webpack-merge的API
 
-const HappWebpackPlugin = require('./config/happyWebpack');
+const HappyWebpackPlugin = require('./config/happyWebpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlAfterWebpackPlugin = require('./config/htmlAfterWebpackPlugin');
 
@@ -69,7 +69,7 @@ let webpackConfig = {
     },
     plugins: [
         ..._plugins,
-        ...HappWebpackPlugin,
+        ...HappyWebpackPlugin,
         new HtmlAfterWebpackPlugin()
     ],
     // 这些选项能设置模块如何被解析

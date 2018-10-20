@@ -42,4 +42,4 @@ webapp
 4. `eslint` 的应用
 ```
 
-6. 问题，并没有处理components --- 第四课的内容
+6. 问题，并没有处理css文件 和 components里的东西 --- 第四课的内容
