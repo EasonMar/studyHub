@@ -27,11 +27,14 @@ new CopyWebpackPlugin([{
     ignore: ['*.js','*.css','*.ts','*.png']
 }),
 ```
-- 压缩css代码, 要在 `postcss.config.js` 中配置
+- 压缩css代码, 在 `postcss.config.js` 中配置, 参考[官方配置文档](https://github.com/michael-ciniawsky/postcss-load-config)
 ```js
-module.exports = {
-  plugins: {
-    'cssnano': {}
-  }
-}
+// 注意, 需要在package.json中配置node环境
+// "client:prod": "cross-env NODE_ENV=production webpack --mode production",
+module.exports = (ctx) => ({
+    plugins: {
+        'postcss-cssnext': {},
+        cssnano: ctx.env === 'production' ? {} : false
+    }
+})
 ```
