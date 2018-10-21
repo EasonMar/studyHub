@@ -11,7 +11,7 @@
     "server:prod": "cross-env NODE_ENV=production gulp",
     "server:lint": "cross-env NODE_ENV=lint gulp",
     "client:dev": "webpack --mode development -w",
-    "client:prod": "webpack --mode production",
+    "client:prod": "cross-env NODE_ENV=production webpack --mode production",
     "start:dev": "cross-env NODE_ENV=development hotnode ./dist/app.js",
     "start:prod": "hotnode ./dist/app.js",
     "docs": "jsdoc ./src/nodeuii/**/*.js -d ./docs/jsdocs"
