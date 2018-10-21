@@ -2,6 +2,7 @@ import Koa from 'koa';
 import config from './config';
 
 import swig from 'koa-swig';
+import koaStatic from 'koa-static';
 import co from 'co';
 import polyfill from 'babel-polyfill';
 import errorHandler from './middlewares/errorHandler';
@@ -18,8 +19,13 @@ log4js.configure({
 });
 const logger = log4js.getLogger('cheese');
 
+// 创建koa实例
 const app = new Koa();
 
+// 配置静态资源目录
+app.use(koaStatic(config.staticDir));
+
+/** 控制反转/依赖注入 **/
 // 创建IOC容器 --- 必须要创造IOC容器
 const container = createContainer();
 // 每一次请求都要new一次类

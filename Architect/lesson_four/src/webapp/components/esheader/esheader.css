@@ -4,7 +4,6 @@
 
 .components-esheader {
     & h1 {
-        color: yellow;
         color: var(--headerColor);
     }
 }

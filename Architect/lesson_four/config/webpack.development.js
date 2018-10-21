@@ -3,6 +3,7 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 module.exports = {
+    devtool: 'inline-source-map',
     plugins:[
         // 处理views/common下的模板
         new CopyWebpackPlugin([{

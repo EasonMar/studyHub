@@ -9,7 +9,7 @@ class IndexController {
     @GET()
     async indexAction(ctx) {
         const result = await this.indexService.getData();
-        ctx.body = await ctx.render('index.html', {
+        ctx.body = await ctx.render('index/pages/index.html', {
             data: result
         });
     }
