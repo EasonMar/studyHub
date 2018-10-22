@@ -38,3 +38,25 @@ module.exports = (ctx) => ({
     }
 })
 ```
+5. 前后端联调
+- 为啥 css 文件的响应头描述该文件是 html：`Content-Type: text/html; charset=utf-8`, 报错 `Resource interpreted as Stylesheet but transferred with MIME type text/html`
+```
+// 经天宇大神指点，问题应该就出在 ‘服务端没有配置静态资源目录’ 上了！
+// 这里选择koa-static 、先安装koa-static
+npm install koa-static
+
+// 在config/index中配置静态资源路径
+"staticDir": path.join(__dirname, '../assets')
+
+// 在app.js内添加配置
+import koaStatic from 'koa-static';
+app.use(koaStatic(config.staticDir));
+
+// 重新构建项目，成功！
+```
+
+6. webpack优化
+- 代码分离
+- 魔术注释
+
+7. tslint(略讲)

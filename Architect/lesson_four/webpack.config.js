@@ -40,8 +40,11 @@ for (let item of files) {
             // 此相对路径基于webpack.config.js
             template: `./src/webapp/views/${dist}/pages/${template}.html`,
             
-            inject: false, // 避免资源被webpack再插入一遍
-            chunks: [entrykey], // Allows you to add only some chunks
+            inject: false, // 避免资源再次被webpack插入一次
+            
+            // 非常重要的一步, 指定了哪些东西可以放在一起：To include only certain chunks you can limit the chunks being used
+            chunks: ["runtime", entrykey], // 如果抽离了runtime, 一定要把它放在最前面, 然后中间是components, 
+            
             minify: { // 压缩
                 collapseWhitespace: _modeflag,
                 removeAttributeQuotes: _modeflag
@@ -75,6 +78,9 @@ let webpackConfig = {
         path: join(__dirname, './dist/assets'),
         publicPath: '/',
         filename: 'scripts/[name].bundle.js'
+    },
+    optimization: {
+        runtimeChunk: 'single'
     },
     plugins: [
         ..._plugins,
