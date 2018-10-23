@@ -6,7 +6,7 @@ import initController from './controllers/index';
 
 import swig from 'koa-swig';
 import co from 'co';
-import polyfill from 'babel-polyfill';
+import 'babel-polyfill';
 import errorHandler from './middlewares/errorHandler';
 // 应用log4js
 import log4js from 'log4js';

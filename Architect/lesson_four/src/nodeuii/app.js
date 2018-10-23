@@ -4,7 +4,7 @@ import config from './config';
 import swig from 'koa-swig';
 import koaStatic from 'koa-static';
 import co from 'co';
-import polyfill from 'babel-polyfill';
+import 'babel-polyfill';
 import errorHandler from './middlewares/errorHandler';
 
 import { createContainer, Lifetime } from 'awilix';
