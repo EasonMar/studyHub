@@ -69,5 +69,5 @@ JSDoc 3 is an API documentation generator for JavaScript, similar to Javadoc or 
 2. 所有前端的东西，应该放到web/webapp里面
 
 ### 为什么需要 import 'babel-polyfill'
-我们发现 `app.js` 内引入了 `pollyfill` ，这是因为后端代码内包含了 `async` 等ES6+函数, babel编译之后会生成 `regeneratorRuntime` 等原生不具备的函数-对象，需要引入 `babel-polyfill` 才能支持这些新API的功能实现！
-- 具体参考 [babel-pollyfill](https://www.babeljs.cn/docs/usage/polyfill/)
+我们发现 `app.js` 内引入了 `polyfill` ，这是因为后端代码内包含了 `async` 等ES6+函数, babel编译之后会生成 `regeneratorRuntime` 等原生不具备的函数-对象，需要引入 `babel-polyfill` 才能支持这些新API的功能实现！
+- 具体参考 [babel-polyfill](https://www.babeljs.cn/docs/usage/polyfill/)
