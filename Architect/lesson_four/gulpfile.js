@@ -1,9 +1,9 @@
 const gulp = require('gulp');
-const babel = require('gulp-babel');
-const rollup = require('gulp-rollup');
-const replace = require('rollup-plugin-replace');
-const gulpSequence = require('gulp-sequence');
-const eslint = require('gulp-eslint');
+const babel = require('gulp-babel');    // 编译
+const rollup = require('gulp-rollup');  // 流清洗
+const replace = require('rollup-plugin-replace');   // rollup 处理流中替换字符串
+const gulpSequence = require('gulp-sequence');      // 保证 gulp 任务顺序
+const eslint = require('gulp-eslint');  // gulp 的 eslint插件      
 
 // 只编译node不认识的东西即可
 
