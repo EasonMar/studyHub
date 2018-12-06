@@ -20,7 +20,7 @@
 
 // 快速排序, A 是数组, n 表示数组的大小
 function quick_sort(A, n) {
-    quick_sort_c(A, 0, n - 1)
+    quick_sort_c(A, 0, n - 1);
 }
 // 快速排序递归函数, p,r 为下标(排序区间的左右边界下标)
 function quick_sort_c(A, p, r) {
@@ -28,9 +28,10 @@ function quick_sort_c(A, p, r) {
     console.log([p, r]);
     if (p >= r) return;
 
-    let q = partition(A, p, r) // 获取分区点
-    quick_sort_c(A, p, q - 1)
-    quick_sort_c(A, q + 1, r)
+    let q = partition(A, p, r) // 获取分区点, 以区分点作为分界, 分成2部分继续分区...
+    console.log('partition point = ' + q);
+    quick_sort_c(A, p, q - 1);
+    quick_sort_c(A, q + 1, r);
 }
 
 /**
@@ -59,25 +60,29 @@ function quick_sort_c(A, p, r) {
  */
 function partition(A, p, r) {
     let pivot = A[r], i = p;
+    console.log('partition');
+    console.log([p, r]);
     for (let j = p; j <= r - 1; j++) {
         if (A[j] < pivot) {
             // swap A[i] with A[j] // 交换,js如何方便的实现数组交换？splice、解构赋值(无需第三个变量的情况下实现2个变量数值交换)？
             [A[i], A[j]] = [A[j], A[i]]; // 使用解构赋值进行数值交换
             i++; // 需要理解好i指针的意义：指向比pivot大的数,并等待跟后面的比pivot小的数交换位置
         }
-        console.log('[i,j,pivot]');
-        console.log([i, j, pivot]);
+        console.log('partition i j');
+        console.log([i, j])
     }
     // swap A[i] with A[r]
     // 遍历完后, i指向的是比pivot大的最左边的数, 且i左边的数都比pivto小
     // A[i]跟pivot对调, 就完成了pivot左边的数比pivot小, 右边的数比pivot大的分区
     [A[i], A[r]] = [A[r], A[i]];
-    return i
+    return i;
 }
 
 // var a = [8,7,6,9,5,10,1,3]; // 8个元素,可以一直两两平分
 // quick_sort(a, 8);
 // var a = [8,7,6,9,5,10]; // 6个元素,拆分一次就变成单数个
 // quick_sort(a, 6);
-var a = [8, 7, 6, 9, 5]; // 5个元素,从一开始就是但数个
-quick_sort(a, 5);
+// var a = [8, 7, 6, 9, 5]; // 5个元素,从一开始就是但数个
+// quick_sort(a, 5);
+var a = [6, 11, 13, 3, 1, 9, 8];
+quick_sort(a, 7)
