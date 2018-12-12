@@ -20,25 +20,26 @@
   <img src="https://i.alipayobjects.com/e/201211/1cqKojb72y.png" width="44" height="44" alt="S">
 </div>
 
+<!-- 引入sea.js -->
 <script src="../sea-modules/seajs/seajs/2.2.0/sea.js"></script>
 <script>
 
   // Set configuration
   seajs.config({
-    base: "../sea-modules/",
+    base: "../sea-modules/", // 设置了根目录
     alias: {
-      "jquery": "jquery/jquery/1.10.1/jquery.js"
+      "jquery": "jquery/jquery/1.10.1/jquery.js"  // 设置 alias-别名
     }
   });
 
   // For development
-  if (location.href.indexOf("?dev") > 0) {
+  // if (location.href.indexOf("?dev") > 0) {
     seajs.use("../static/hello/src/main");
-  }
+  // }
   // For production
-  else {
-    seajs.use("examples/hello/1.0.0/main");
-  }
+  // else {
+  //   seajs.use("examples/hello/1.0.0/main"); // 实际为 sea-modules/examples/...
+  // }
 </script>
 
 </body>
