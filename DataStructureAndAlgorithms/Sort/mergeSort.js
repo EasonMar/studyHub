@@ -34,7 +34,7 @@ function merge_sort_c(A, p, r) {
     // q = Math.floor((p + r) / 2); q成全局变量了, 影响了数组的拆分！！
     let q = Math.floor((p + r) / 2);
 
-    // 分治递归
+    // 分治递归 --- 不是尾递归, 可能会存在很深的调用栈...
     merge_sort_c(A, p, q)
     merge_sort_c(A, q + 1, r)
     // 将 A[p...q] 和 A[q+1...r] 合并为 A[p...r]
@@ -54,8 +54,8 @@ function merge_sort_c(A, p, r) {
  * @param  {Array} R   右半数组区间:[start,end]
  */
 function merge(A, L, R) {
-	console.log('merge info：');
-    console.log([L.toString(),R.toString()]);
+	// console.log('merge info：');
+    // console.log([L.toString(),R.toString()]);
 
 	// 初始化局部变量
     var i = p = L[0], // i = 排序初始位置 = 左半数组 初始位置
