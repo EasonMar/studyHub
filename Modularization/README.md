@@ -1,6 +1,12 @@
 > 本项目旨在探索前端各种模块化方案，获得感性认知
 
-## 主要的模块化方案
+## 前端模块化
+- [前端模块化参考文章链接](https://juejin.im/post/5aaa37c8f265da23945f365c)    
+- 模块化的开发方式可以提高代码复用率，方便进行代码的管理。通常一个文件就是一个模块，有自己的作用域，只向外暴露特定的变量和函数
+- 目前流行的js模块化规范有`CommonJS、AMD、CMD`以及ES6的模块系统`ES6 Module`
+- 参见阮一峰老师的文章 [module-loader](http://es6.ruanyifeng.com/#docs/module-loader#ES6-模块与-CommonJS-模块的差异)
+
+## 各种模块化方案
 1. 直接声明依赖（Directly Defined Dependences）
     - 除了备注描述，什么问题都没解决
 2. 命名空间（Namespace Pattern）
