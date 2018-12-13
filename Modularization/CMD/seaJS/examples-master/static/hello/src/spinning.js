@@ -1,6 +1,15 @@
 define(function(require, exports, module) {
 
-  var $ = require('jquery');
+  var $ = require('jquery'); 
+  /**
+   * 因为seajs.config里定义了jquery的alias,所以这里可以直接使用jquery指代/sea-modules/jquery/jquery/1.10.1/jquery.js
+   * seajs.config({
+   *    base: "../sea-modules/", // 设置了根目录
+   *      alias: {
+   *        "jquery": "jquery/jquery/1.10.1/jquery.js"  // 设置 alias-别名
+   *      }
+   * });
+   */
 
   function Spinning(container) {
     this.container = $(container);
