@@ -1,4 +1,4 @@
-[Seajs-官网](https://seajs.github.io/seajs/docs/)
+[Seajs-官网](https://seajs.github.io/seajs/docs/)      
 [API-快速参考](https://github.com/seajs/seajs/issues/266)
 
 ## 为什么使用 Sea.js ？
