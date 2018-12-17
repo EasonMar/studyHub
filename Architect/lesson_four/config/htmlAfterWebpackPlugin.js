@@ -11,20 +11,20 @@ const pluginName = "HtmlAfterWebpackPlugin";
  * @param {object} data assets资源：data.js是页面中涉及的js、data.css是css
  */
 const assetsHelp = data => {
-    let _css = [], _js = [];
+    let css = [], js = [];
 
     // 资源 wrap 函数，包装在dir对象内
     const dir = {
-        js: item => `<script src="${item}"></script>`,
-        css: item => `<link rel="stylesheet" href="${item}">`
+        jsWrap: item => `<script src="${item}"></script>`,
+        cssWrap: item => `<link rel="stylesheet" href="${item}">`
     }
     for (let jsitem of data.js) {
-        _js.push(dir.js(jsitem))
+        js.push(dir.jsWrap(jsitem))
     }
     for (let cssitem of data.css) {
-        _css.push(dir.css(cssitem))
+        css.push(dir.cssWrap(cssitem))
     }
-    return { _css, _js }
+    return { css, js }
 }
 
 /**

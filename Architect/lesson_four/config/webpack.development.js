@@ -26,7 +26,14 @@ module.exports = {
                 // getPath 可以得到路径, 拦截提取, 放到别的地方去
                 return getPath("styles/[name].css") // getPath有意思的东西，研究研究
             },
-            allChunks: true // 这个不加的话, 会有问题...原因未明
+            allChunks: true // 这个不加的话, 会有问题(见底部)...原因未明
         })
     ]
 }
+
+/** 
+ * ERROR in ./node_modules/style-loader/lib/addStyles.js
+ * Module not found: Error: Can't resolve './urls' in 'D:\Work\XRK\code\demo\Study\Architect\lesson_four\node_modules\style-loader\lib'
+ *  @ ./node_modules/style-loader/lib/addStyles.js 67:14-31
+ *  @ ./src/webapp/components/esheader/esheader.css
+ */
