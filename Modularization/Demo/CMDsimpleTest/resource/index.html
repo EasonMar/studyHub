@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>seajs</h1>
+</body>
+<script src="./sea-debug.js"></script>
+<script>
+    // 感觉自己对seajs.config还很不熟啊！！！ alias、paths的运用完全跟我想的不一样
+    seajs.use(['src/mod/hello'], function (hello) {
+        hello.say();
+    });
+</script>
+</html>
