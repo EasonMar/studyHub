@@ -15,10 +15,11 @@ const happyThreadPool = HappyWebpack.ThreadPool({
 // 详细配置需要看happypack的官方文档
 module.exports = [
     new HappyWebpack({
+        // 在配置文件中设置的与 loader 关联的 id 首先会设置到实例上，为了后续 loader 与 plugin 能进行一对一匹配
         id: 'happyTS',
         threadPool: happyThreadPool, // 共享线程池
-        verbose: true,
-        loaders: [{
+        verbose: true, // 是否输出过程日志
+        loaders: [{  // 因为配置中文件的处理 loader 都指向了 happypack 提供的 loadr ,这里配置的对应文件实际需要运行的 loader
         	path: "ts-loader",
         	query: {
         		happyPackMode: true

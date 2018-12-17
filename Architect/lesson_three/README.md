@@ -30,16 +30,15 @@ webapp
 5. 关键知识点
 ```
 1. webpack:
-- `yargs-parser` 获取命令行参数
-- 解析多页面入口文件，并为每个页面新建 `HtmlWebpackPlugin` 实例，生成html (swig模板)
-- `webpack-merge` 合并各webpack配置
-- `HtmlAfterWebpackPlugin` 编写webpack插件，`htmlWebpackPluginAfterHtmlProcessing` 钩子里，
-  `htmlPluginData` 数据：`htmlPluginData.assets` 、 `htmlPluginData.html`  
-- `HappWebpackPlugin` 加速打包过程，需要明确如何使用happypack
-
+    - yargs-parser 获取命令行参数
+    - 解析多页面入口文件，并为每个页面新建 HtmlWebpackPlugin 实例，生成html (swig模板)
+    - webpack-merge 合并各webpack配置
+    - HtmlAfterWebpackPlugin 编写webpack插件，htmlWebpackPluginAfterHtmlProcessing 钩子里，
+      htmlPluginData 数据：htmlPluginData.assets、htmlPluginData.html  
+    - HappWebpackPlugin 加速打包过程，需要明确如何使用happypack
 2. components和views部分文件夹结构，明确该结构下的构建细节
-3. `postcss`、`cssNext`的应用
-4. `eslint` 的应用
+3. postcss、cssNext的应用
+4. eslint 的应用
 ```
 
 6. 问题，并没有处理css文件 和 components里的东西 --- 第四课的内容

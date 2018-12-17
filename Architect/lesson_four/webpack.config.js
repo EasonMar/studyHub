@@ -79,6 +79,7 @@ let webpackConfig = {
         publicPath: '/',
         filename: 'scripts/[name].bundle.js'
     },
+    // 将运行时的chunk提取出来
     optimization: {
         runtimeChunk: 'single'
     },
