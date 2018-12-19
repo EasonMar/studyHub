@@ -1,0 +1,8 @@
+<footer>
+    <div class="entrance_box">
+        <span class="product_info">产品条款</span>
+    </div>
+    <div class="preview-container">
+        <span data-ga="preview-plan-app" id="preview-plan">生成计划书</span>
+    </div>
+</footer>

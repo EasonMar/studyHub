@@ -1,0 +1,7 @@
+.common-head {
+    display: -webkit-box;
+    height: 51px;
+    background: #fff;
+    line-height: 50px;
+    border-bottom: solid 1px #dedede;
+}
