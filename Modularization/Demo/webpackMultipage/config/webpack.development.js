@@ -5,11 +5,6 @@ const path = require('path');
 module.exports = {
     devtool: 'inline-source-map',
     plugins:[
-        // // 处理views/common下的模板
-        // new CopyWebpackPlugin([{
-        //     from: path.join(__dirname,'../src/webapp/views/common/layout.html'),
-        //     to: '../views/common/layout.html'
-        // }]),
         // 处理components下的模板
         new CopyWebpackPlugin([{
             from: path.join(__dirname,'../src/components'),

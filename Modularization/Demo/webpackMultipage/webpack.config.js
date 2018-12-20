@@ -47,13 +47,18 @@ for (let item of files) {
         // 创建多个 HtmlWebpackPlugin 实例来处理多页面的构建
         // 需要了解 HtmlWebpackPlugin 的 API(chunks、minify)
         _plugins.push(new HtmlWebpackPlugin({
+
             // '../views/'：此配置是基于webpackConfig.output.path = join(__dirname, './dist/assets')而言的
             filename: `./WEB-INF/views/${entrykey}/index.vm`,
+            
             // 此相对路径基于webpack.config.js
             template: `./src/views/${entrykey}/index.vm`,
+            
             inject: false, // 避免资源再次被webpack插入一次
+            
             // 非常重要的一步, 指定了哪些东西可以放在一起：To include only certain chunks you can limit the chunks being used
             chunks: ["runtime", entrykey], // 如果抽离了runtime, 一定要把它放在最前面, 然后中间是components, 
+            
             minify: { // 压缩
                 collapseWhitespace: _modeflag,
                 removeAttributeQuotes: _modeflag
@@ -74,10 +79,24 @@ let webpackConfig = {
             // 处理CSS
             test: /\.css?$/,
             exclude: /node_modules/,
+            include: /src/,
             use: ExtractTextPlugin.extract({
                 fallback: "style-loader",
                 use: "css-loader"
             })
+        }, {
+            // 处理es6+ --- [Cannot find module 'babel-core'](https://github.com/babel/babel-loader)
+            // 需要安装的：npm install -D babel-loader@7 babel-core babel-preset-env babel-preset-stage-0
+            test: /\.js?$/,
+            exclude: /node_modules/,
+            include: /src/,
+            use: {
+                loader: 'babel-loader',
+                query: {
+                    presets: ['env', 'stage-0'] // env转换es6 stage-0转es7
+                }
+            }
+
         }]
     },
 

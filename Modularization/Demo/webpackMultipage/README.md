@@ -9,3 +9,4 @@
 - webpack打包之后，fis3起服务监听构建后的文件夹
 
 ## 组件化
+- components下各组件的vm、js、css统一放置，由js引入所有资源，vm后续直接拷贝

@@ -1,8 +1,3 @@
-/**
- * webpack插件
- */
-
-// const pluginName = "htmlAfterWebpackPlugin"; // 这里是不是错了, 第一个字母应该大写，但是执行貌似没问题
 const pluginName = "HtmlAfterWebpackPlugin";
 
 /**
@@ -27,12 +22,18 @@ const assetsHelp = data => {
 }
 
 /**
- * Webpack插件机制
+ * Webpack插件
+ * - 在 compiler对象 中触发 compilation钩子
+ * - 在 compilation对象 中触发 htmlWebpackPluginAfterHtmlProcessing钩子
+ * - htmlWebpackPluginAfterHtmlProcessing钩子来自哪里:https://cloud.tencent.com/info/5427b02e2c64c49afb4ab98befc3bf3a.html
+ * - 但是在插件的官方github中依然找不到这个钩子(因为官网放置的是@next非正式发布的包,改动比较大)
+ * - 进入下载的html-webpack-plugin的目录，翻源码、及README，终于找到了这个钩子！
  */
 class HtmlAfterWebpackPlugin {
     apply(compiler) {
-        // compiler.hooks.run.tap(pluginName, compilation => { // 这种写法已经不行了 --- 应该是老师没认真读API, 或者我自己没有听清楚课
+        // Tap into compilation hook which gives compilation as argument to the callback function
         compiler.hooks.compilation.tap(pluginName, compilation => {
+            // htmlWebpackPluginAfterHtmlProcessing钩子事件
             compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tap(pluginName, htmlPluginData => {
                 // 获取 webpack 内的 assets，并用资源标签包裹
                 const result = assetsHelp(htmlPluginData.assets);
