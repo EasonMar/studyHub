@@ -1,4 +1,4 @@
-import acss from './a.css';
+import './a.css';
 
 const a = {
 	init(){

@@ -4,8 +4,8 @@ class MyFirstWebpackPlugin {
     }
 
     apply(compiler) {
-        // done: 编译(compilation)完成时执行.
-        compiler.hooks.done.tap('MyFirstWebpackPlugin', () => {
+        // done 生命周期: 编译(compilation)完成时执行.
+        compiler.hooks.done.tap('MyFirstWebpackPlugin', (stats) => {
             console.log('Hello My First Webpack Plugin!');
             console.log(this.options);
         });
