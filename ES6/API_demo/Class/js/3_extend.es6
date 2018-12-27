@@ -15,12 +15,12 @@
  * 
 	class ColorPoint extends Point {
 	   constructor(x, y, color) {
-	      super(x, y); 	 // 调用父类的constructor(x, y) -------- 当super作为函数用的时候,就相当于ES5中的Point.call(this)
+	      super(x, y); 	 // 调用父类的constructor(x, y) --- 当 super 作为 函数 用的时候,就相当于ES5中的 Point.call(this)
 	      this.color = color;
 	   }
 
 	   toString() {
-	      return this.color + ' ' + super.toString();  // 调用父类的toString()  ----- 当super当做对象来用时,就相当于ES5中的Point.prototype.toString.call(this)...
+	      return this.color + ' ' + super.toString();  // 调用父类的toString()  --- 当 super 当做 对象 来用时,就相当于ES5中的 Point.prototype.someMethod.call(this)...
 	   }
 	}
  *
