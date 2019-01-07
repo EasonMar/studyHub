@@ -38,3 +38,8 @@ console.log(u1.match(r2));
 console.log(u2.match(r2));
 console.log(u3.match(r2));
 console.log(u4.match(r2));
+
+// jh写了下面一种思路：先通过判断是否为 static/ common目录下的资源，然后对其进行全盘否定 来反向处理
+// 里面有很多奇葩的分组, 可以先不理会
+// 分析一下为啥这里可以
+var r3 = /^(?!(http(s)?):\/\/(www\.wehotel\.com)(\/\w+)*\/(static|common)*(\/\w+)*\.js)/

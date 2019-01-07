@@ -28,4 +28,26 @@ function add(...inputs) {
     // 链式调用 (因为这里add就是全局的, 可以不用bind(this)来绑定上下文, 但是某些情况下可能需要)
     return add.bind(this);
 }
-// 怎样可以做到result是内部私有变量，然后每次调用都重新计算result值
+// 怎样可以做到result是内部私有变量，然后每次调用都重新计算result值 --- 闭包
+
+
+
+/**
+ * 网上找的参考 - 实测不符合我当前这题
+ */
+function add(...rest) {
+    var sum = 0; // 闭包也是考点！
+
+    sum = rest.reduce((accumulator, currentValue) => accumulator + currentValue, sum);
+
+    function outer(...inrest) {
+        if (inrest.length == 0) {
+            return sum;
+        } else {
+            sum = inrest.reduce((accumulator, currentValue) => accumulator + currentValue, sum);
+            return outer;
+        }
+    }
+    return outer
+}
+console.log(add()(1)(2, 3)()); //6
