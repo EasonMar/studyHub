@@ -1,3 +1,5 @@
+// webpack基本配置文件
+
 'use strict'
 const path = require('path')
 const utils = require('./utils')
@@ -8,6 +10,7 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+// ESLint规则
 const createLintingRule = () => ({
   test: /\.(js|vue)$/,
   loader: 'eslint-loader',
@@ -20,6 +23,7 @@ const createLintingRule = () => ({
 })
 
 module.exports = {
+  // path.resolve：将路径或路径片段处理成绝对路径
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'

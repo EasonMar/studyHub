@@ -1,3 +1,5 @@
+// 构建的 环境变量及其基本变量的配置 写在这里
+
 'use strict'
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
@@ -5,14 +7,15 @@
 const path = require('path')
 
 module.exports = {
+  // 开发环境配置
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    proxyTable: {},
+    assetsSubDirectory: 'static', // 资源子目录 除了index.html，其余的js img css都分在这里
+    assetsPublicPath: '/', // 资源的根目录 - 即output.publicPath对应的值
+    proxyTable: {}, // 定义开发服务器的代理规则
 
-    // Various Dev Server settings
+    // Various Dev Server settings - webpack-dev-server的配置
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
@@ -33,22 +36,24 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'cheap-module-eval-source-map', // This option controls if and how source maps are generated.
+    // source maps are used to enhance the debugging process
 
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
-    cacheBusting: true,
+    cacheBusting: true, // 缓存中断
 
     cssSourceMap: true
   },
 
+  // 生产环境配置
   build: {
-    // Template for index.html
+    // Template for index.html - 对应HtmlWebpackPlugin配置的filename
     index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '../dist'), // 所有输出的根目录, 对应output.path
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 

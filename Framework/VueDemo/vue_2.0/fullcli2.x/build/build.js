@@ -1,12 +1,14 @@
+// build/构建 主流程
+
 'use strict'
 require('./check-versions')()
 
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'production' // 环境设置
 
-const ora = require('ora')
-const rm = require('rimraf')
+const ora = require('ora') // Elegant terminal spinner
+const rm = require('rimraf') // The UNIX command rm -rf for node.
 const path = require('path')
-const chalk = require('chalk')
+const chalk = require('chalk') // Terminal string styling
 const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.prod.conf')

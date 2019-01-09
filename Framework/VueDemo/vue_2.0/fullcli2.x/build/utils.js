@@ -1,3 +1,5 @@
+// 构建的utils/工具箱
+
 'use strict'
 const path = require('path')
 const config = require('../config')
@@ -9,6 +11,9 @@ exports.assetsPath = function (_path) {
     ? config.build.assetsSubDirectory
     : config.dev.assetsSubDirectory
 
+  // path.join：使用平台特定的分隔符把所有 path 片段连接到一起，并规范化生成的路径
+  // path.posix：返回为 POSIX 实现的 path 方法
+  // POSIX：可移植操作系统接口（Portable Operating System Interface of UNIX，缩写为 POSIX ）
   return path.posix.join(assetsSubDirectory, _path)
 }
 
