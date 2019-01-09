@@ -10,6 +10,8 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  // 组件 局部注册
   components: { App },
+  // 填写 用于初始化渲染的 组件
   template: '<App/>'
 })

@@ -80,12 +80,20 @@
         </a>
       </li>
     </ul>
+    <h2>Go to Test</h2>
+    <ul>
+      <li>
+        <router-link to="/components">组件页面</router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
+  // 这个是ES6的新写法：对象的扩展-方法的简写
+  // 等同于 data: function(){...}
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
