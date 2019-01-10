@@ -17,6 +17,7 @@ exports.assetsPath = function (_path) {
   return path.posix.join(assetsSubDirectory, _path)
 }
 
+// 输出跟css相关的各种loader配置 - sourceMap课单独配置
 exports.cssLoaders = function (options) {
   options = options || {}
 
@@ -38,6 +39,7 @@ exports.cssLoaders = function (options) {
   function generateLoaders (loader, loaderOptions) {
     const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
 
+    // 配置loader，形式为[{loader1,option},{loader2,option}]
     if (loader) {
       loaders.push({
         loader: loader + '-loader',
@@ -47,6 +49,7 @@ exports.cssLoaders = function (options) {
       })
     }
 
+    // 是否需要提取css
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (options.extract) {
@@ -84,7 +87,7 @@ exports.styleLoaders = function (options) {
     })
   }
 
-  return output
+  return output // [{test1:regExp1, use:[]},{test2:regExp2, use:[]},...]
 }
 
 exports.createNotifierCallback = () => {

@@ -8,8 +8,7 @@
     <!--injectcss-->
 </head>
 <body>
-    #parse("/components/header/header.vm")
-    #parse("/components/search/search.vm")
+    <div id="app"></div>
 </body>
 <!--injectjs-->
 </html>

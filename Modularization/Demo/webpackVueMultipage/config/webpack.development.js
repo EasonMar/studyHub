@@ -1,18 +1,18 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 module.exports = {
     devtool: 'inline-source-map',
     plugins:[
-        // 处理components下的模板
-        new CopyWebpackPlugin([{
-            from: path.join(__dirname,'../src/components'),
-            to: './WEB-INF/views/components'
-        }],{
-            copyUnmodified: true,
-            ignore: ['*.js','*.css','*.es','*.png']
-        }),
+        // 处理components下的模板 --- 不需要了
+        // new CopyWebpackPlugin([{
+        //     from: path.join(__dirname,'../src/components'),
+        //     to: './WEB-INF/views/components'
+        // }],{
+        //     copyUnmodified: true,
+        //     ignore: ['*.js','*.css','*.es','*.png']
+        // }),
         // 页面刷新
         new LiveReloadPlugin({}),
         
