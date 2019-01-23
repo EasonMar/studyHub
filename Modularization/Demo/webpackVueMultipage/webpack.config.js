@@ -82,15 +82,19 @@ let webpackConfig = {
         use: "css-loader"
       })
     }, {
-      // 处理CSS
+      // 处理Less
       test: /\.less?$/,
       exclude: /node_modules/,
       include: /src/,
-      use: [
-        "vue-style-loader",
-        "css-loader",
-        "less-loader"
-      ]
+      use: ExtractTextPlugin.extract({
+        fallback: "vue-style-loader",
+        use: [
+          "css-loader",
+          "less-loader"
+        ]
+      })
+      // 以上处理都不能把.vue里面对应的样式抽出来~~~
+      // 以上的配置仅仅是处理 .vue 文件之外的样式提取
     }, {
       // 处理es6+ --- [Cannot find module 'babel-core'](https://github.com/babel/babel-loader)
       // 需要安装的：npm install -D babel-loader@7 babel-core babel-preset-env babel-preset-stage-0
@@ -105,7 +109,20 @@ let webpackConfig = {
       }
     }, {
       test: /\.vue$/,
-      loader: 'vue-loader'
+      loader: 'vue-loader',
+      options: {
+        // 在 vue-loaer 里的 option.loader中配置 ExtractTextPlugin 才能提取 .vue 文件中的css
+        // 从fullcli2.x的 utils.js、vue-loader.conf.js 中学习到的
+        loaders: {
+          'less': ExtractTextPlugin.extract({
+            fallback: "vue-style-loader",
+            use: [
+              "css-loader",
+              "less-loader"
+            ]
+          })
+        }
+      }
     }]
   },
 
