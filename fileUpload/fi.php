@@ -1,6 +1,6 @@
 <?php 
 	header("Content-Type:text/html;charset:utf8");//设置文件编码
-	
+	header('Access-Control-Allow-Origin:*');// 允许跨域
 	// 输出json给前端
 
 	$res = array();
