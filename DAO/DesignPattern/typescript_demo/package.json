@@ -1,0 +1,13 @@
+{
+  "name": "design_pattern",
+  "version": "1.0.0",
+  "description": "design pattern demo project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts" : "tsc -w",
+    "stop": "rm -rf ./dist"
+  },
+  "author": "",
+  "license": "ISC"
+}
