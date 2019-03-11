@@ -49,7 +49,7 @@ class Program
     }
 }
 
-// 带装饰的对象
+// 待装饰的对象
 class Person
 {
     // 这是啥？
