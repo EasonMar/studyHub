@@ -62,7 +62,7 @@ class OperationDiv extends Operation{
     }
 }
 
-// 运算工厂 - 进行具体实例化
+// 运算工厂 - 进行具体实例化 - 如果要增加或减少运算方法，这里也是要改动的
 class OperationFactory{
     static createOperate(operate: string): Operation{
         // let oper: Operation = null; // 这样不行, 必须要赋一个 Operation类型的值

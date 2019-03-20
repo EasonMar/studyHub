@@ -89,7 +89,7 @@ class OperationDiv : Operation
     }
 }
 
-// 运算类工厂 - 根据不同条件生成不同的类实例，每个实例都源自Operation类的子类, 继承了Operation类的属性
+// 运算类简单工厂 - 根据不同条件生成不同的类实例，每个实例都源自Operation类的子类, 继承了Operation类的属性
 class OperationFactory
 {
     public static Operation createOperate(string operate)
@@ -127,7 +127,11 @@ class OperationFactory
 // 客户端代码
 private void  Program(){
     Operation oper;
+
+    // 工厂实例化具体运算
     oper = OperationFactory.createOperate("+");
+
+    // 具体运算
     oper.NumberA = 1;
     oper.NumberB = 2;
     double result = oper.getResult();
