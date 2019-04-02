@@ -20,7 +20,7 @@ class Interests{
         this.bottomLineHtml = '';  // 如果有档位的时候, 可能会需要加一条下划线
     }
 
-    // 所有类型的表格都一样
+    // 通用 - 渲染表格框架
     renderTable(){
         console.log('渲染表格');
 
@@ -44,8 +44,35 @@ class Interests{
         <div id="interests-mask" class="gb-mask interests-show"></div>`;
         $(document.body).append(frameworkHtml);
     }
+
+    // 通用 - 渲染表格内容
+    buildTable(){
+        console.log('构建表格')
+
+        var _this = this;
+        _this.tableHtml = 
+        `<table class="fancyTable" id="myTable" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr><th>保单年度</th><th>年末年龄</th>
+                ${window.bonus[0].list.map(v => `<th>${v.title}</th>`).join('')}
+            </thead>
+            <tbody>
+                ${window.bonus.map((v,i)=>`<tr>
+                    <td>${i + 1}</td><td>${v.age}</td>
+                    ${v.list.map(_v=>{
+                        var value = _v.values[_this.dataIndex];
+                        if(/^(\S+)_(.+)$/.test(value)){
+                            return `<td class="${RegExp.$2}">${RegExp.$1}</td>`
+                        }else {
+                            return `<td>${value}</td>`
+                        }
+                    }).join('')}
+                </tr>`).join('')}
+            </tbody>
+        </table>`
+    }
     
-    // 冻结窗格
+    // 通用 - 冻结窗格
     freezeTable(){
         console.log('执行冻结表格');
         // $('#myTable').fixedHeaderTable({
@@ -54,7 +81,7 @@ class Interests{
         // });
     }
 
-    // 基本的事件绑定
+    // 通用 - 基本的事件绑定
     eventBind(){
         console.log('绑定表格事件');
         var _this = this;
@@ -80,6 +107,9 @@ class Interests{
                 _this.initArrow();
             });
         }
+
+        // 档位切换事件
+        this.shiftLevel();
     }
 
     // 初始化指示箭头状态
@@ -104,18 +134,33 @@ class Interests{
         }
     }
 
-    buildTable(){
-        console.log('构建表格')
-    }
-
+    // 特殊样式
     specialStyle(){
         console.log('特殊样式处理')
     }
 
-    levelChange(){
+    // 切换档位
+    shiftLevel(){
         console.log('切换档位')
     }
 
+    // 根据档位重新渲染利益数据
+    reRender(index){
+        var _this = this;
+        // this.fixedColumns是人为组装的被冻结的列 - 所以一行总共有step = list.length + fixedColums 列
+        var step = window.bonus[0].list.length + this.fixedColumns; 
+        var tableData = $('#myTable td');
+        window.bonus.map((val,idx) => {
+            val.list.map((v,i)=>{
+                // step*idx负责定位每一行第一列元素是第几个td
+                // i + _this.fixedColums用于跳过前面被冻结的td ( 这个部分是人为重新组装的，不在val.list内 )
+                tableData.eq(step*idx + i + _this.fixedColumns)
+                         .text(v.values[index])
+            })
+        })
+    }
+
+    // 一些hack的东西
     hacker(){
         console.log('一些hack的鬼东西')
     }
@@ -124,9 +169,10 @@ class Interests{
     start(){
         this.buildTable();
         this.renderTable();
-        this.specialStyle();
         this.freezeTable();
-        this.eventBind()
+        this.specialStyle();
+        this.eventBind();
+        this.hacker();
     }
 }
 
@@ -177,7 +223,6 @@ class DataHandle{
                 _this.focusDataPosition.toDoWithAccountValue.push(i);
             }
         })
-        console.log(_this.focusDataPosition.toDoWithAccountValue);
     }
 
     handle(){
@@ -253,31 +298,6 @@ class OnlyOneBonusTable extends Interests{
         super(fixedColumns, dataIndex);
     }
 
-    buildTable(){
-        var _this = this;
-        console.log(_this.dataIndex);
-        _this.tableHtml = 
-        `<table class="fancyTable" id="myTable" cellpadding="0" cellspacing="0">
-            <thead>
-                <tr><th>保单年度</th><th>年末年龄</th>
-                ${window.bonus[0].list.map(v => `<th>${v.title}</th>`).join('')}
-            </thead>
-            <tbody>
-                ${window.bonus.map((v,i)=>`<tr>
-                    <td>${i + 1}</td><td>${v.age}</td>
-                    ${v.list.map(_v=>{
-                        var value = _v.values[_this.dataIndex];
-                        if(/^(\S+)_(.+)$/.test(value)){
-                            return `<td class="${RegExp.$2}">${RegExp.$1}</td>`
-                        }else {
-                            return `<td>${value}</td>`
-                        }
-                    }).join('')}
-                </tr>`).join('')}
-            </tbody>
-        </table>`
-    }
-
     specialStyle(){
         $("#interests-box").addClass('onlyLevel');
     }
@@ -286,16 +306,31 @@ class OnlyOneBonusTable extends Interests{
 // 表格二 - 多档位、单一维度
 class MultiBonusLevelTable extends Interests{
     constructor(fixedColumns, dataIndex){
-        super(fixedColumns, dataIndex)
+        super(fixedColumns, dataIndex);
+
+        console.log(`构造函数里面多了些特殊的html结构`);
+        this.bottomLineHtml = `<div class="bottom-line"></div>`;
+        // 获取外层页面中的档位按钮html放到这里
+        this.wrapperHtml = `<div class="demo-wrap">${$('.demo-btns')[0].outerHTML}</div>`
     }
 
-    buildLevelBtn(){
-        console.log('构建档位按钮')
-    }
-
-    start(){
-        super.start();
-        console.log('这是MultiLevelTable自己的start');
+    // 切换档位 事件绑定
+    shiftLevel(){
+        console.log('切换表格档位事件绑定')
+        var _this = this;
+        var selector = '#interests-box .btn-container div';
+        var $btns = $(selector);
+        $btns.tap(function(){
+            var $this = $(this)
+            var index = $this.index(selector);
+            if($this.hasClass('active')){
+                return false
+            }else{
+                $btns.attr('class', 'btn');
+                $this.attr('class', 'active color_bg');
+                _this.reRender(index);
+            }
+        },false)
     }
 }
 
@@ -316,6 +351,6 @@ class MultiLevelTable extends Interests{
 +function(){
     var data = new DataHandle(window.bonus[0].list[0].values.length);
     data.handle();
-    var table = new OnlyOneBonusTable(2);
+    var table = new MultiBonusLevelTable(2);
     table.start();
 }();
