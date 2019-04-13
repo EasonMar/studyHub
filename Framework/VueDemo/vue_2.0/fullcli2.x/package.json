@@ -11,6 +11,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^12.1.0",
+    "form-create": "^1.6.3",
+    "iview": "^3.3.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
