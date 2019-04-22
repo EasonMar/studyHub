@@ -7,6 +7,7 @@
     // 单向节点
     class Node {
         // 联合类型（Union Types）：表示取值可以为多种类型中的一种
+        // 有时候需要将一个联合类型的变量指定为一个更加具体的类型，就要用到 "类型断言"
         data: string | null;
         next: Node | null;
         constructor(_data: string | null = null) {
@@ -107,13 +108,16 @@
 
         // 通过数组的方式展示
         // display(): Array<string | null> { // 这里要怎样才能使得 display的返回类型为 Array<string> 呢？
-        display(): Array<string> { // 得在程序里保证temp不为null
+        display(): Array<string> { // 得在程序里保证temp不为null；更好的方式是用 类型断言
             let cur = this.head;
             let temp = [];
             while (cur.next != null) {
                 cur = cur.next; // 先移动一格，因为表头是没有数据的
                 // temp.push(cur.data);
-                cur.data && temp.push(cur.data); // 保证temp内的元素不为null
+
+                // cur.data && temp.push(cur.data); // 保证temp内的元素不为null
+
+                temp.push(<string>cur.data); // 断言cur.data不为null
             }
             console.log(temp); // 临时用作展示
             return temp;
@@ -134,39 +138,41 @@
         }
     }
 
-    // let a = new Linked_list(10)
-    // a.pop()
-    // a.append('111')
-    // a.append('222')
-    // a.append('333')
-    // a.display()
-    // a.pop()
-    // a.display()
-    // a.unshift('555')
-    // a.display()
-    // a.unshift('666')
-    // a.display()
-    // a.length()
-    // a.moveToTop('111')
-    // a.display()
+    function Linked_list_test() {
+        let a = new Linked_list(10)
+        a.pop()
+        a.append('111')
+        a.append('222')
+        a.append('333')
+        a.display()
+        a.pop()
+        a.display()
+        a.unshift('555')
+        a.display()
+        a.unshift('666')
+        a.display()
+        a.length()
+        a.moveToTop('111')
+        a.display()
 
-    // let a = new Linked_list(5)
-    // a.cache('111')
-    // a.display()
-    // a.cache('222')
-    // a.display()
-    // a.cache('333')
-    // a.display()
-    // a.cache('111')
-    // a.display()
-    // a.cache('444')
-    // a.display()
-    // a.cache('555')
-    // a.display()
-    // a.cache('333')
-    // a.display()
-    // a.cache('666')
-    // a.display();
+        let b = new Linked_list(5)
+        b.cache('111')
+        b.display()
+        b.cache('222')
+        b.display()
+        b.cache('333')
+        b.display()
+        b.cache('111')
+        b.display()
+        b.cache('444')
+        b.display()
+        b.cache('555')
+        b.display()
+        b.cache('333')
+        b.display()
+        b.cache('666')
+        b.display();
+    }
 
 
     // 双向节点
@@ -199,7 +205,7 @@
             }
             cur.next = theNew;
 
-            // 处理prev - next 自带为 null
+            // 处理prev - next 默认为 null
             theNew.prev = cur;
         }
 
@@ -208,7 +214,7 @@
             console.log(`unshift DuNode ${_data}`);
             let theNew = new DuNode(_data);
             let theHead = this.head;
-            let theNext = this.head.next
+            let orginFirst = this.head.next;
 
             // 处理next
             theNew.next = theHead.next;
@@ -216,8 +222,8 @@
 
             // 处理prev
             theNew.prev = theHead;
-            if (theNext != null) {
-                theNext.prev = theNew;
+            if (orginFirst != null) {
+                orginFirst.prev = theNew;
             }
         }
 
@@ -230,8 +236,7 @@
             while (cur.next != null) {
                 cur = cur.next;
             }
-            // 要加好多傻逼的条件啊 cur.prev ！= null
-            // 用来证明 cur 不是头节点
+            // 证明链表内存在节点，即 cur 不是 哨兵 this.head
             if (cur.prev) {
                 // 断绝所有联系
                 cur.prev.next = null
@@ -241,8 +246,7 @@
 
         // 将某节点移动道头部
         moveToTop(_data: string): void {
-            let cur = this.head; // 必须从哨兵开始，如果跳过哨兵，就得附加很多条件
-            let orginFirst = this.head.next;
+            let cur = this.head; // 如果跳过哨兵，过程又会有不一样的地方
             let found = false;
             while (cur.next != null) {
                 cur = cur.next;
@@ -254,30 +258,13 @@
 
             // 如果找到了
             if (found) {
-                /* this.head.next = cur;
-
-                if(cur.next){
-                    cur.next.prev = cur.prev
-                }
-
-                // 要加好多傻逼的条件啊 cur.prev ！= null
-                if (cur.prev) {
-                    cur.prev.next = cur.next; // 把原先cur位置给补上
-                    cur.prev = this.head;
-                }
-
-                if (orginFirst) {
-                    orginFirst.prev = cur; // 处理之前首节点的 prev
-                    cur.next = orginFirst; // 如果 orginFirst 不为 null 才进行 cur.next 指向
-                } */
                 this.moveNodeToTop(cur); // 这样功能更细分
-
                 console.log(`move ${_data} to the top`);
             } else {
                 console.log('没有找到此节点！');
             }
         }
-        // 跳过哨兵看看会多了哪些条件
+        // 跳过哨兵看看会有什么不同
         moveToTopDemo(_data: string): void {
             let cur = this.head.next;
             let orginFirst = this.head.next;
@@ -290,25 +277,29 @@
                 cur = cur.next;
             }
 
-            // 如果找到了 - 要证明 cur != null - 跳过哨兵多了这个条件
-            if (found && cur) {
-                // 处理next
-                this.head.next = cur;
+            // 如果找到了 - 可以断言 cur 不为 null
+            if (found) {
+                let found_node = <DuNode>cur;
+                let after_node = found_node.next;
+                let before_node = found_node.prev;
 
-                if(cur.next){
-                    cur.next.prev = cur.prev
+                // 哨兵交接
+                this.head.next = found_node;
+                found_node.prev = this.head;
+
+                // 如果cur不是尾节点, 则要处理其后节点的 prev
+                if (after_node) {
+                    after_node.prev = before_node;
                 }
 
-                // 要加好多傻逼的条件啊 cur.prev ！= null
-                if (cur.prev) {
-                    cur.prev.next = cur.next;
-                    cur.prev = this.head;
+                // 如果cur不是首节点, 则要处理其前节点的 next
+                if (before_node) {
+                    before_node.next = after_node;
                 }
 
-                if (orginFirst) {
-                    orginFirst.prev = cur;
-                    cur.next = orginFirst;
-                }
+                // 如果找到了node，可以断言orginFirst不为null，首节点交接
+                (<DuNode>orginFirst).prev = found_node;
+                found_node.next = orginFirst;
 
                 console.log(`move ${_data} to the top`);
             } else {
@@ -317,30 +308,29 @@
         }
 
         // 传入节点, 并将节点放到首位
-        moveNodeToTop(node: DuNode): void {
+        moveNodeToTop(the_node: DuNode): void {
             let orginFirst = this.head.next;
-            let beforeNode = node.prev;
-            let afterNode = node.next;
+            let beforeNode = the_node.prev;
+            let afterNode = the_node.next;
 
-            this.head.next = node; // 将"哨兵"的next指向node
-            
-            if(afterNode){
-                afterNode.prev = node.prev // 将afterNode的prev指向node的prev
+            this.head.next = the_node; // 将"哨兵"的 next指向 the_node
+            the_node.prev = this.head; // 将 the_node 的 prev指向 "哨兵"
+
+            if (afterNode) {
+                afterNode.prev = beforeNode // 将 afterNode 的 prev指向 the_node原先的 prev
             }
 
-            if(beforeNode){
-                beforeNode.next = node.next; // 将beforeNode的next指向node的next
-                node.prev = this.head;      // 将node的prev指向"哨兵"
+            if (beforeNode) {
+                beforeNode.next = afterNode; // 将 beforeNode 的 next指向 the_node 原先的 next
             }
 
-            if(orginFirst){
-                orginFirst.prev = node; // 将之前"首节点"的prev指向node
-                node.next = orginFirst  // 将node的next指向之前的"首节点"
-            }
+            // 如果找到了the_node，可以断言orginFirst不为null，首节点交接
+            (<DuNode>orginFirst).prev = the_node; // 将之前"首节点"的prev指向the_node
+            the_node.next = orginFirst  // 将the_node的next指向之前的"首节点"
         }
 
         // 查找链表中是否存在某数据
-        find(_data: string): DuNode | null{
+        find(_data: string): DuNode | null {
             let cur = this.head;
             while (cur.next != null) {
                 cur = cur.next;
@@ -377,9 +367,9 @@
         // 数据缓存
         cache(_data: string): void {
             console.log(`cache control ${_data}`);
-            let findNode = this.find(_data);
-            if (findNode) {
-                this.moveNodeToTop(findNode);
+            let found_node = this.find(_data);
+            if (found_node) {
+                this.moveNodeToTop(found_node);
             } else if (this.length() == this.maxlen) {
                 this.pop();
                 this.unshift(_data);
@@ -389,21 +379,65 @@
         }
     }
 
-    let a = new DuLinkedList(5)
-    a.cache('111')
-    a.display()
-    a.cache('222')
-    a.display()
-    a.cache('333')
-    a.display()
-    a.cache('111')
-    a.display()
-    a.cache('444')
-    a.display()
-    a.cache('555')
-    a.display()
-    a.cache('333')
-    a.display()
-    a.cache('666')
-    a.display()
-}()
+    function DuLinkedList_test() {
+        let a = new DuLinkedList(5)
+        a.cache('111')
+        a.display()
+        a.cache('222')
+        a.display()
+        a.cache('333')
+        a.display()
+        a.cache('111')
+        a.display()
+        a.cache('444')
+        a.display()
+        a.cache('555')
+        a.display()
+        a.cache('333')
+        a.display()
+        a.cache('666')
+        a.display()
+    }
+
+    DuLinkedList_test();
+
+    // 判断字符串是否为回文字符串
+    // Given a singly linked list, determine if it is a palindrome.
+    class Linked_list_palindrome extends Linked_list {
+        constructor(_maxlen: number) {
+            super(_maxlen)
+        }
+
+        // 找到链表中点
+        findcenter() {
+            let pointer: Node | null = null; // 慢指针
+            let fast_pointer: Node | null = null; // 快指针
+            let fast_cur: Node | null;
+
+            // 先确定链表长度，必须大于等于2才有回文的可能
+            // 然后看是奇数还是偶数
+            if (this.length() >= 2) {
+                pointer = <Node>this.head.next;
+                // if(pointer){ // 用Typescript经常可能会要求写这种弱智条件！！ -- 可以用断言解决
+                fast_pointer = pointer.next;
+                // }
+                while (fast_pointer != null) {
+                    fast_cur = fast_pointer.next;
+                    if (fast_cur) {
+                        fast_pointer = fast_cur.next
+                        // if(pointer){ // 用Typescript经常可能会要求写这种弱智条件！！ -- 可以用断言解决
+                        pointer = <Node>pointer.next;
+                        // }
+                    }
+                }
+
+            }
+        }
+    }
+
+    function palindrome_test() {
+        let a = new Linked_list_palindrome(5);
+        a.findcenter();
+    }
+
+}();
