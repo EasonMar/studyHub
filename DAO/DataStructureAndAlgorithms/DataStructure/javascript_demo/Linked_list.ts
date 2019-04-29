@@ -440,17 +440,28 @@
             } */
 
             // 优化：减少变量 和 过程
-            let slow : Node | null = null; 
-            let fast : Node | null = null;
+            let slow: Node | null = null;
+            let fast: Node | null = null;
             let head = this.head;
-            if(head.next == null){
+
+            // 空链表
+            if (head.next == null) {
                 console.log(`链表无数据`)
-                return true;
+                return;
             }
-            slow = head.next;
+
+            // ------ compare ------ 
+            // 方案一、在while循环外先跑一步
+            /* slow = head.next;
             // fast = head.next; // 在偶数结点链表时，取下位中点
-            fast = head.next.next; // 在偶数结点链表时，取上位中点
-            while(fast != null && fast.next != null){
+            fast = head.next.next; // 在偶数结点链表时，取上位中点 */
+            // ---------------------
+            // 方案二、可以从头开始
+            slow = head;
+            fast = head;
+            // ------ compare ------ 
+
+            while (fast != null && fast.next != null) {
                 fast = fast.next.next;
                 slow = (<Node>slow).next;
             }
@@ -461,7 +472,7 @@
         // 单链表反序 - 把后者的指针指向当前 --- 非常考验对"指针"的理解和掌握
         // 传入的结点之后的结点反序，默认传入哨兵
         // 双向链表反向应该比较容易
-        reverse(head:Node = this.head) {
+        reverse(head: Node = this.head) {
             /* let last: Node | null = null; // 上一个结点
             let cur = head.next; // 当前结点
             let iteror = head.next; // 下一个结点（记录遍历顺序）
@@ -476,12 +487,52 @@
             // 优化：可以减少一个变量
             let prev: Node | null = null;
             let cur = head.next;
-            while(cur != null){
-                let next : Node | null = cur.next; // 记录正常顺序中的下一结点
+            while (cur != null) {
+                let next: Node | null = cur.next; // 记录正常顺序中的下一结点
                 cur.next = prev;    // 改变当前结点的next指向
                 prev = cur; // 代表"上一个结点"的指针 指向 当前结点 (其上cur就是"当前结点的指针")
                 cur = next; // "当前结点的指针" 指向 正常顺序中的下一结点
             }
+            head.next = prev; // 哨兵/传入结点 指向最后的"当前结点"
+        }
+
+        // 判断某链表是否为回文链表 --- 结合找到链表中点和反向操作
+        is_palindrome() {
+            let head = this.head;
+            // 空链表
+            if (head.next == null) {
+                return true;
+            }
+
+            let prev: Node | null = null;
+            let slow: Node | null = head;
+            let fast: Node | null = head;
+
+            while (fast != null && fast.next != null) {
+                fast = fast.next.next;
+                // 对链表前半部分进行反序操作
+                let next: Node = (<Node>slow.next);
+                slow.next = prev; // bug - 把哨兵给指向空了...
+                prev = slow;
+                slow = next;
+            }
+
+            // 如果为偶数链表，慢指针slow取中间下结点，这样才能跟中间上结点prev作对比，完成全部结点的对比
+            if (fast != null) {
+                slow = slow.next;
+                // bug - prev 还在 slow 的前两个位置，需要调整
+            }
+
+            // 对比链表前后两部分 ---  bug - 待优化：把链表顺序调整回来
+            while (slow != null) {
+                if (slow.data != (<Node>prev).data) {
+                    return false;
+                }
+                slow = slow.next;
+                prev = (<Node>prev).next;
+            }
+
+            return true;
         }
 
         // 创建长度为n的链表
@@ -498,6 +549,8 @@
         a.findcenter();
         a.display();
         a.reverse();
+        a.display();
+        console.log(a.is_palindrome());
         a.display();
     }
     palindrome_test();
