@@ -411,33 +411,35 @@
         // 找到链表中点
         findcenter() {
 
-            /* let pointer: Node | null = null; // 慢指针
-            let fast_pointer: Node | null = null; // 快指针
-            let first_step: Node | null;
-            // 先确定链表长度，必须大于等于2才有回文的可能 -- 不一定，得看定义，好像长度为1也可以？
-            // 然后看链表长度是奇数还是偶数 - 奇数如何、偶数又如何
-            if (this.length() >= 2) {
-                pointer = <Node>this.head.next;
-                // if(pointer){ // 用Typescript经常可能会要求写这种弱智条件！！ -- 可以用断言解决
-                fast_pointer = pointer.next;
-                // }
-                while (fast_pointer != null) {
-                    first_step = fast_pointer.next; // "快指针的第一步"
-                    // 如果"快指针的第一步"不为null，第二步为null，则说明此链表为奇数结点链表
-                    if (first_step) {
-                        fast_pointer = first_step.next
-                        // if(pointer){ // 用Typescript经常可能会要求写这种弱智条件！！ -- 可以用断言解决
-                        pointer = <Node>pointer.next; // 如果在"快指针的第一步"不为null时才推进慢指针，则在偶数结点链表时，此中点为下位中点
-                        // }
-                    } else {
-                        // 如果"快指针的第一步"即为null，说明此链表为偶数结点链表
-                        fast_pointer = null;
-                    }
-                }
-                console.log(`中间结点为: ${pointer.data}`);
-            } else {
-                console.log('长度不够')
-            } */
+            /** 
+             *  let pointer: Node | null = null; // 慢指针
+             *  let fast_pointer: Node | null = null; // 快指针
+             *  let first_step: Node | null;
+             *  // 先确定链表长度，必须大于等于2才有回文的可能 -- 不一定，得看定义，好像长度为1也可以？
+             *  // 然后看链表长度是奇数还是偶数 - 奇数如何、偶数又如何
+             *  if (this.length() >= 2) {
+             *      pointer = <Node>this.head.next;
+             *      // if(pointer){ // 用Typescript经常可能会要求写这种弱智条件！！ -- 可以用断言解决
+             *      fast_pointer = pointer.next;
+             *      // }
+             *      while (fast_pointer != null) {
+             *          first_step = fast_pointer.next; // "快指针的第一步"
+             *          // 如果"快指针的第一步"不为null，第二步为null，则说明此链表为奇数结点链表
+             *          if (first_step) {
+             *              fast_pointer = first_step.next
+             *              // if(pointer){ // 用Typescript经常可能会要求写这种弱智条件！！ -- 可以用断言解决
+             *              pointer = <Node>pointer.next; // 如果在"快指针的第一步"不为null时才推进慢指针，则在偶数结点链表时，此中点为下位中点
+             *              // }
+             *          } else {
+             *              // 如果"快指针的第一步"即为null，说明此链表为偶数结点链表
+             *              fast_pointer = null;
+             *          }
+             *      }
+             *      console.log(`中间结点为: ${pointer.data}`);
+             *  } else {
+             *      console.log('长度不够')
+             *  } 
+             */
 
             // 优化：减少变量 和 过程
             let slow: Node | null = null;
@@ -473,16 +475,18 @@
         // 传入的结点之后的结点反序，默认传入哨兵
         // 双向链表反向应该比较容易
         reverse(head: Node = this.head) {
-            /* let last: Node | null = null; // 上一个结点
-            let cur = head.next; // 当前结点
-            let iteror = head.next; // 下一个结点（记录遍历顺序）
-            while (iteror != null) {
-                cur = iteror; // 保存当前结点（cur指向新的结点）
-                iteror = cur.next; // 储存下一个结点（这时候iteror指向了另一个结点）
-                cur.next = last; // 改变cur.next指向
-                last = cur; // 使用last指向当前结点（供下一轮使用）
-            }
-            head.next = cur; // 哨兵/传入结点 指向最后的"当前结点" */
+            /** 
+             *  let last: Node | null = null; // 上一个结点
+             *  let cur = head.next; // 当前结点
+             *  let iteror = head.next; // 下一个结点（记录遍历顺序）
+             *  while (iteror != null) {
+             *      cur = iteror; // 保存当前结点（cur指向新的结点）
+             *      iteror = cur.next; // 储存下一个结点（这时候iteror指向了另一个结点）
+             *      cur.next = last; // 改变cur.next指向
+             *      last = cur; // 使用last指向当前结点（供下一轮使用）
+             *  }
+             *  head.next = cur; // 哨兵/传入结点 指向最后的"当前结点" 
+             */
 
             // 优化：可以减少一个变量
             let prev: Node | null = null;
@@ -497,9 +501,10 @@
         }
 
         // 判断某链表是否为回文链表 --- 结合找到链表中点和反向操作
-        is_palindrome() {
+        is_palindrome(): Boolean {
             let head = this.head;
-            // 空链表
+
+            // 空链表 
             if (head.next == null) {
                 return true;
             }
@@ -507,45 +512,65 @@
             let prev: Node | null = null;
             let slow: Node | null = head;
             let fast: Node | null = head;
+            let middle: Node; // 用以保存中间结点;
+            let result: Boolean = true;
 
             while (fast != null && fast.next != null) {
                 fast = fast.next.next;
                 // 对链表前半部分进行反序操作
                 let next: Node = (<Node>slow.next);
-                slow.next = prev; // bug - 把哨兵给指向空了...
+                slow.next = prev;
                 prev = slow;
                 slow = next;
             }
 
-            // 如果为偶数链表，慢指针slow取中间下结点，这样才能跟中间上结点prev作对比，完成全部结点的对比
+            // fast != null 表示为偶数链表，这点好容易搞错 --- 仔细看 fast 的迭代方式
+            // 如果是偶数链表，slow要往前走到 下中间结点，prev 要走到 上中结点处， 并且要逆转指向
             if (fast != null) {
+                // 这个操作重复了，考虑封装一下！
+                let next: Node = (<Node>slow.next);
+                slow.next = prev;
+                prev = slow;
+                slow = next;
+                middle = slow;
+            } else { // 如果是奇数链表, slow要往前走一个结点 --- 跳过中间结点
+                middle = slow;
                 slow = slow.next;
-                // bug - prev 还在 slow 的前两个位置，需要调整
             }
 
-            // 对比链表前后两部分 ---  bug - 待优化：把链表顺序调整回来
-            while (slow != null) {
-                if (slow.data != (<Node>prev).data) {
-                    return false;
+            // 对比链表前后两部分，并把链表顺序调整回来
+            while (slow != null && prev != null) {
+                if (slow.data != prev.data) {
+                    result = false;
                 }
+                let next: Node = (<Node>prev.next);
+                prev.next = middle;
+                middle = prev;
                 slow = slow.next;
-                prev = (<Node>prev).next;
+                prev = next;
             }
 
-            return true;
+            // 哨兵重新回归
+            this.head.next = middle;
+
+            return result;
         }
 
-        // 创建长度为n的链表
+        // 创建长度为n的回文链表
         create(num: number) {
             for (let i = 1; i <= num; i++) {
-                this.append('' + i);
+                if (i > Math.floor(num / 2)) {
+                    this.append('' + (num - i + 1));
+                } else {
+                    this.append('' + i);
+                }
             }
         }
     }
 
     function palindrome_test() {
         let a = new Linked_list_palindrome(5);
-        a.create(6);
+        a.create(5);
         a.findcenter();
         a.display();
         a.reverse();
