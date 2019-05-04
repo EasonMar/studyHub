@@ -7,25 +7,25 @@
 
 
 // 表格渲染、冻结、事件绑定
-class Interests{
+class Table{
     constructor(fixedColumns, dataIndex){
         console.log('构造函数');
-        this.fixedColumns = fixedColumns; // 冻结的列数
-        this.dataIndex = dataIndex || 0; // 渲染的利益档位
+        this.fixedColumns = fixedColumns || 2; // 冻结的列数，默认为2
+        this.dataIndex = dataIndex || 0; // 渲染的利益档位，默认为第一档
 
-        // 内部私有变量
+        // 内部私有变量 --- 有些不符合 封闭开放原则. 如果后续又有个什么东西，可能里面的私有变量还得增加
         this.wrapperHtml = '';  // 利益演示表档位按钮html
         this.tableHtml = '';    // 表格html
-        this.multiLevelClass = ''; // 多维度利益演示表 特殊类
+        this.specialClass = ''; // 特殊类名，用于特殊样式：例如多维度利益演示表
         this.bottomLineHtml = '';  // 如果有档位的时候, 可能会需要加一条下划线
     }
 
-    // 通用 - 渲染表格框架
+    // 关键逻辑 - 通用 - 渲染表格框架
     renderTable(){
         console.log('渲染表格');
 
         let frameworkHtml = 
-        `<div id="interests-box" class="interests-box ${this.multiLevelClass}">
+        `<div id="interests-box" class="interests-box ${this.specialClass}">
             <div class="interests-head">
                 <div class="title">
                     <p class="title-main">保障利益演示</p>
@@ -45,7 +45,7 @@ class Interests{
         $(document.body).append(frameworkHtml);
     }
 
-    // 通用 - 渲染表格内容
+    // 关键逻辑 - 通用 - 渲染表格内容
     buildTable(){
         console.log('构建表格')
 
@@ -72,16 +72,16 @@ class Interests{
         </table>`
     }
     
-    // 通用 - 冻结窗格
+    // 关键逻辑 - 通用 - 冻结窗格
     freezeTable(){
         console.log('执行冻结表格');
-        // $('#myTable').fixedHeaderTable({
-        //     footer: false,
-        //     fixedColumns: this.fixedColumns
-        // });
+        $('#myTable').fixedHeaderTable({
+            footer: false,
+            fixedColumns: this.fixedColumns
+        });
     }
 
-    // 通用 - 基本的事件绑定
+    // 关键逻辑 - 通用 - 基本的事件绑定
     eventBind(){
         console.log('绑定表格事件');
         var _this = this;
@@ -112,7 +112,7 @@ class Interests{
         this.shiftLevel();
     }
 
-    // 初始化指示箭头状态
+    // helper - 初始化指示箭头状态
     initArrow(){
         var tab = $('#myTable'),
             tabW = tab.width(),
@@ -134,17 +134,17 @@ class Interests{
         }
     }
 
-    // 特殊样式
+    // 关键逻辑 - 特殊样式
     specialStyle(){
         console.log('特殊样式处理')
     }
 
-    // 切换档位
+    // 关键逻辑 - 切换档位
     shiftLevel(){
         console.log('切换档位')
     }
 
-    // 根据档位重新渲染利益数据
+    // helper - 根据档位重新渲染利益数据
     reRender(index){
         var _this = this;
         // this.fixedColumns是人为组装的被冻结的列 - 所以一行总共有step = list.length + fixedColums 列
@@ -160,7 +160,7 @@ class Interests{
         })
     }
 
-    // 一些hack的东西
+    // 关键逻辑 - 一些hack的东西放这里
     hacker(){
         console.log('一些hack的鬼东西')
     }
@@ -177,13 +177,13 @@ class Interests{
 }
 
 // 换个思路，数据处理另外做
-// 渲染就只管渲染，不要参杂数据处理工作
+// 渲染就只管渲染，不要掺杂数据处理工作
 
 // 数据处理
 // 1. 标记万能账户价值为负数的年份：数据为负数，直接设为'--'
 // 如果万能账户价值已经为'--'了,则后面跟着的生存总利益/身故总利益(领取前)/(领取后)也要变为'--'
 // 2. 寻找需要重点标注的td：生存利益首次大于所交保费总额 的位置
-class DataHandle{
+class Data{
     constructor(length){
         // 需要重点关注的数据对象
         this.focusDataPosition = {
@@ -293,7 +293,7 @@ class DataHandle{
 }
 
 // 表格一 - 单一档位、单一维度
-class OnlyOneBonusTable extends Interests{
+class OnlyOneBonusTable extends Table{
     constructor(fixedColumns, dataIndex){
         super(fixedColumns, dataIndex);
     }
@@ -304,7 +304,7 @@ class OnlyOneBonusTable extends Interests{
 }
 
 // 表格二 - 多档位、单一维度
-class MultiBonusLevelTable extends Interests{
+class MultiBonusLevelTable extends Table{
     constructor(fixedColumns, dataIndex){
         super(fixedColumns, dataIndex);
 
@@ -316,7 +316,7 @@ class MultiBonusLevelTable extends Interests{
 
     // 切换档位 事件绑定
     shiftLevel(){
-        console.log('切换表格档位事件绑定')
+        console.log('多档位、单一维度 切换表格档位事件绑定')
         var _this = this;
         var selector = '#interests-box .btn-container div';
         var $btns = $(selector);
@@ -334,7 +334,7 @@ class MultiBonusLevelTable extends Interests{
     }
 }
 
-// 表格三 - 多档位、单一维度、有分红和万能险
+// 表格三 - 多档位、单一维度、有分红和万能险 --- 这种场景线上貌似不常见了，先不理会，有就再加上即可
 class MultiBonusLevelTableFenWan extends MultiBonusLevelTable{
     constructor(fixedColumns, dataIndex){
         super(fixedColumns, dataIndex)
@@ -342,15 +342,104 @@ class MultiBonusLevelTableFenWan extends MultiBonusLevelTable{
 }
 
 // 表格四 - 多维度表格
-class MultiLevelTable extends Interests{
+class MultiLevelTable extends Table{
     constructor(fixedColumns, dataIndex){
-        super(fixedColumns, dataIndex)
+        super(fixedColumns, dataIndex);
+
+        console.log(`多维度表格，多了些特殊的html结构 和 配置`);
+
+        this.specialClass = 'multiLevel';
+    }
+
+    // helper - 构建利益演示按钮
+    buildBtnHtml(){
+        let bonusBtnContent = ['低','中','高'];
+        let rateBtnContent = ['保证','中档','高档'];
+
+        let bonusIndex = this.pageBtnSelect()[0];
+        let rateIndex = this.pageBtnSelect()[1];
+
+        let bonusBtn = bonusBtnContent.map((v,i) => 
+            `<div class="btn-container">
+                <div class="${i == bonusIndex ? 'active color_bg' : 'btn'}">${v}档</div>
+            </div>`
+        )
+
+        let rateBtn = rateBtnContent.map((v,i) => 
+            `<div class="btn-container">
+                <div class="${i == rateIndex ? 'active color_bg' : 'btn'}">${v}利率</div>
+            </div>`
+        )
+
+        this.wrapperHtml = `
+            <div class="demo-wrap">
+                <div class="demo-btns bonus">
+                    <div class="btn-bonus">选择分红水平</div>
+                    ${bonusBtn.join('')}
+                </div>
+                <div class="demo-btns rate">
+                    <div class="btn-rate">选择万能账户<br/>假定结算利率</div>
+                    ${rateBtn.join('')}
+                </div>
+            </div>`;
+    }
+
+    // helper - 页面档位按钮选择情况 - '分红档位+利率档位'选择情况的字符串构成
+    pageBtnSelect(){
+        // return $('.demo-bonus').val() + $('.demo-rate').val().toString();
+        return '21';
+    }
+
+    // helper - 弹窗档位按钮选择情况 - '分红档位+利率档位'选择情况的字符串构成
+    dialogBtnSelect(){
+        return $(".bonus").find('.active').parent().index('.bonus .btn-container').toString() +
+                $(".rate").find('.active').parent().index('.rate .btn-container');
+    }
+
+    // helper - 根据档位按钮选择情况 - 映射出当前档位利益演示数据所在位置
+    correspondLevel(){
+        // 根据演示指数映射出演示档位
+        let levelHook = ['00', '11', '22', '01', '02', '10', '12', '20', '21', '03', '13', '23']; // 03、13、23：低中高档分红+自定义利率
+        let index = levelHook.indexOf(this.dialogBtnSelect());
+        return index === -1 ? 8 : index; // 默认'21'显示高档分红+中等结算利率
+    }
+
+    // 重写父类的renderTable方法，因为renderTable之前需要把wrapperHtml处理好
+    renderTable(){
+        console.log('重写父类的renderTable方法');
+        this.buildBtnHtml();
+
+        // 父类原先的renderTable方法
+        super.renderTable();
+    }
+
+    // 切换档位 事件绑定
+    shiftLevel(){
+        console.log('多维度表格 切换表格档位事件绑定')
+        var _this = this;
+        var selector = '#interests-box .btn-container div';
+        var $btns = $(selector);
+        $btns.tap(function(){
+            var $this = $(this)
+            if($this.hasClass('active')){
+                return false
+            }else{
+                $this.closest('.demo-btns').find('.btn-container div').attr('class', 'btn')
+                $this.attr('class', 'active color_bg');
+
+                var btnSelected = _this.dialogBtnSelect();
+                var index = _this.correspondLevel(btnSelected);
+                _this.reRender(index);
+            }
+        },false)
     }
 }
 
 +function(){
-    var data = new DataHandle(window.bonus[0].list[0].values.length);
+    var data = new Data(window.bonus[0].list[0].values.length);
     data.handle();
-    var table = new MultiBonusLevelTable(2);
+    // var table = new OnlyOneBonusTable();
+    // var table = new MultiBonusLevelTable();
+    var table = new MultiLevelTable();
     table.start();
 }();
