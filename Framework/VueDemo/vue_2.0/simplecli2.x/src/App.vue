@@ -11,7 +11,8 @@
       v-bind:key="index"
       v-bind:prop_msg="test"/>
     <Form/> -->
-    <BMap/>
+    <!-- <BMap/> -->
+    <OCR/>
   </div>
 </template>
 
@@ -19,6 +20,7 @@
 import Test from './components/Test'
 import Form from './components/Form'
 import BMap from './components/BMap'
+import OCR from './components/OCR'
 export default {
   name: "app",
   data() {
@@ -31,7 +33,7 @@ export default {
       currentColor: 0
     };
   },
-  components: { Test, Form, BMap },
+  components: { Test, Form, BMap, OCR },
   methods: {
     changeColor() {
       let colorSet = [
