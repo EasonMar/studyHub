@@ -1,0 +1,22 @@
+/* CSSTransition 要搭配 必要的样式来使用 
+   .className-enter 
+   .className-enter-active
+   .className-exit
+   .className-exit-active 
+ */
+.fade-enter{
+    opacity: 0;
+}
+
+.fade-enter-active{
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+}

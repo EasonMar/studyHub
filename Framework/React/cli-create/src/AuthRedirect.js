@@ -74,7 +74,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         fakeAuth.isAuthenticated ? (
           <Component {...props} />
         ) : (
-          <Redirect
+          <Redirect // 关键的重定向组件，实现主动跳转功能
             to={{
               pathname: "/login",
               state: { from: props.location }
