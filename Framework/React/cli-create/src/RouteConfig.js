@@ -68,9 +68,9 @@ function RouteWithSubRoutes(route) {
   return (
     <Route
       path={route.path}
-      render={props => (
-        // pass the sub-routes down to keep nesting
-        <route.component {...props} routes={route.routes} />
+      render={props => ( // 这里 props 是由 Route 组件注入的 "location、match、history" 三大对象
+        // pass the sub-routes down to keep nesting  
+        <route.component {...props} routes={route.routes} /> // 组件名也可以动态配置！
       )}
     />
   );
