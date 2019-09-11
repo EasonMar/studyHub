@@ -33,7 +33,7 @@ class ModalSwitch extends Component {
 
   componentWillUpdate(nextProps) {
     let { location } = this.props;
-
+    console.log(`nextProps = ${JSON.stringify(nextProps)}`); // componentWillUpdate生命周期钩子
     // set previousLocation if props.location is not modal
     if (
       nextProps.history.action !== "POP" &&
@@ -123,7 +123,15 @@ function Gallery() {
           key={i.id}
           to={{
             pathname: `/img/${i.id}`,
-            // this is the trick!
+            // this is the trick! --- 把戏
+            /** 
+             * Link property - "to": object
+             * An object that can have any of the following properties:
+             * pathname: A string representing the path to link to.
+             * search: A string representation of query parameters.
+             * hash: A hash to put in the URL, e.g. #a-hash.
+             * state: State to persist to the location. - 要保留到该位置的状态
+             */ 
             state: { modal: true }
           }}
         >
