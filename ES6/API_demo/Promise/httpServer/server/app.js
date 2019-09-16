@@ -3,8 +3,8 @@ const http = require('http');
 let server = http.createServer();
 
 server.on("request", function (req, res) {
-    let body = new Buffer("你好啊");
-    
+    let body = Buffer.from("你好啊");
+    console.log(body.toString());
     res.writeHead(200, {
         "Content-Length": body.length,
         "Content-Type": "text/plain",
