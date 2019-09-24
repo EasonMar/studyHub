@@ -44,10 +44,13 @@ var hw = helloWorldGenerator();
  * ********************************************************************
  * 换言之,Generator 函数是【分段执行】的,yield表达式是暂停执行的标记,而next方法可以恢复执行.
  */
-console.log(hw.next()); // { value: 'hello', done: false } 
-console.log(hw.next()); // { value: 'world', done: false } 
-console.log(hw.next()); // { value: 'ending', done: true } 
-console.log(hw.next()); // { value: undefined, done: true }
+console.group('helloWorldGenerator')
+    console.log(hw.next()); // { value: 'hello', done: false } 
+    console.log(hw.next()); // { value: 'world', done: false } 
+    console.log(hw.next()); // { value: 'ending', done: true } 
+    console.log(hw.next()); // { value: undefined, done: true }
+console.groupEnd()
+
 
 /**
  * 上面代码一共调用了四次next方法.
@@ -73,9 +76,11 @@ console.log(hw.next()); // { value: undefined, done: true }
 
 // myTest - 直接输出hello world
 var HW = helloWorldGenerator();
+console.group('for...of VS Generator')
 for(let h of HW){
   console.log(h);
 }
+console.groupEnd();
 
 /**
  * 总结一下:
@@ -119,7 +124,7 @@ function* gen() {
 }
 /**
  * 上面代码中,yield后面的表达式123 + 456,不会立即求值,只会在【next方法将指针移到这一句】时,才会求值.
- * ------ 证明了：遇到一个yield后,也会执行其后面的表达式.
+ * ------ 证明了：遇到一个yield后,也会执行其后面的表达式. 之前没区分好: yield本身的表达式 和 yield所在的 表达式
  *
  * yield表达式与return语句既有相似之处,也有区别.
  * 相似之处在于,都能返回紧跟在语句后面的那个表达式的值.
@@ -139,7 +144,11 @@ function* gen() {
  *
  * 没有什么意义...反而比普通函数多了一步调用next的环节
  */
-function* f() {console.log('执行了！') }
+function* f() {
+    console.group('Generator函数可以不用yield表达式');
+    console.log('执行了！');
+    console.groupEnd();
+}
 
 var generator = f();
 
@@ -185,12 +194,14 @@ var flat = function*(a) {
     }
 };
 
+console.group('yield表达式【只能用在 Generator 函数里面】');
 for (var f of flat(arr)) {
     console.log(f); // 1, 2, 3, 4, 5, 6
 }
+console.groupEnd();
 
 // myTest：
-// 如果中普通函数,会是怎样的形式...要分成3部分：容器-函数定义-函数执行.
+// 如果是普通函数而非Generator,会是怎样的形式...要分成3部分：容器-函数定义-函数执行.
 // 对比后才发现,Generator一个函数内搞定,而且可以遍历结果,是多么方便、统一.
 var tmp = [];
 let flatNorm = function(a){
@@ -205,24 +216,26 @@ let flatNorm = function(a){
     }
 }
 flatNorm(arr);
+console.group('不知道这是什么部分');
 console.log(tmp);
-
+console.groupEnd()
 
 /**************
  * 另外,yield表达式如果用在【另一个表达式之中】,必须放在【圆括号里面】.
  */
 function* demo1() {
-    // console.log('Hello' + yield); // SyntaxError
-    // console.log('Hello' + yield 123); // SyntaxError
+    // console.log('Hello ' + yield); // SyntaxError
+    // console.log('Hello ' + yield 123); // SyntaxError
 
-    console.log('Hello' + (yield)); // OK
-    console.log('Hello' + (yield 123)); // OK
+    console.log('Hello ' + (yield)); // OK
+    console.log('Hello ' + (yield 123)); // OK
 }
 
-var d1 = demo1(); // 注意：Generator本身不是Iterator,执行后才返回Iterator,其本身是Iterator生成器.
-d1.next();
-d1.next(); // Helloundefined
-d1.next(); // Helloundefined
+var d1 = demo1(); // 注意：Generator本身不是Iterator,执行后才返回Iterator,Generato本身是Iterator生成器.
+d1.next(); // {value: undefined, done: false}; 没有log; ---> 因为遇到了yield语句, 整条代码停止, 返回yield语句的值
+d1.next(); // {value: 123, done: false}; log: Hello undefined; ---> 第一行代码得以运行, 但是本行同理停止, 依然返回yield语句的值
+d1.next(); // {value: undefined, done: true}; log: Hello undefined; ---> 第二行代码运行, 返回 done:true
+// 另外：【yield表达式本身】没有返回值,或者说总是【返回undefined】
 
 
 /*************
@@ -257,7 +270,7 @@ console.log( [...myIterable]); // [1, 2, 3]
 
 /**
  * Generator函数执行后,返回一个【遍历器对象-iterator】.
- * 该对象本身也具有【Symbol.iterator属性】,【执行后返回自身】 == 遍历器对象-iterator.
+ * 该对象本身也具有【Symbol.iterator属性】, 该对象的遍历器对象-iterator === 对象自身.
  */
 
 function* gene(){

@@ -1,7 +1,7 @@
 document.getElementsByTagName('body')[0].innerHTML = `
   <p style="font-size: 90px;margin: 50% 0 0;font-weight: bold;text-align: center;" id="note">3.throw_return</p>`;
 
-
+console.group('1')
 /**
  * Generator.prototype.throw()
  * 
@@ -35,6 +35,7 @@ try {
 }
 // 内部捕获 a
 // 外部捕获 b
+console.groupEnd()
 
 /**
  * 疑问分析：https://segmentfault.com/q/1010000004880307
@@ -67,7 +68,7 @@ var generator = function*() {
 var gene = generator();
 console.log(gene.next()); // Object {value: 0, done: false}
 console.log(gene.throw()); // catch exception...   -- {value: 1, done: false}
-console.log(gene.next()); // {value: 2, done: false}
+console.log(gene.next()); // Object {value: 2, done: false}
 
 
 
@@ -105,6 +106,7 @@ var g2 = function*() {
 };
 var i2 = g2();
 i2.next();
+
 try {
     throw new Error('a');
     throw new Error('b');
@@ -127,10 +129,10 @@ try {
  * 另外,throw命令与g.throw方法是无关的,两者互不影响.
  */
 var gen = function* gen() {
-    yield console.log('hello');
+    yield console.trace('hello'); // 为什么 这个 hello 会在后面重现一次？ 函数、变量提升导致的？
     yield console.log('world');
 }
-
+console.group('hello');
 var g3 = gen();
 g3.next();
 
@@ -139,6 +141,7 @@ try {
 } catch (e) {
     g3.next();
 }
+console.groupEnd();
 // hello
 // world
 /**
@@ -209,8 +212,9 @@ function log(generator) {
     }
     console.log('caller done');
 }
-
+console.group('g4');
 log(g4());
+console.groupEnd();
 // starting generator
 // 第一次运行next方法 { value: 1, done: false }
 
@@ -260,11 +264,13 @@ function* numbers() {
     yield 6;
 }
 var g = numbers();
-g.next() // { value: 1, done: false }
-g.next() // { value: 2, done: false }
-g.return(7) // { value: 4, done: false }
-g.next() // { value: 5, done: false }
-g.next() // { value: 7, done: true }
+console.group('return')
+console.log(g.next()); // { value: 1, done: false }
+console.log(g.next()); // { value: 2, done: false }
+console.log(g.return(7)); // { value: 4, done: false }
+console.log(g.next()); // { value: 5, done: false }
+console.log(g.next()); // { value: 7, done: true }
+console.groupEnd();
 
 /**
  * 上面代码中,调用return方法后,就开始执行finally代码块,然后等到finally代码块执行完,再执行return方法.

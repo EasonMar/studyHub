@@ -6,6 +6,8 @@ document.getElementsByTagName('body')[0].innerHTML = `<p style="font-size: 90px;
  * yield表达式【本身没有返回值】,或者说总是【返回undefined】.
  * next方法可以带一个参数,该参数就会被当作【上一个】yield表达式的【返回值】.
  * 一定要注意是【上一个yield表达式】 --- 从Generator异步的角度去思考为什么是"上一个yield表达式"!
+ * 因为本次yield表达式的执行可能依赖上一次yield表达式的结果
+ * 本次yield表达式的结果不可能影响本次yield运算，这是因果关系问题
  */
 function* f() {
     for (var i = 0; true; i++) {
@@ -15,9 +17,12 @@ function* f() {
     }
 }
 var g = f();
-g.next(); // { value: 0, done: false }  --- console.log未执行
-g.next(); // { value: 1, done: false }  --- console.log执行第一次
-g.next(true); // { value: 0, done: false } --- console.log执行第二次,并且reset得到上一个yield返回值true.
+console.group('1');
+console.log(g.next()); // { value: 0, done: false }  --- console.log未执行, 没有log
+console.log(g.next()); // { value: 1, done: false }  --- console.log执行第一次, log: undefined 0
+console.log(g.next(true)); // { value: 0, done: false } --- console.log执行第二次,并且reset得到上一个yield返回值true, log: true 1
+console.groupEnd();
+
 
 /**
  * 上面代码先定义了一个可以无限运行的 Generator 函数f,
@@ -148,7 +153,8 @@ function* fibonacci() {
  * 通过 Generator 函数为它加上这个接口,就可以用了.
  */
 function* objectEntries(obj) {
-    let propKeys = Reflect.ownKeys(obj);  // Reflect.ownKeys方法用于返回对象的所有属性 -- 用keys也行吧,后面就来了
+    // Reflect.ownKeys方法用于返回对象的所有属性: 基本等同于Object.getOwnPropertyNames与Object.getOwnPropertySymbols之和
+    let propKeys = Reflect.ownKeys(obj);
     for (let propKey of propKeys) {
         yield [propKey, obj[propKey]];
     }
@@ -173,7 +179,7 @@ for (let [key, value] of objectEntries(jane)) {
 function* objectEntriesB() {
     let propKeys = Object.keys(this);
     for (let propKey of propKeys) {
-        yield [propKey, this[propKey]];
+        yield [propKey, this[propKey]]; // yield后表达式的值就是 next()函数 返回对象的 value 值
     }
 }
 
@@ -188,6 +194,8 @@ for (let [key, value] of janeB) {
 /******************************************
  * 除了for...of循环以外,扩展运算符(...)、解构赋值和Array.from方法内部调用的,都是遍历器接口.
  * 这意味着,它们都可以将 Generator 函数返回的 Iterator 对象,作为参数.
+ * 
+ * ---- Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象
  */
 function* numbers() {
     yield 1
