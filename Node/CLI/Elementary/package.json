@@ -1,0 +1,14 @@
+{
+  "name": "elementary",
+  "bin": {
+    "hello": "hello.js",
+    "child": "child.js",
+    "shelljs": "shelljs.js",
+    "yargs": "yargs.js",
+    "yargsConf": "yargsConf.js"
+  },
+  "devDependencies": {
+    "shelljs": "^0.8.3",
+    "yargs": "^14.0.0"
+  }
+}
