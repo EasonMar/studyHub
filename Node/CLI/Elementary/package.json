@@ -8,6 +8,9 @@
     "yargsConf": "yargsConf.js"
   },
   "devDependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^3.0.2",
+    "inquirer": "^7.0.0",
     "shelljs": "^0.8.3",
     "yargs": "^14.0.0"
   }
