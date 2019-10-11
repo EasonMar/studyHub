@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-  
 
-# # 字典：字典是一个key=>value的无序集合，一个key只能对应一个value。
-# # 对应js里面的object-对象
+## ---- 字典：字典是一个key=>value的无序集合，一个key只能对应一个value。
+## ---- 对应js里面的object-对象
 
 # print(type({})) # <type 'dict'> 字典用 {} 表示
 
-# # 定义字典
+## ---- 定义字典
 # d = {'key': 'value'}
 # print(d)
 
-# # key 必须是不可变类型 | value 任意类型
+## ---- key 必须是不可变类型 | value 任意类型
 # {1: 'a', 2: 2, 3: [], 4: {}}
 
 
@@ -65,5 +65,5 @@ d = {1:'a', 2: 'b'}
 d.clear()
 print(d)
 
-# # 拷贝
+## ---- 拷贝
 # {}.copy({}) # 性质同列表篇
