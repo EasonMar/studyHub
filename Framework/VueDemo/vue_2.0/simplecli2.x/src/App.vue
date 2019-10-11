@@ -17,6 +17,9 @@
 </template>
 
 <script>
+/**
+ * 根组件
+ */ 
 import Test from './components/Test'
 import Form from './components/Form'
 import BMap from './components/BMap'
