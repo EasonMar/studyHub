@@ -13,7 +13,8 @@ console.warn(appDirectory);
 
 /**
  * 使用内部的 require() 机制查询模块的位置,
- * 此操作只返回解析后的文件名，不会加载该模块。
+ * 此操作只返回解析后的文件名(绝对路径)，不会加载该模块。
  */
-var b = require.resolve('./path.js')
+var b = require.resolve('./path_join.js')
 console.warn(b);
+// /Users/eason/Documents/study-area/studyHub/Node/API/path_join.js

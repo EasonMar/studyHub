@@ -1,21 +1,21 @@
 const path = require('path');
 
-console.log(path.join(__dirname, '../socket'));
-
-console.log(path.join(__dirname, '..', 'socket'));
-
-
-
-
 /**
- * 1. 对于以/开始的路径片段,path.join只是简单的将该路径片段进行拼接,
- * path.join('/a', '/b') 	// 'a/b'
- * path.resolve('/a', '/b') // '/b'
- * 
- * 而path.resolve将以/开始的路径片段作为根目录,在此之前的路径将会被丢弃,就像是在terminal中使用cd命令一样
- * 
- * 2. path.resolve总是返回一个以相对于当前的工作目录（working directory）的绝对路径
- * path.join('./a', './b') 		// 'a/b'
- * path.resolve('./a', './b') 	// '/Users/username/Projects/webpack-demo/a/b'
+ * path.join：用于连接路径。
+ * 该方法的主要用途在于，会正确使用当前系统的路径分隔符，Unix系统是"/"，Windows系统是"\"。
  *
- */ 
+ * path.join() 方法使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径。
+ * 其拼接是从左往右的
+ *
+ * 零长度的 path 片段会被忽略。 如果连接的路径字符串是零长度的字符串，则返回 '.'，表示当前工作目录。
+ */
+
+console.log(path.join(__dirname, '../socket'));
+console.log(path.join(__dirname, '..', 'socket'));
+// /Users/eason/Documents/study-area/studyHub/Node/socket
+
+console.log(path.join(__dirname, 'socket'));
+// /Users/eason/Documents/study-area/studyHub/Node/API/socket
+
+console.log(path.join('a','b','c','d'));
+// a/b/c/d
