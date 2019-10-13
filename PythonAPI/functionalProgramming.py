@@ -38,6 +38,7 @@ def highOrderFunc():
             return 1
         return 0
     print(sorted(['bob', 'about', 'Zoo', 'Credit'], key=functools.cmp_to_key(cmp_ignore_case3)))
+    print(sorted(['bob', 'about', 'Zoo', 'Credit'], key=lambda a: a.lower())) # 这样也可以, 好好理解sorted中的key
 highOrderFunc()
 
 
@@ -51,7 +52,8 @@ def anonymousFunc():
     # 这样看此内存地址的内容
     print(list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9])))
     print(list(filter(lambda s: s and len(s.strip()) > 0, ['test', None, '', 'str', '  ', 'END'])))
-anonymousFunc()
+# anonymousFunc()
+
 
 
 ### decorator - 装饰器
@@ -74,7 +76,7 @@ def decWithoutParam():
     
     print(factorial(10))
     # -------------------------------------
-decWithoutParam()
+# decWithoutParam()
 
 def decWithParam():
     # ---------- 带参数decorator ----------
@@ -95,7 +97,7 @@ def decWithParam():
         return functools.reduce(lambda x,y: x*y, range(1, n+1))
     print(factorial(10))
     # -------------------------------------
-decWithParam()
+# decWithParam()
 
 def betterDec():
     # ---------- 完善decorator ----------
@@ -117,7 +119,8 @@ def betterDec():
         return functools.reduce(lambda x,y: x*y, range(1, n+1))
     print(factorial.__name__)
     # -------------------------------------
-betterDec()
+# betterDec()
+
 
 
 ### 偏函数
@@ -130,6 +133,8 @@ def partial():
             return 1
         return 0
     sorted_ignore_case = functools.partial(sorted, key=functools.cmp_to_key(c))
+    sorted_ignore_case = functools.partial(sorted, key=lambda a: a.lower()) # 这样也可以, 好好理解sorted中的key
+    
     # sorted_ignore_case = functools.partial(sorted, cmp=c) # python2简单一点, sorted函数不同
     print (sorted_ignore_case(['bob', 'about', 'Zoo', 'Credit']))
     # -------------------------------------
