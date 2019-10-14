@@ -15,7 +15,8 @@ class Utils {
     // 为什么可以在这里访问 requireFrom , Utils类里没有这货, 它的子类 M 才有啊？
     // 虽然并没有单独使用 Utils 这个类（它仅作为一个工具库, 被 M 继承这些方法）, 但是这种写法, 感觉好奇怪
     const current = this.requireFrom(targetDir, path.join(pkgName, "package.json")).version;
-    if (current === lts.trim()) return 2;
+    // lts版本号, 坑爹的带了双引号, 要去掉...
+    if (current === lts.trim().replace(/"/g,'')) return 2;
     return 1;
   }
 

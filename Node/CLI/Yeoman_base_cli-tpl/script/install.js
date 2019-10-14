@@ -6,7 +6,7 @@
 const execSync = require('child_process').execSync // 衍生一个 shell 并在该 shell 中运行命令，当完成时则将 stdout 和 stderr 传给回调函数。
 
 module.exports = async function(pkgName) {
-  pkgName = pkgName || process.argv[3]
+  pkgName = pkgName || process.argv[3] || 'gen-tpl'
   pkgName = pkgName.match(/^gen-/) ? pkgName : `gen-${pkgName}` // 约定带 gen- 前缀, 防止与其他库重名
   const status = this.getInstalledStatus(pkgName, this.dir.tpl)
   if (status === 2) {

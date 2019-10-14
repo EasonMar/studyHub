@@ -12,7 +12,8 @@ const pkg = require('./package.json')
 const execSync = require('child_process').execSync // 衍生一个 shell 并在该 shell 中运行命令，当完成时则将 stdout 和 stderr 传给回调函数。
 const args = minimist(process.argv)
 const cmdDirName = 'script' // 把命令单独封装为文件，放到 script 文件夹中
-const tplDir = path.resolve(homeDir, '.maoda') // 模板所在目录
+// const tplDir = path.resolve(homeDir, '.maoda') // 模板插件包将要安装的目录
+const tplDir = path.resolve(__dirname, '..', 'Template') // 模板插件包将要安装的目录
 const Utils = require('./utils')
 
 class M extends Utils { // 继承Utils
@@ -27,8 +28,15 @@ class M extends Utils { // 继承Utils
     // 读取script文件夹下的js脚本
     const cmdArr = fs.readdirSync(path.resolve(__dirname, cmdDirName)).map(item => item.split('.')[0])
     
+    // 如果没有传入参数, 则提示(最好是转到 -h, 这里没有写 -h)
+    if(args._.length < 3) {
+      this.console(`请输入要执行的命令\n本来应该列一个help文档的\n但是作者太懒\nanyway\n请使用以下命令`, 'red')
+      this.console(`dcli + ${JSON.stringify(cmdArr)}`, 'green')
+      return
+    }
+
     // 判断输入的命令是否存在
-    if (!cmdArr.includes(process.argv[2])) throw new Error(`没有该命令 ${process.argv[2]}，请使用以下命令 JSON.stringify(cmdArr)`)
+    if (!cmdArr.includes(process.argv[2])) throw new Error(`没有该命令 ${process.argv[2]}，请使用以下命令 ${JSON.stringify(cmdArr)}`)
     
     // 找到对应命令的js脚本
     const cmd = require(path.resolve(__dirname, cmdDirName, process.argv[2]))
