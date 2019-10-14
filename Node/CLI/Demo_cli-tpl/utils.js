@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const execSync = require("child_process").execSync;
+const execSync = require("child_process").execSync; // 衍生一个 shell 并在该 shell 中运行命令，当完成时则将 stdout 和 stderr 传给回调函数。
 
 class Utils {
   /**
@@ -11,6 +11,9 @@ class Utils {
     const genObj = this.getInstalledPkgs(targetDir);
     if (!genObj[pkgName]) return 0;
     const lts = execSync(`npm view ${pkgName} version --json --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
+
+    // 为什么可以在这里访问 requireFrom , Utils类里没有这货, 它的子类 M 才有啊？
+    // 虽然并没有单独使用 Utils 这个类（它仅作为一个工具库, 被 M 继承这些方法）, 但是这种写法, 感觉好奇怪
     const current = this.requireFrom(targetDir, path.join(pkgName, "package.json")).version;
     if (current === lts.trim()) return 2;
     return 1;
@@ -29,6 +32,7 @@ class Utils {
 
   /**
    * 获取路径下已经安装的包
+   * - 读取 package.json 中的 dependencies
    */
   getInstalledPkgs(targetDir) {
     const pkgJsonFile = path.resolve(targetDir, "package.json");

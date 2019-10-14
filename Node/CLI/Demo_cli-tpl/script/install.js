@@ -3,11 +3,11 @@
  * 模板仓库前缀 gen-
  */
 
-const execSync = require('child_process').execSync
+const execSync = require('child_process').execSync // 衍生一个 shell 并在该 shell 中运行命令，当完成时则将 stdout 和 stderr 传给回调函数。
 
 module.exports = async function(pkgName) {
   pkgName = pkgName || process.argv[3]
-  pkgName = pkgName.match(/^gen-/) ? pkgName : `gen-${pkgName}`
+  pkgName = pkgName.match(/^gen-/) ? pkgName : `gen-${pkgName}` // 约定带 gen- 前缀, 防止与其他库重名
   const status = this.getInstalledStatus(pkgName, this.dir.tpl)
   if (status === 2) {
     this.console('您已经安装最新版，无需安装')

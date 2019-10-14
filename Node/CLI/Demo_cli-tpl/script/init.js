@@ -18,8 +18,18 @@ module.exports = async function() {
     if (needUpdate === '是') await install.call(this, pkgName)
   }
 
+  // yeoman API
   this.yoemanEnv.register(this.resolveFrom(this.dir.tpl, pkgName), pkgName)
   this.yoemanEnv.run(pkgName, (e, d) => {
     d && this.console('happy coding', 'green')
   })
 }
+
+/**
+ * 其玩法跟yeoman类似，得先安装生成器(generator), 才能初始化项目
+ * 而 vue-cli\create-react-app 没有 生成器 这一部分, 命令行直接就能初始化项目
+ * 或者说 此项目的脚手架 比CLI 命令 高了一个层次
+ * 
+ * 其模板也是通过 npm i 来安装的
+ * 从其安装模板的操作配置来看, 是先把模板放到了 npm 仓库上
+ */ 
