@@ -1,20 +1,21 @@
-var fs = require('fs');
-
-
-// process.cwd()：返回 Node.js 进程当前工作的目录
-console.warn(process.cwd());
-console.warn(__dirname); // 这两者好像没区别
-
-// fs.realpathSync：返回解析的路径, 获取真实路径
-var appDirectory = fs.realpathSync(process.cwd());
-console.warn(appDirectory);
-
+/**
+ * 使用require.resolve函数来查询"当前目录下" path_join.js 模块文件的"带有完整绝对路径的"模块文件名
+ * - 注意, 只能查询当前目录下
+ */
+var rq = require.resolve('./path_join.js')
+console.warn(rq);
+// /Users/eason/Documents/study-area/studyHub/Node/API/path_join.js
 
 
 /**
- * 使用内部的 require() 机制查询模块的位置,
- * 此操作只返回解析后的文件名(绝对路径)，不会加载该模块。
+ * Resolve the path of a module like require.resolve() but from a given path
+ * 而此模块可以给定目录, 不限于当前目录下的文件
  */
-var b = require.resolve('./path_join.js')
-console.warn(b);
-// /Users/eason/Documents/study-area/studyHub/Node/API/path_join.js
+const resolveFrom = require('./resolve-from').silent
+var rf = resolveFrom('fs','./basic')
+console.warn(rf)
+
+/**
+ * 搞懂 require.resolve 和 resolve-from 的差异
+ * 就能搞懂 require 和 import-from 的差异
+ */

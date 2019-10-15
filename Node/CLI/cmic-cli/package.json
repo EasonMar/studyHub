@@ -1,0 +1,27 @@
+{
+  "name": "cmic-cli",
+  "version": "1.0.0",
+  "description": "cimc frontend cli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "cmic-cli": "./bin/cli"
+  },
+  "keywords": [
+    "cmic",
+    "cli"
+  ],
+  "author": "Eason",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^3.0.2",
+    "figlet": "^1.2.4",
+    "inquirer": "^7.0.0",
+    "mkdirp": "^0.5.1",
+    "osenv": "^0.1.5",
+    "yeoman-environment": "^2.5.0"
+  }
+}
