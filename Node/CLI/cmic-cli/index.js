@@ -1,6 +1,5 @@
-// const requireFrom = require('import-from').silent // 类似 require，但支持指定目录，让你可以跨工程目录进行 require，比如全局包想引用工程路径下的内容
-// const resolveFrom = require('resolve-from').silent // Returns undefined instead of throwing when the module can't be found.
 const program = require('commander'), // 解析输入的命令
+    resolveFrom = require('resolve-from').silent, // Returns undefined instead of throwing when the module can't be found.
     fs = require('fs'),
     chalk = require('chalk'),
     figlet = require('figlet'),
@@ -12,72 +11,84 @@ const program = require('commander'), // 解析输入的命令
     homeDir = require('osenv').home(), // 跨平台 - os env: Look up environment settings specific to different operating systems.
     pkg = require('./package.json'),
     cmdDirName = 'script', // 把命令单独封装为文件，放到 script 文件夹中
-    tplDir = path.resolve(homeDir, '.cmic-tlp'); // 模板插件包将要安装的目录
+    tplDir = path.resolve(homeDir, '.cmic-tpl'); // 模板插件包将要安装的目录
 
 class CMIC_CLI {
     // 初始化
     constructor() {
         this.bindTools()
         this.checkTplDir()
-
-        // 读取script文件夹下的js脚本
-        // const cmdArr = fs.readdirSync(path.resolve(__dirname, cmdDirName)).map(item => item.split('.')[0])
-
-        // 如果没有传入参数, 则提示(最好是转到 -h, 这里没有写 -h)
-        // if (args._.length < 3) {
-        //     this.console(`请输入要执行的命令\n本来应该列一个help文档的\n但是作者太懒\nanyway\n请使用以下命令`, 'red')
-        //     this.console(`dcli + ${JSON.stringify(cmdArr)}`, 'green')
-        //     return
-        // }
-
-        // 判断输入的命令是否存在
-        // if (!cmdArr.includes(process.argv[2])) throw new Error(`没有该命令 ${process.argv[2]}，请使用以下命令 ${JSON.stringify(cmdArr)}`)
-
-        // 找到对应命令的js脚本
-        // const cmd = require(path.resolve(__dirname, cmdDirName, process.argv[2]))
-
         // 检查 CLI 版本、提示更新 --- 并不主动安装更新
-        // this.checkCliUpdate()
-
-        // 执行js脚本
-        // cmd.call(this) // script 里的命令函数可读取 this 实例
+        // this.checkCliUpdate() // 暂未发布此包到npm
         this.bindCommand()
     }
 
     // 工具绑定
     bindTools() {
-        // this.resolveFrom = resolveFrom
-        // this.requireFrom = requireFrom
         this.dir = {
             home: homeDir,
-            tpl: tplDir, // {homeDir}/.cmic-cli/
+            tpl: tplDir, // {homeDir}/.cmic-tpl/
         }
+        this.resolveFrom = resolveFrom // 供 init.js 消费
         this.yoemanEnv = yoemanEnv // 供 init.js 消费
         this.inquirer = inquirer // 供 init.js 消费
-        
-        /**
-         * 处理命令行 - 展示帮助信息
-         */
-        program
-            .option('-i, --init', '初始化项目')
-            .option('-b, --build', '构建项目')
-            .version(`CMIC-CLI version V${pkg.version}`, '-V, --version', '版本号')
-            .helpOption('-h, --help', '帮助信息')
-            .on('--help', ()=>{
-                this.logo("CMIC  CLI")
-            })
     }
 
+    // 处理相应命令
     bindCommand() {
-        const cmdfn = () => {
-            const cmd = require(path.resolve(__dirname, cmdDirName, 'init'))
+        const cmdfn = (arg) => {
+            const cmd = require(path.resolve(__dirname, cmdDirName, arg))
             cmd.call(this)
         }
+        // 顶层命令options
+        if(/-h|--help/.test(process.argv.slice(-1))){
+            // 如果是 help 帮助信息, 则打印 Logo
+            program.outputHelp(() => { // 此方法未返回 commander 实例
+                return chalk.yellow.bold(figlet.textSync('CMIC  CLI')) + '\n'
+            });
+        }
+        program
+            .version(chalk.green.bold(pkg.version), '-V, --version', 'cli版本号')
+            .helpOption('-h, --help', '帮助信息')
+        program
+            .command('init')
+            .description('初始化项目: 选择具体模板, 生成项目初始结构')
+            .action(() => {cmdfn('init')})
+            .on('--help', () => {
+                this.console('Examples:');
+                this.console('  cmic-cli init');
+                this.console('  提示：运行后需要选择配置项, 请根据需要进行选择', 'green')
+            });
+        program
+            .command('build')
+            .description('构建项目: 构建项目, 生成可部署的前端静态资源')
+            .action(() => {cmdfn('build')})
+            .on('--help', () => {
+                this.console('Examples:');
+                this.console('  cmic-cli build');
+                this.console('  注意：需要在项目目录内运行此命令', 'green')
+            });
+        program
+            .command('dev')
+            .description('本地运行项目: 启动本地服务, 以供调试代码')
+            .action(() => {cmdfn('dev')})
+            .on('--help', () => {
+                this.console('Examples:');
+                this.console('  cmic-cli dev');
+                this.console('  注意：需要在项目目录内运行此命令', 'green')
+            });
+        program
+            .command('install <pkgName>')
+            .description('安装模板: 项目的初始化依赖相应的模板')
+            .action(() => {cmdfn('install')})
+            .on('--help', () => {
+                this.console('Examples:');
+                this.console('  cmic-cli install cmic-vue-tpl');
+                this.console('  cmic-cli install vue-tpl');
+                this.console('  注意：pkgName[模板名] 前缀为"cmic-", 若缺省会自动进行补全', 'green')
+            });
+    
         program.parse(process.argv)
-
-        // 命令处理
-        program.init && cmdfn()
-        program.build && cmdfn()        
     }
 
     // 检查 CLI 版本、提示更新
@@ -98,16 +109,10 @@ class CMIC_CLI {
     }
 
     // 封装 chalk 和 console.log --- 自己之前没想到, 封装思维很重要, OOP思维很重要
-    console(data, color = 'yellow', bold) {
+    console(data, color = 'white', bold) {
         let fn = chalk[color]
         bold && (fn = chalk[color].bold)
         console.log(fn(data))
-    }
-
-    // 打印大Logo
-    logo(data, color = 'yellow') {
-        const _data = figlet.textSync(data);
-        this.console(_data, color, true)
     }
 
     /**
@@ -117,13 +122,11 @@ class CMIC_CLI {
     getInstalledStatus(pkgName, targetDir) {
         const genObj = this.getInstalledPkgs(targetDir);
         if (!genObj[pkgName]) return 0;
-        const lts = execSync(`npm view ${pkgName} version --json --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
 
-        // const current = this.requireFrom(targetDir, path.join(pkgName, "package.json")).version;
+        const lts = execSync(`npm view ${pkgName} version --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
         const current = require(path.join(targetDir, pkgName, "package.json")).version;
         
-        // lts版本号, 坑爹的带了双引号, 要去掉...
-        if (current === lts.trim().replace(/"/g, '')) return 2;
+        if (current === lts.trim()) return 2;
         return 1;
     }
 
@@ -170,17 +173,14 @@ class CMIC_CLI {
                 break;
             default:
         }
-        // return this.requireFrom(process.cwd(), builder);
         return require(path.join(process.cwd(), builder));
     }
 
     // 获取构建配置文件
     getConfigs() {
-        // const configs = this.requireFrom(process.cwd(), "./maoda.js");
         const configs = require(path.join(process.cwd(), "./cmic-webpack.js"));
         if (!configs || !configs.builder) {
             this.console(
-                // "请确保工程根路径下有 maoda.js 文件，且文件中配置了 builder 属性",
                 "请确保工程根路径下有 cmic-webpack.js 文件，且文件中配置了 builder 属性",
                 "red"
             );

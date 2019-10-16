@@ -8,7 +8,8 @@ const install = require('./install')
 module.exports = async function() {
   const genObj = this.getInstalledGenerators(this.dir.tpl)
   if (!Object.keys(genObj).length) {
-    this.console(`您还没有安装任何 generator，请先执行 install 命令安装`)
+    this.console(`【warn】未检测到template, 请先执行以下命令进行安装:`, 'red')
+    this.console(`        cmic-cli install <pkgName>`, 'green')
     return
   }
   const { tpl: pkgName } = await this.inquirer.prompt({ message: '请选择一个模板：', type: 'list', name: 'tpl', choices: Object.keys(genObj) })

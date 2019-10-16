@@ -10,13 +10,19 @@ class Utils {
   getInstalledStatus(pkgName, targetDir) {
     const genObj = this.getInstalledPkgs(targetDir);
     if (!genObj[pkgName]) return 0;
-    const lts = execSync(`npm view ${pkgName} version --json --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
+    
+    // const lts = execSync(`npm view ${pkgName} version --json --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
+    // --json参数导致结果带双引号
+    // version-查看当前已发布的最新版本、versions-查看所有版本
+    // --registy更改所查看的注册表-改为淘宝映像的更快
 
-    // 为什么可以在这里访问 requireFrom , Utils类里没有这货, 它的子类 M 才有啊？
-    // 虽然并没有单独使用 Utils 这个类（它仅作为一个工具库, 被 M 继承这些方法）, 但是这种写法, 感觉好奇怪
-    const current = this.requireFrom(targetDir, path.join(pkgName, "package.json")).version;
-    // lts版本号, 坑爹的带了双引号, 要去掉...
-    if (current === lts.trim().replace(/"/g,'')) return 2;
+    const lts = execSync(`npm view ${pkgName} version --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
+    const current = require(path.join(targetDir, pkgName, "package.json")).version;
+    
+    // lts版本号, 坑爹的带了双引号, 要去掉...(--json导致)
+    // if (current === lts.trim().replace(/"/g, '')) return 2;
+    
+    if (current === lts.trim()) return 2;
     return 1;
   }
 
