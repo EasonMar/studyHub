@@ -19,7 +19,7 @@ class CMIC_CLI {
         this.bindTools()
         this.checkTplDir()
         // 检查 CLI 版本、提示更新 --- 并不主动安装更新
-        // this.checkCliUpdate() // 暂未发布此包到npm
+        this.checkCliUpdate() // 发布到npm之后才有效
         this.bindCommand()
     }
 
