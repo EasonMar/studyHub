@@ -4,6 +4,6 @@ var fs = require('fs');
 console.warn(process.cwd());
 console.warn(__dirname); // 这两者好像没区别
 
-// fs.realpathSync：返回解析的路径, 获取真实路径
+// fs.realpathSync：以同步的方式查看文件或者目录的绝对路径
 var appDirectory = fs.realpathSync(process.cwd());
 console.warn(appDirectory);

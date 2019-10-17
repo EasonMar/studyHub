@@ -21,7 +21,9 @@ module.exports = async function() {
   // yeoman API
   this.yoemanEnv.register(this.resolveFrom(this.dir.tpl, pkgName), pkgName)
   this.yoemanEnv.run(pkgName, (e, d) => {
-    d && this.console('happy coding', 'green')
+    this.console(`run-e for ${e}`) // 这个应该是是error
+    this.console(`run-d for ${d}`) // undefined, 并无第二参数
+    e && this.console(JSON.stringify(e), 'red')
   })
 }
 

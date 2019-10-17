@@ -19,6 +19,7 @@
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
     "figlet": "^1.2.4",
+    "import-from": "^3.0.0",
     "inquirer": "^7.0.0",
     "mkdirp": "^0.5.1",
     "osenv": "^0.1.5",

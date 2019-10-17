@@ -1,5 +1,6 @@
 const program = require('commander'), // 解析输入的命令
-    resolveFrom = require('resolve-from').silent, // Returns undefined instead of throwing when the module can't be found.
+    resolveFrom = require('resolve-from').silent, // 
+    requireFrom = require('import-from').silent, // import-from = require + resolve-from ===> require(resolve-from(...))
     fs = require('fs'),
     chalk = require('chalk'),
     figlet = require('figlet'),
@@ -27,7 +28,7 @@ class CMIC_CLI {
     bindTools() {
         this.dir = {
             home: homeDir,
-            tpl: tplDir, // {homeDir}/.cmic-tpl/
+            tpl: tplDir // {homeDir}/.cmic-tpl/
         }
         this.resolveFrom = resolveFrom // 供 init.js 消费
         this.yoemanEnv = yoemanEnv // 供 init.js 消费
@@ -36,20 +37,25 @@ class CMIC_CLI {
 
     // 处理相应命令
     bindCommand() {
+        // 处理函数
         const cmdfn = (arg) => {
             const cmd = require(path.resolve(__dirname, cmdDirName, arg))
             cmd.call(this)
         }
+        
         // 顶层命令options
+        program
+            .version(chalk.green.bold(pkg.version), '-V, --version', 'cli版本号')
+            .helpOption('-h, --help', '帮助信息');
+
+        // 如果是 help 帮助信息, 则打印 Logo
         if(/-h|--help/.test(process.argv.slice(-1))){
-            // 如果是 help 帮助信息, 则打印 Logo
             program.outputHelp(() => { // 此方法未返回 commander 实例
                 return chalk.yellow.bold(figlet.textSync('CMIC  CLI')) + '\n'
             });
         }
-        program
-            .version(chalk.green.bold(pkg.version), '-V, --version', 'cli版本号')
-            .helpOption('-h, --help', '帮助信息')
+
+        // 子命令
         program
             .command('init')
             .description('初始化项目: 选择具体模板, 生成项目初始结构')
@@ -124,7 +130,7 @@ class CMIC_CLI {
         if (!genObj[pkgName]) return 0;
 
         const lts = execSync(`npm view ${pkgName} version --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
-        const current = require(path.join(targetDir, pkgName, "package.json")).version;
+        const current = requireFrom(targetDir, path.join(pkgName, "package.json")).version;
         
         if (current === lts.trim()) return 2;
         return 1;
@@ -152,15 +158,15 @@ class CMIC_CLI {
 
     // 获取 build 方法
     getBuilderFn() {
-        const { builder } = this.getConfigs();
+        const { builder } = this.getConfigs(); // 获取 构建插件包的包名
         const status = this.getInstalledStatus(builder, process.cwd());
         switch (status) {
             case 0:
                 this.console(
-                    `检测到工程并未添加${builder}，将自动为您安装最新版`,
+                    `检测到工程并未添加 ${builder}, 将自动为您安装最新版`,
                     "red"
                 );
-                this.console(`安装${builder}中...`);
+                this.console(`安装 ${builder} 中...`);
                 execSync(
                     `npm i ${builder}@latest -S --registry=https://registry.npm.taobao.org`,
                     { cwd: process.cwd() }
@@ -168,20 +174,20 @@ class CMIC_CLI {
                 break;
             case 1:
                 this.console(
-                    `检测到您的${builder}并非最新版，推荐在工程下 npm i ${builder}@latest -S 进行更新`
+                    `检测到您的 ${builder} 并非最新版，推荐在工程下执行 npm i ${builder}@latest 进行更新`
                 );
                 break;
             default:
         }
-        return require(path.join(process.cwd(), builder));
+        return this.requireFrom(process.cwd(), builder);
     }
 
     // 获取构建配置文件
     getConfigs() {
-        const configs = require(path.join(process.cwd(), "./cmic-webpack.js"));
+        const configs = this.requireFrom(process.cwd(), "./cmic-webpack.js");
         if (!configs || !configs.builder) {
             this.console(
-                "请确保工程根路径下有 cmic-webpack.js 文件，且文件中配置了 builder 属性",
+                "请确保工程根路径下有 cmic-webpack.js 文件，且文件中配置了 builder 属性", // 该属性记录了 构建插件包 的包名
                 "red"
             );
             process.exit(1);

@@ -17,7 +17,15 @@ class Utils {
     // --registy更改所查看的注册表-改为淘宝映像的更快
 
     const lts = execSync(`npm view ${pkgName} version --registry=https://registry.npm.taobao.org`) + '' // buffer 转 string
-    const current = require(path.join(targetDir, pkgName, "package.json")).version;
+    const current = this.requireFrom(targetDir, path.join(pkgName, "package.json")).version;
+    
+
+    // 明确了 resolveFrom 的作用 
+    this.console(`this.resolveFrom(targetDir, path.join(pkgName, "package.json")) = ${this.resolveFrom(targetDir, path.join(pkgName, "package.json"))}`) 
+    // /Users/eason/Documents/study-area/studyHub/Node/CLI/Template/node_modules/gen-tpl/package.json
+    this.console(`path.join(targetDir, pkgName, "package.json") = ${path.join(targetDir, pkgName, "package.json")}`) 
+    // /Users/eason/Documents/study-area/studyHub/Node/CLI/Template/gen-tpl/package.json
+    
     
     // lts版本号, 坑爹的带了双引号, 要去掉...(--json导致)
     // if (current === lts.trim().replace(/"/g, '')) return 2;
