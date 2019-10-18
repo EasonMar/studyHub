@@ -1,0 +1,12 @@
+{
+    "name": "<%= appName %>",
+    "version": "0.0.0",
+    "main": "src/index.js",
+    "dependencies": {
+      "react": "^16.8.0"
+    },
+    "description": "cmic React starter",
+    "licence": "MIT",
+    "repository": ""
+  }
+  

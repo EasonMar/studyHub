@@ -13,7 +13,7 @@ module.exports = function () {
         this.console(`您已经安装最新的 "${pkgName}" 包，无需再进行安装`)
         return
     }
-    this.console(`正在安装最新的 "${pkgName}" 包...`)
+    this.console(`正在安装最新的 "${pkgName}" 包...`, 'green')
     try {
         execSync(`npm i ${pkgName}@latest --registry=https://registry.npm.taobao.org`, { cwd: this.dir.tpl })
         this.console(`升级完成`, 'green')

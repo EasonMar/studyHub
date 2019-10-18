@@ -34,9 +34,7 @@ class Utils {
     return 1;
   }
 
-  /**
-   * 获取路径下已经安装的 generator 包
-   */
+  // 获取路径下已经安装的 generator 包
   getInstalledGenerators(targetDir) {
     const dependencies = this.getInstalledPkgs(targetDir);
     Object.keys(dependencies).forEach(v => {
@@ -56,9 +54,7 @@ class Utils {
     return pkgJson.dependencies || {};
   }
 
-  /**
-   * 获取 build 方法
-   */
+  // 检测、安装 构建插件包
   getBuilderFn() {
     const { builder } = this.getConfigs();
     const status = this.getInstalledStatus(builder, process.cwd());
@@ -84,6 +80,7 @@ class Utils {
     return this.requireFrom(process.cwd(), builder);
   }
 
+  // 获取模板中的webpack配置文件
   getConfigs() {
     const configs = this.requireFrom(process.cwd(), "./maoda.js");
     if (!configs || !configs.builder) {

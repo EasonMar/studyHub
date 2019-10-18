@@ -5,14 +5,14 @@ const program = require('commander'), // 解析输入的命令
     chalk = require('chalk'),
     figlet = require('figlet'),
     inquirer = require('inquirer'),
-    yoemanEnv = require('yeoman-environment').createEnv(),
+    yeomanEnv = require('yeoman-environment').createEnv(),
     mkdirp = require('mkdirp'), // 跨平台 - Like mkdir -p, but in node.js!
     path = require('path'),
     execSync = require('child_process').execSync, // 衍生一个 shell 并在该 shell 中运行命令，当完成时则将 stdout 和 stderr 传给回调函数。
     homeDir = require('osenv').home(), // 跨平台 - os env: Look up environment settings specific to different operating systems.
     pkg = require('./package.json'),
     cmdDirName = 'script', // 把命令单独封装为文件，放到 script 文件夹中
-    tplDir = path.resolve(homeDir, '.cmic-tpl'); // 模板插件包将要安装的目录
+    tplDir = path.resolve(homeDir, '.cmic-generator'); // 放置模板插件包的目录
 
 class CMIC_CLI {
     // 初始化
@@ -28,15 +28,21 @@ class CMIC_CLI {
     bindTools() {
         this.dir = {
             home: homeDir,
-            tpl: tplDir // {homeDir}/.cmic-tpl/
+            tpl: tplDir // {homeDir}/.cmic-generator/
         }
         this.resolveFrom = resolveFrom // 供 init.js 消费
-        this.yoemanEnv = yoemanEnv // 供 init.js 消费
+        this.yeomanEnv = yeomanEnv // 供 init.js 消费
         this.inquirer = inquirer // 供 init.js 消费
     }
 
     // 处理相应命令
     bindCommand() {
+        // 如果没有输入子命令 或 flag, 则提示用户
+        if(process.argv.length < 3){
+            this.console('您未输入任何命令，详见 --help', 'red');
+            process.exit(1);
+        }
+
         // 处理函数
         const cmdfn = (arg) => {
             const cmd = require(path.resolve(__dirname, cmdDirName, arg))
@@ -93,6 +99,12 @@ class CMIC_CLI {
                 this.console('  cmic-cli install vue-tpl');
                 this.console('  注意：pkgName[模板名] 前缀为"cmic-", 若缺省会自动进行补全', 'green')
             });
+
+        // 错误命令监控
+        program.on('command:*', () => {
+            console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
+            process.exit(1);
+        });
     
         program.parse(process.argv)
     }
@@ -140,7 +152,7 @@ class CMIC_CLI {
     getInstalledGenerators(targetDir) {
         const dependencies = this.getInstalledPkgs(targetDir);
         Object.keys(dependencies).forEach(v => {
-            if (!v.match(/^gen-/)) delete dependencies[v];
+            if (!v.match(/^cmic-/)) delete dependencies[v];
         });
         return dependencies;
     }
@@ -168,7 +180,7 @@ class CMIC_CLI {
                 );
                 this.console(`安装 ${builder} 中...`);
                 execSync(
-                    `npm i ${builder}@latest -S --registry=https://registry.npm.taobao.org`,
+                    `npm i ${builder}@latest --registry=https://registry.npm.taobao.org`,
                     { cwd: process.cwd() }
                 );
                 break;
@@ -179,12 +191,12 @@ class CMIC_CLI {
                 break;
             default:
         }
-        return this.requireFrom(process.cwd(), builder);
+        return requireFrom(process.cwd(), builder);
     }
 
     // 获取构建配置文件
     getConfigs() {
-        const configs = this.requireFrom(process.cwd(), "./cmic-webpack.js");
+        const configs = requireFrom(process.cwd(), "./cmic-webpack.js");
         if (!configs || !configs.builder) {
             this.console(
                 "请确保工程根路径下有 cmic-webpack.js 文件，且文件中配置了 builder 属性", // 该属性记录了 构建插件包 的包名

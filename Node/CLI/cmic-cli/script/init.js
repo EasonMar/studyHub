@@ -21,9 +21,9 @@ module.exports = async function () {
         if (needUpdate === '是') await install.call(this, pkgName)
     }
 
-    // yeoman API
-    this.yoemanEnv.register(this.resolveFrom(this.dir.tpl, pkgName), pkgName) // 注册 generator
-    this.yoemanEnv.run(pkgName, (e) => { // 执行 generator, 猜测 e for error
+    // 通过 yeoman 开启 cmic-tpl 中的模板构建：this.dir.tpl ==> {homeDir}/.cmic-generator/{pkgName}
+    this.yeomanEnv.register(this.resolveFrom(this.dir.tpl, pkgName), pkgName) // 注册 generator
+    this.yeomanEnv.run(pkgName, (e) => { // 执行 generator, 猜测 e for error
         e && this.console('something went wrong', 'red')
     })
 }
