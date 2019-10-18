@@ -5,8 +5,8 @@
 
 const execSync = require('child_process').execSync // 衍生一个 shell 并在该 shell 中运行命令，当完成时则将 stdout 和 stderr 传给回调函数。
 
-module.exports = function () {
-    let pkgName = process.argv[3]
+module.exports = function (pkgName) {
+    pkgName = pkgName || process.argv[3] || 'cmic-tpl'
     pkgName = pkgName.match(/^cmic-/) ? pkgName : `cmic-${pkgName}` // 约定带 cmic- 前缀, 防止与其他库重名
     const status = this.getInstalledStatus(pkgName, this.dir.tpl)
     if (status === 2) {

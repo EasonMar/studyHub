@@ -1,6 +1,6 @@
 {
   "name": "cmic-tpl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "项目模板generator",
   "main": "index.js",
   "author": "Eason",
