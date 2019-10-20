@@ -12,7 +12,7 @@ const program = require('commander'), // 解析输入的命令
     homeDir = require('osenv').home(), // 跨平台 - os env: Look up environment settings specific to different operating systems.
     pkg = require('./package.json'),
     cmdDirName = 'script', // 把命令单独封装为文件，放到 script 文件夹中
-    tplDir = path.resolve(homeDir, '.cmic-generator'); // 放置模板插件包的目录
+    tplDir = path.resolve(homeDir, '.cmic-generator'); // 放置模板插件包(generator)的目录
 
 class CMIC_CLI {
     // 初始化
@@ -90,14 +90,14 @@ class CMIC_CLI {
                 this.console('  注意：需要在项目目录内运行此命令', 'green')
             });
         program
-            .command('install <pkgName>')
+            .command('install <generator>')
             .description('安装模板: 项目的初始化依赖相应的模板')
             .action(() => {cmdfn('install')})
             .on('--help', () => {
                 this.console('Examples:');
                 this.console('  cmic-cli install cmic-vue-tpl');
                 this.console('  cmic-cli install vue-tpl');
-                this.console('  注意：pkgName[模板名] 前缀为"cmic-", 若缺省会自动进行补全', 'green')
+                this.console('  注意：generator[生成器] 前缀为"cmic-", 若缺省会自动进行补全', 'green')
             });
 
         // 错误命令监控
@@ -111,13 +111,13 @@ class CMIC_CLI {
 
     // 检查 CLI 版本、提示更新
     checkCliUpdate() {
-        const pkgName = pkg.name
+        const cliName = pkg.name
         const version = pkg.version
-        const ltsVersion = execSync(`npm view ${pkgName} version --registry=https://registry.npm.taobao.org`) + '' // 返回 buffer 转 string
-        if (ltsVersion.trim() !== version) this.console(`cli 版本过旧，建议执行 npm i -g ${pkgName}@latest 升级 cli： ${version} -> ${ltsVersion} `)
+        const ltsVersion = execSync(`npm view ${cliName} version --registry=https://registry.npm.taobao.org`) + '' // 返回 buffer 转 string
+        if (ltsVersion.trim() !== version) this.console(`cli 版本过旧，建议执行 npm i -g ${cliName}@latest 升级 cli： ${version} -> ${ltsVersion} `, 'green')
     }
 
-    // 检查 模板插件包 目录
+    // 检查 模板插件包(generator) 目录
     checkTplDir() {
         mkdirp(this.dir.tpl) // 不管当前有无此目录, 先 mkdir -p, 为后续写入 pkgFile作预备工作
         const pkgFile = path.resolve(this.dir.tpl, 'package.json')
