@@ -2,6 +2,7 @@
  * 归并排序的核心思想还是蛮简单的。如果要排序一个数组, 我们先把数组从中间分成前后两部分, 
  * 然后对前后两部分分别排序, 再将排好序的两部分合并在一起, 这样整个数组就都有序了
  * 注意：这个"合并"本身也具有排序的功能在内,才能保证合并之后整个数组是有序的
+ *      merge函数的算法和实现很经典！
  */
 
 /** 
@@ -40,7 +41,7 @@ function merge_sort_c(A, p, r) {
     // 将 A[p...q] 和 A[q+1...r] 合并为 A[p...r]
     // JS如何实现数组分片？
     // 因为实际上并未使用传入的分片, 所以只需要传入原数组A和分片区域即可
-    merge(A, [p, q], [q + 1, r])
+    merge(A, p, q, r)
 }
 
 /**
@@ -50,18 +51,17 @@ function merge_sort_c(A, p, r) {
  * merge函数是关键
  * 将已经有序的 left_Array 和 right_Array 合并成一个整体有序的数组
  * @param  {Array} A   原数组
- * @param  {Array} L   左半数组区间:[start,end]
- * @param  {Array} R   右半数组区间:[start,end]
+ * @param  {number} p   开始位置
+ * @param  {number} q   中间位置
+ * @param  {number} r   结束位置
  */
-function merge(A, L, R) {
+function merge(A, p, q, r) {
 	// console.log('merge info：');
     // console.log([L.toString(),R.toString()]);
 
 	// 初始化局部变量
-    var i = p = L[0], // i = 排序初始位置 = 左半数组 初始位置
-        j = R[0],	  // j = 右半数组 初始位置
-        q = L[1], 	  // q = 左半数组 结束位置	
-        r = R[1],     // r = 右半数组 结束位置
+    var i = p , // i = 排序初始位置, 左半数组 初始位置
+        j = q + 1,	  // j = 右半数组 初始位置
         k = 0,        // 临时数组指针
         tmp = new Array(A.length); // 申请一个大小跟 A 一样的临时数组
 
@@ -75,7 +75,7 @@ function merge(A, L, R) {
         if (A[i] <= A[j]) {
             tmp[k++] = A[i++]; // i++ 等于 i=i+1。 注意：这里先取i值,然后再计算i+1
         } else {
-            tmp[k++] = A[j++];
+            tmp[k++] = A[j++]; // 同时实现了取值、指针往后移位 两个操作
         }
     }
 
@@ -104,5 +104,6 @@ function merge(A, L, R) {
 // merge_sort(a, 8);
 // var a = [8,7,6,9,5,10]; // 6个元素,拆分一次就变成单数个
 // merge_sort(a, 6);
-var a = [8,7,6,9,5]; // 5个元素,从一开始就是但数个
-merge_sort(a, 5);
+var a = [8, 7, 6, 9, 5, 4, 3, 1]; // 5个元素,从一开始就是但数个
+merge_sort(a, 8);
+console.log(a)
