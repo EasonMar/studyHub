@@ -28,8 +28,6 @@ function merge_sort(A, n) {
 function merge_sort_c(A, p, r) {
     // 递归终止条件
     if (p >= r) return;
-    // console.log('merge_sort_c');
-    // console.log([p,r]);
 
     // 取 p 到 r 之间的中间位置 q
     // q = Math.floor((p + r) / 2); q成全局变量了, 影响了数组的拆分！！
@@ -45,10 +43,10 @@ function merge_sort_c(A, p, r) {
 }
 
 /**
- * 你可能已经发现了, merge(A[p…r], A[p…q], A[q+1…r]) 这个函数的作用就是, 
+ * 你可能已经发现了, merge(A[p…r], A[p…q], A[q+1…r]) 这个函数的作用是: 
  * 将已经有序的 A[p…q] 和 A[q+1…r] 合并成一个有序的数组, 并且放入 A[p…r]
  * 
- * merge函数是关键
+ * merge函数 --- 关键吃透
  * 将已经有序的 left_Array 和 right_Array 合并成一个整体有序的数组
  * @param  {Array} A   原数组
  * @param  {number} p   开始位置
@@ -56,9 +54,6 @@ function merge_sort_c(A, p, r) {
  * @param  {number} r   结束位置
  */
 function merge(A, p, q, r) {
-	// console.log('merge info：');
-    // console.log([L.toString(),R.toString()]);
-
 	// 初始化局部变量
     var i = p , // i = 排序初始位置, 左半数组 初始位置
         j = q + 1,	  // j = 右半数组 初始位置
