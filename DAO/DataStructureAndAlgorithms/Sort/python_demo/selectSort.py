@@ -5,8 +5,8 @@
 def select_sort(arr):
     count = 0 # 当前已排序元素数count
 
-    # 当已排序元素小于列表长度时执行循环
-    while count < len(arr):
+    # 当已排序元素个数达到 n - 1 个, 就保证了顺序已经排好了
+    while count < len(arr) - 1:
         j = count # 已排序区间尾部指针
 
         # 找到未排序区域内最小元素的位置
