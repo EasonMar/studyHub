@@ -187,4 +187,4 @@
 # array[i] = element;
 # 	++i;
 # }
-# # Python实现: python貌似没有数组大小的限制
+# # Python实现: 

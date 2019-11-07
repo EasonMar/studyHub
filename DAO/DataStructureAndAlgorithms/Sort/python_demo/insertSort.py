@@ -34,3 +34,4 @@ insertion_sort(a)
 
 
 # 插入排序是一种原地、稳定的排序算法
+# Time Complexity: O(n2)

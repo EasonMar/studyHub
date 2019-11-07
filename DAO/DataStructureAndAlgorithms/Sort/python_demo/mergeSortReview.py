@@ -16,70 +16,70 @@ def merge_sort(arr, start, end):
 
 # 归纳合并函数 - 关键吃透
 def merge(arr, start, mid, end):
-    temp = [] # 临时列表
+    tmp = [] # 临时列表
 
     # 截取 start ~ mid 部分
-    firstHalf = arr[start : mid + 1]
+    L = arr[start : mid + 1]
     # 截取 mid + 1 ~ end 部分
-    secondHafl = arr[mid + 1 : end + 1]
+    R = arr[mid + 1 : end + 1]
 
-    # 比较 firstHalf 和 secondHafl 元素的大小, 并插入 temp
+    # 比较 L 和 R 元素的大小, 并插入 tmp
     i, j = 0, 0
-    while i < len(firstHalf) and j < len(secondHafl):
-        if firstHalf[i] < secondHafl[j]:
-            temp.append(firstHalf[i])
+    while i < len(L) and j < len(R):
+        if L[i] < R[j]:
+            tmp.append(L[i])
             i += 1
         else:
-            temp.append(secondHafl[j])
+            tmp.append(R[j])
             j += 1
 
-    # 判断有元素未加入temp的是哪个部分
-    leftHalf = firstHalf
+    # 判断有元素未加入tmp的是哪个部分
+    remain = L
     index = i
-    if i >= len(firstHalf):
-        leftHalf = secondHafl
+    if i >= len(L):
+        remain = R
         # index = j
     
-    # 将剩余的元素 追加到 temp 中
-    # while index < len(leftHalf):
-    #     temp.append(leftHalf[index])
+    # 将剩余的元素 追加到 tmp 中
+    # while index < len(remain):
+    #     tmp.append(remain[index])
     #     index += 1
     
     # 使用列表的拓展方法: list.extend 
-    # temp.extend(leftHalf[index:])
+    # tmp.extend(remain[index:])
     
     # 还有更简洁的列表合并方式: list1 + list2, 爽歪歪啊
-    temp += leftHalf[index:]
+    tmp += remain[index:]
     
-    # 将temp中已排序的值更新到arr中
-    arr[start : end + 1] = temp
+    # 将tmp中已排序的值更新到arr中
+    arr[start : end + 1] = tmp
 
 # 归纳合并函数 - 第二种思路: 比较不通过切片, 而是直接通过指针操作来进行
 def mergeViaIndex(arr, start, mid, end):
-    temp = [] # 临时列表
+    tmp = [] # 临时列表
 
     # 确定前后两个部分的起始指针
     i, j = start, mid + 1
 
-    # 比较前后两部分元素的大小, 并插入 temp
+    # 比较前后两部分元素的大小, 并插入 tmp
     while i <= mid and j <= end:
         if arr[i] < arr[j]:
-            temp.append(arr[i])
+            tmp.append(arr[i])
             i+=1
         else:
-            temp.append(arr[j])
+            tmp.append(arr[j])
             j+=1
     
-    # 判断有元素未加入temp的是哪个部分
+    # 判断有元素未加入tmp的是哪个部分
     _s, _e = i, mid
     if i > mid:
         _s, _e = j, end
     
-    # 切片 + 列表合并 = 将剩余的元素 追加到 temp 中
-    temp += arr[_s : _e + 1]
+    # 切片 + 列表合并 = 将剩余的元素 追加到 tmp 中
+    tmp += arr[_s : _e + 1]
 
-    # 将temp中已排序的值更新到arr中
-    arr[start : end + 1] = temp
+    # 将tmp中已排序的值更新到arr中
+    arr[start : end + 1] = tmp
 
 # 封装merge_sort参数初始化
 def merge_sort_func(arr, n):

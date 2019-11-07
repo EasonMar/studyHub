@@ -12,7 +12,12 @@ def merge_sort(arr, start, end):
     # 取 start 到 end 之间的中间位置 mid
     mid = int(start + (end - start) / 2)
 
-    # 分治递归 --- 不是尾递归, 可能会存在很深的调用栈...
+    # 分治递归 --- 不是尾递归, 可能会存在很深的调用栈...导致堆栈溢出
+    '''
+    有两种解决办法：
+    第一种是限制递归深度。一旦递归过深，超过了我们事先设定的阈值，就停止递归。
+    第二种是通过在堆上模拟实现一个函数调用栈，手动模拟递归压栈、出栈的过程，这样就没有了系统栈大小的限制。
+    '''
     merge_sort(arr, start, mid)
     merge_sort(arr, mid + 1, end)
 
@@ -55,3 +60,7 @@ def merge(arr, start, mid, end):
 a = [8,7,6,9,5]
 merge_sort(a, 0, 4)
 print(a)
+
+
+# 稳定的, 非原地
+# Time Complexity: O(nlogn)

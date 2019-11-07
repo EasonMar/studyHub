@@ -62,3 +62,6 @@ for i in reversed(A):
 A = r[:]
 
 print(A)
+
+# 稳定的、非原地
+# Time Complexity: O(n)

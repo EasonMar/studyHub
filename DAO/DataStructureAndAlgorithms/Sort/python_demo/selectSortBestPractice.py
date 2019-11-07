@@ -11,8 +11,11 @@ for i in range(len(A)):
 			min_idx = j 
 			
 	# Swap the found minimum element with the first element --- key point
-	# 交换的话, 就有机会不是稳定的排序了, 例如 A = [1,6,2,6,0] --> [0,6,2,6,1] --> [0,1,2,6,6], 最后两个6就交换位置了	 
+	# 有交换, 所以不是稳定的排序, 例如 A = [1,6,2,6,0] --> [0,6,2,6,1] --> [0,1,2,6,6], 最后两个6就交换位置了	 
 	A[i], A[min_idx] = A[min_idx], A[i] 
 
 # Driver code to test above 
 print ("Sorted array: ", A)  
+
+# 不稳定、原地
+# Time Complexity: O(n2)
