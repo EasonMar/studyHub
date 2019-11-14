@@ -71,12 +71,12 @@ class LinkedList:
         if index < 0:
             print("ERROR: 'Get' Index out of range!")
             return None
-        #
+        
         # 初始化
         cur_idx = 0
         cur_node = self.head # node(-1)
         while True:
-            cur_node = cur_node.next # 使cur_node指向第一个数据node(0)
+            cur_node = cur_node.next # 使cur_node指向第一个数据node(0) 或 下一个数据node(cur_idx+1)
             
             # 在指针移动之后, 判断index是否已经超出范围
             if cur_node == None:
@@ -92,16 +92,26 @@ class LinkedList:
 
     # 设置指定节点的数据, index starts from 0
     def set(self, index, data):
-        if index >= self.length() or index < 0:   # 这样多了一次 length 遍历, 可以不用这样判断
-            print("ERROR: 'Get' Index out of range!")
+        # if index >= self.length() or index < 0:   # 这样多了一次 length 遍历, 可以不用这样判断
+        if index < 0:
+            print("ERROR: 'Set' Index out of range!")
             return None
+        
+        # 初始化
         cur_idx = 0
         cur = self.head
         while True:
             cur = cur.next
+
+            # 在指针移动之后, 判断index是否已经超出范围
+            if cur == None:
+                print("ERROR: 'Set' Index %d out of range!" % index)
+                return
+
             if cur_idx == index:
                 cur.data = data
                 return
+
             cur_idx += 1
 
 
@@ -257,6 +267,7 @@ class LinkedList:
         print('Now we are going to erase it......')
         last.next = mainPtr.next 
     
+
     # 打印倒数第n个结点 --- 有问题的实现
     def printNthFromLast(self, n): 
         # 没有判断 n 的范围, 如果n <= 0, 程序报错
@@ -282,7 +293,6 @@ class LinkedList:
         print ("Node no.% d from last is % d " %(n, main_ptr.data)) 
 
 
-
     # 链表中环的检测
     def checkLoop(self):
         None
@@ -295,10 +305,24 @@ l.append(3)
 l.append(4)
 l.append(5)
 l.append(6)
-# l.append(7)
 l.display()
+l.get(0)
+l.get(1)
+l.get(2)
+l.get(3)
+l.get(4)
+l.get(5)
 l.get(6)
-# l.get(3)
+l.get(7)
+l.set(0, 7)
+l.set(1, 6)
+l.set(2, 5)
+l.set(3, 4)
+l.set(4, 3)
+l.set(5, 2)
+l.set(6, 1)
+l.set(7, 0)
+l.display()
 # l.reverse()
 # l.display()
 # l.erase(0)
