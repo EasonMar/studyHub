@@ -268,7 +268,7 @@ class LinkedList:
         last.next = mainPtr.next 
     
 
-    # 打印倒数第n个结点 --- 有问题的实现
+    # 打印倒数第n个结点 --- 有问题的实现 --- 反面例子
     def printNthFromLast(self, n): 
         # 没有判断 n 的范围, 如果n <= 0, 程序报错
 
