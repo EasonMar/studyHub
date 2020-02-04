@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
+
+			button {
+				display: inline-block;
+			}
+		</style>
+	</head>
+
+	<body style="width: 600px; margin: 0 auto;">
+		<div
+			id="output"
+			style="height: 400px; width: 600px; background: #eee; overflow-y: scroll;padding: 10px 20px;box-sizing: border-box;"
+		></div>
+		<button id="rock" style="height: 40px; width: 80px">石头</button>
+		<button id="scissor" style="height: 40px; width: 80px">剪刀</button>
+		<button id="paper" style="height: 40px; width: 80px">布</button>
+	</body>
+	<script>
+		// 与Jquery say goodbye
+		const $button = {
+			rock: document.getElementById('rock'),
+			scissor: document.getElementById('scissor'),
+			paper: document.getElementById('paper'),
+		};
+
+		const $output = document.getElementById('output');
+
+		Object.keys($button).forEach(key => {
+			$button[key].addEventListener('click', function() {
+				// fetch是一种HTTP数据请求的方式，是XMLHttpRequest的一种替代方案。fetch不是ajax的进一步封装，而是原生js。
+				// fetch函数就是原生js，没有使用XMLHttpRequest对象。
+				fetch(`http://${location.host}/game?action=${key}`)
+					.then(res => {
+						return res.text();
+					})
+					.then(text => {
+						$output.innerHTML += text + '<br/>';
+					});
+			});
+		});
+	</script>
+</html>
