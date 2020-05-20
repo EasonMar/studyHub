@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cp": "tsc -w",
-    "start" : "http-server"
+    "server" : "http-server",
+    "start" : "npm run cp & npm run server"
   },
   "keywords": [],
   "author": "",
