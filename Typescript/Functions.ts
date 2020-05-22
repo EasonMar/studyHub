@@ -1,6 +1,6 @@
 // #### 函数类型 ####
 
-// 函数本身及其参数都可以指定类型
+// 函数本身(其实是指定返回值的类型)及其参数都可以指定类型
 function add(x: number, y: number): string {
     return "Hello TypeScript"
 }
