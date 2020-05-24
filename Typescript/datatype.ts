@@ -52,8 +52,8 @@ console.log(s1 === s2);
 let un: undefined = undefined;
 let nu: null = null;
 // undefined、null 是任何类型的子类型, 要配置tsconfig.json\strictNullChecks:false, 才不会报错
-num = undefined;
-str = null;
+// num = undefined;
+// str = null;
 
 // void
 let noReturn = () => {};
