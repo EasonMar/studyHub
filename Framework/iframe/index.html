@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>iframe</title>
+	</head>
+	<body>
+		<iframe
+			src="./subframe.html"
+			frameborder="0"
+			width="300"
+			height="300"
+			onbeforeunload="console.log('unload')"
+			onload="logUrl()"
+		></iframe>
+	</body>
+	<script>
+		function logUrl() {
+			var ifm = document.querySelector('iframe');
+			try {
+				console.log(ifm.contentWindow.location.href);
+
+				ifm.contentDocument.querySelector('a').addEventListener('click', function (e) {
+					e.preventDefault();
+					return false;
+				});
+
+				ifm.contentDocument.querySelector('div').addEventListener('click', function (e) {
+					console.log(e);
+					e.preventDefault();
+					return false;
+				});
+			} catch (err) {
+				console.log(err);
+				ifm.setAttribute('src', './subframe.html');
+			}
+		}
+	</script>
+</html>

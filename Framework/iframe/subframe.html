@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>subframe</title>
+        <style>
+            .tencent{
+                margin-top: 40px;
+            }
+        </style>
+	</head>
+	<body>
+		<h1>subFrame</h1>
+		<a href="https://hfx.net">百度</a>
+		<a href="./sameorigin.html">同域</a>
+		<div class="tencent"">Tencent JS 跳转</div>
+	</body>
+	<script>
+		var tencent = document.querySelector('.tencent');
+		tencent.addEventListener('click', function () {
+			window.location.href = 'https://www.baidu.com';
+		});
+	</script>
+</html>
