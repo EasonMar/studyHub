@@ -55,3 +55,17 @@ interface ManEI extends Man {}
 
 // Man 的子类 实现了 ManEI 接口
 class ManEI extends Man implements ManEI {}
+
+/**
+ * React + Typescript 发现的问题: 类与接口同名
+ * Answer: https://stackoverflow.com/questions/43055682/relationship-between-a-typescript-class-and-an-interface-with-the-same-name
+ * 1.Interfaces of the same name within a module will be merged
+ * 2.A class declaration creates both a constructor function as well as type declaration, 
+ *   which essentially means that all classes can be used as interfaces.
+ * 3.Therefore, having a class and an interface with the same name is equivalent to having two interfaces with the same name, 
+ *   and you will get merge conflicts if both instances of the interface re-declare the same members with different types.
+ */
+interface Index {
+	props: string;
+}
+class Index extends Man{}
