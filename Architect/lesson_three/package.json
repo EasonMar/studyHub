@@ -38,7 +38,7 @@
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
     "webpack-merge": "^4.1.4",
-    "yargs-parser": "^10.1.0"
+    "yargs-parser": "^13.1.2"
   },
   "dependencies": {
     "awilix": "^3.0.9",
