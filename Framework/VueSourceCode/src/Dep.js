@@ -1,5 +1,7 @@
 // 感觉是一个管理工具，但是具体是？
 // 有点类似于JS-SDK中的Event
+
+// 发布订阅模式
 function Dep() {
     this.subs = [];
 }

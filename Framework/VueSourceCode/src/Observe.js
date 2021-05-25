@@ -5,16 +5,16 @@
  *  val [vueData value]
  */
 function defineReactive(obj, key, val) {
-    // Dep：dependence，每个data属性都会创建一个dep进行管理
+    // Dep：dependence，每个data属性都会创建一个dep进行管理 --- 发布订阅模式
     var dep = new Dep();
 
     // 核心：data里面所有的成员，都使用get和set来订阅它的"读"、"写"操作
-    // 后面对vueData里面的成员进行"读、写操作"时，再触发getter、setter
     Object.defineProperty(obj, key, {
         get: function() {
-            // 添加订阅者watcher到主题对象Dep
+            // 添加「订阅者watcher」到主题对象Dep --- Dep.target放的就是watcher实例(详见Watcher.js)
+            // 这步不理解 - Dep.target不是会清空吗
             if (Dep.target) {
-                // JS的浏览器单线程特性，保证这个全局变量在同一时间内，只会有同一个监听器使用
+                // JS的浏览器单线程特性，保证这个全局变量在同一时间内，只会有同一个监听器使用 --- ？
                 dep.addSub(Dep.target);
             }
             return val;

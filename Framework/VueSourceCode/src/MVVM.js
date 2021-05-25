@@ -17,6 +17,7 @@ function Vue(options) {
     /**
      * 解析Dom
      * 参数：element, Vue实例
+     * Tips: compile document.getElementById(id)元素 的子节点
      */
     var dom = new Compile(document.getElementById(id), this);
 

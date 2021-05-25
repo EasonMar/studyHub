@@ -29,7 +29,7 @@
             console.group('beforeCreate 创建前状态===============》');
             console.log("%c%s", "color:red", "el     : " + this.$el); //undefined
             console.log("%c%s", "color:red", "data   : " + this.$data); //undefined 
-            console.log("%c%s", "color:red", "message: " + this.message)
+            console.log("%c%s", "color:red", "message: " + this.message) //undefined
             console.groupEnd();
         },
         created: function() {
@@ -55,7 +55,7 @@
             console.log("%c%s", "color:red", "message: " + this.message); //已被初始化 
             console.groupEnd();
         },
-        // beforeUpdate是因为dom还没有刷新
+        // beforeUpdate: dom还没有刷新
         beforeUpdate: function() {
             console.group('beforeUpdate 更新前状态===============》');
             console.log("%c%s", "color:red", "el     : " + this.$el.innerHTML);
@@ -64,7 +64,7 @@
             console.log("%c%s", "color:red", "message: " + this.message);
             console.groupEnd();
         },
-        // update是dom已经刷新了
+        // updated: dom已经刷新了
         updated: function() {
             console.group('updated 更新完成状态===============》');
             console.log("%c%s", "color:red", "el     : " + this.$el.innerHTML);

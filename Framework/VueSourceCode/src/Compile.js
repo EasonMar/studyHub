@@ -16,11 +16,15 @@ Compile.prototype = {
         var frag = document.createDocumentFragment();
         var child;
 
+        // Tips:解析node的子节点...
         while (child = node.firstChild) {
             self.compileElement(child, vm);
+
+            // Tips: append()方法：会将child从原来的地方拿过来这里, 故node就少了一个元素
             frag.append(child); 
             // 将所有子节点添加到fragment中
         }
+
         return frag;
     },
     compileElement: function(node, vm) {
@@ -46,6 +50,7 @@ Compile.prototype = {
                 }
             }
         }
+
         // 节点类型为text
         if (node.nodeType === 3) {
             if (reg.test(node.nodeValue)) {

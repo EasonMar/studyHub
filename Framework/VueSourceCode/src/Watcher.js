@@ -31,6 +31,7 @@ Watcher.prototype = {
         this.node[this.type] = this.value; // 订阅者执行相应操作
     },
     // 获取vueData的属性值，放到watcher下的value里
+    // 不就是个getter吗
     get: function() {
         this.value = this.vm[this.name]; //触发相应属性的get
     }
