@@ -6,10 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cp": "tsc -w",
-    "server" : "http-server -o",
-    "start" : "npm run cp & npm run server"
+    "server": "http-server -o",
+    "start": "npm run cp & npm run server"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^3.1.0"
+  }
 }
