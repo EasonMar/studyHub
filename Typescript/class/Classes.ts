@@ -11,8 +11,8 @@ class Person {
     }
 }
 
-let p = new Person("Eason", 28, 'male');
-console.log(p.print());
+let person = new Person("Eason", 28, 'male');
+console.log(person.print());
 
 // #### 类的继承 ####
 class Student extends Person {
