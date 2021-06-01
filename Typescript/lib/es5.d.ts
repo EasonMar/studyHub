@@ -105,8 +105,10 @@ export namespace XXX {
         valueOf(): symbol;
     }
 
+    // 属性key
     declare type PropertyKey = string | number | symbol;
 
+    // 属性描述符
     interface PropertyDescriptor {
         configurable?: boolean;
         enumerable?: boolean;

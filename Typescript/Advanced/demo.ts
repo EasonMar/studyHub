@@ -44,7 +44,6 @@ type keyofAny = keyof any // string | number | symbol
 type result = AnimalType extends keyofAny ? true : false // 为啥result为true... 真TM不好理解啊... 
 // 可不可以这样理解: 字符串字面量联合类型与string是兼容的
 // 了解一下「类型兼容」:
-
 let myString = 'a'
 type myStringType = typeof myString
 

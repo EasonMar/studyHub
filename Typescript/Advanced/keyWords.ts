@@ -11,6 +11,13 @@ type Person_KeyWords = {
 type PersonKey = keyof Person_KeyWords;  // PersonKey得到的类型为 'name' | 'age'
 
 // ==========================================================================================
+/**
+ * 索引访问操作符
+ * 语法：T[K]
+ * 含义：对象T的属性K所代表的类型
+ */
+
+// ==========================================================================================
 
 /**
  * 实例类型获取 typeof
@@ -92,7 +99,7 @@ type pick_KeyWords<T, U extends keyof T> = {
  * 语法：泛型名A extends 类型B ? 类型C: 类型D
  * demo：T extends U ? X : Y
  * 注意，生成的结果是分配式的: 就是当上面的T为联合类型的时候，会进行拆分，有点类似数学中的分解因式: (a + b) * c => ac + bc
- * 举个例子：T extends U? T: never    ---   Tips: 任何类型联合上 never 类型，结果还是原来的类型
+ * 举个例子：T extends U ? T : never    ---   Tips: 任何类型联合上 never 类型，结果还是原来的类型
  * 此时返回的 T，是满足原来的 T 中包含 U 的部分，可以理解为 T 和 U 的交集。
  */
 type Words = 'a' | 'b' | "c";

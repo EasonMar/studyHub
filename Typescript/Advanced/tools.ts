@@ -38,7 +38,7 @@ type Record_Tools<K, T> = {
 type Record_Tools_Official<K extends keyof any, T> = {
     [P in K]: T;
 };
-// Tips: keyof any 对应的类型为number | string | symbol，也就是可以做对象键(专业说法叫索引 index)的类型集合
+// Tips: keyof any 对应的类型为 number | string | symbol，也就是可以做对象键(专业说法叫索引 index)的类型集合
 // https://stackoverflow.com/questions/55535598/why-does-keyof-any-have-type-of-string-number-symbol-in-typescript
 // 只要是作为键-key, 且没有其他约束, 就加上 「extends keyof any」 这个 最小约束!
 
