@@ -92,3 +92,24 @@ type Omit_Tools<T, K extends keyof T> = {
 type Omit_Tools_upgrate<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 // ==========================================================================================
+
+// ReturnType<T> - 获取 T 类型(函数)对应的返回值类型
+
+// missed: 
+// 函数类型的定义
+// type ReturnType_Tools<T> = T extends () => infer R ? R : T
+
+
+// 解析一、T泛型约束 为 函数类型: <T extends (...args: any) => any>
+// 解析二、如果不符合函数类型定义...不应该返回T, 而是返回 any
+
+type ReturnType_Tools<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
+
+// ==========================================================================================
+
+// Required<T> - 此工具可以将类型 T 中所有的属性变为必选项。
+
+// missed: 一开始又写成 P in T
+type Required_Tools<T> = {
+    [P in keyof T]-?: T[P]
+}
