@@ -1,1 +1,0 @@
-npm install babel-core && npm install babel-preset-es2015  & cmd

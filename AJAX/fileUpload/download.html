@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>文件下载</title>
+		<style>
+			html {
+				font-size: 20px;
+				padding: 0 30px;
+			}
+			a,
+			div {
+				line-height: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<h4>方案1 - a.download</h4>
+		<!-- <a href="./down/pdf.pdf" download>pdf</a><br />
+		<a href="./down/png.png" download>png</a><br />
+		<a href="./down/word.docx" download>word</a><br />
+		<a href="./down/excel.xlsx" download>excel</a><br />
+		<a href="./down/txt.txt" download>txt</a><br />
+		<a href="./down/zip.zip" download>zip</a><br />
+		<a href="./down/rar.rar" download>rar</a><br /> -->
+
+		<div class="click">动态生成a</div>
+
+		<!-- <h4>方案2 - window.open</h4>
+		<div class="pdf">pdf</div>
+		<div class="png">png</div>
+		<div class="word">word</div>
+		<div class="excel">excel</div>
+		<div class="txt">txt</div>
+		<div class="zip">zip</div>
+		<div class="rar">rar</div>
+		<h4>方案3 - iframe</h4>
+		<iframe src="" frameborder="0"></iframe>
+		<h4>方案4 - form</h4>
+		<form action=""></form> -->
+	</body>
+	<script>
+		// document.querySelector('.pdf').addEventListener('click', function () {window.open('./down/pdf.pdf');});
+		// document.querySelector('.png').addEventListener('click', function () {window.open('./down/png.png');});
+		// document.querySelector('.word').addEventListener('click', function () {window.open('./down/word.docx');});
+		// document.querySelector('.excel').addEventListener('click', function () {window.open('./down/excel.xlsx');});
+		// document.querySelector('.txt').addEventListener('click', function () {window.open('./down/txt.txt');});
+		// document.querySelector('.zip').addEventListener('click', function () {window.open('./down/zip.zip');});
+		// document.querySelector('.rar').addEventListener('click', function () {window.open('./down/rar.rar');});
+
+		document.querySelector('.click').addEventListener('click', function () {
+			download('./down/txt.txt', 'txt.txt');
+		});
+
+		function download(url, fileName) {
+			var b = document.querySelector('body');
+			var a = document.createElement('a');
+			var n = '';
+			try {
+				n = decodeURIComponent(fileName);
+			} catch (err) {
+				console.log(err);
+				n = fileName;
+			}
+			a.setAttribute('href', url);
+			a.setAttribute('download', n);
+			b.appendChild(a);
+			if (a.click) {
+				a.click();
+			} else {
+				var evt = document.createEvent('Event');
+				evt.initEvent('click', true, true);
+				a.dispatchEvent(evt);
+			}
+			b.removeChild(a);
+		}
+	</script>
+</html>

@@ -1,0 +1,3 @@
+function download(url, fileName){
+            var b=document.querySelector('body');var a=document.createElement('a');a.setAttribute('href',url);a.setAttribute('download',fileName);b.appendChild(a);if(a.click){a.click();}else{var evt=document.createEvent('Event');evt.initEvent('click',true,true);a.dispatchEvent(evt);}b.removeChild(a);
+        }

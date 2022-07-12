@@ -1,1 +1,0 @@
-npm install fis-parser-babel-5.x  & cmd

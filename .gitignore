@@ -68,3 +68,10 @@ dist/
 
 # parcel cache
 .cache/
+fileUpload/down/zip.zip
+fileUpload/down/word.docx
+fileUpload/down/txt.txt
+fileUpload/down/rar.rar
+fileUpload/down/png.png
+fileUpload/down/pdf.pdf
+fileUpload/down/excel.xlsx

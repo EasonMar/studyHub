@@ -1,9 +1,0 @@
-:root {
-    --headerColor: blue;
-}
-
-.components-esheader {
-    & h1 {
-        color: var(--headerColor);
-    }
-}

@@ -1,3 +1,0 @@
-tests/**/*.js
-dist/**/*/js
-node_modules/**

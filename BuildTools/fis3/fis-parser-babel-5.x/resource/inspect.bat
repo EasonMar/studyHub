@@ -1,1 +1,0 @@
-fis3 inspect & cmd
