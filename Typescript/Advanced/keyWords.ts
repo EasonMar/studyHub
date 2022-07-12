@@ -51,7 +51,7 @@ type TypeToNumber<T> = {
  * 经常用来封装"类型判断函数", 这类函数都必须用"is"特性, 这类函数一般起名都会叫isString/isFood/isVnode等等
  */
 const isString = (val: any): val is string => typeof val === 'string'
-// 这段代码的意思是当isString返回值为true的时候, 参数val就是string类型.
+// 这段代码的意思是 "当isString返回值为true的时候, 参数val就是string类型."
 
 // 上述写法与写一个返回值为 boolean 值函数的区别在哪里呢？
 const isStringB = (val: any): boolean => typeof val === "string";
@@ -86,7 +86,7 @@ function exampleB(foo: any) {
 /**
  * 泛型约束 extends
  * 语法：泛型名 extends 类型
- * 这里的意思是限制了 U 一定是 T 的 key 类型中的子集，这种用法常常出现在一些泛型工具库中
+ * 这里的意思是 "限制了 U 一定是 T 的 key 类型中的子集"，这种用法常常出现在一些泛型工具库中
  */
 type pick_KeyWords<T, U extends keyof T> = {
     [P in U]: T[P]
