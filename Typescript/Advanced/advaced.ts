@@ -70,3 +70,8 @@ type MyReadonly<T> = {
 type MySelectable<T> = {
 	[P in keyof T]?: T[P];
 };
+
+
+
+// 一时反应不过来的类型
+type KEYOFANY = keyof any // string | number | symbol
