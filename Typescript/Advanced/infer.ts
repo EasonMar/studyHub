@@ -35,7 +35,7 @@ interface Module {
 // 实现type Connect
 // 保留属性为函数类型，其余的摒弃掉
 // 把函数类型转化为<T, U>(args: T) => Action<U>
-type Connect<T> = 'xx' /** 你需要实现的逻辑 */
+// type Connect<T> = 'xx' /** 你需要实现的逻辑 */
 type ResultInger = Connect<Module>;
 
 // ResultInger = {
@@ -49,8 +49,25 @@ type PickFuncProp<T> = {
   [P in keyof T]: T[P] extends Function ? P : never;
 }[keyof T];
 
-// 2. 使用infer实现[函数的转换]
+// 获取的其实是 函数名称联合类型
+type testPF = PickFuncProp<Module>
+
+// 根据 函数名称联合类型新建对象
+type PickFuncNewObject = {
+  [P in PickFuncProp<Module>]: Module[P]
+}
+
+// 2. 使用infer实现[函数的转换] --- Todo -- infer T\ infer U 没有用上也没事？--- 这里声明 T | U 只是为了构成特定 pattern 而已, 不需要使用
 type TransformFunc<F> = F extends (action: Promise<infer T>) => Promise<Action<infer U>>
   ? <T, U>(action: T) => Action<U> :
   F extends (action: Action<infer T>) => Action<infer U> ?
   <T, U>(action: T) => Action<U> : F;
+
+
+type testTFA = TransformFunc<Module['asyncMethod']>
+type testTFS = TransformFunc<Module['syncMethod']>
+
+// 3. 把PickFuncProp和TransitionFunc组合起来，实现Connect的方法.
+type Connect<T> = {
+  [P in PickFuncProp<T>]: TransformFunc<T[P]>;
+};
