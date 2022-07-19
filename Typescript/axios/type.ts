@@ -1,7 +1,7 @@
 import { AxiosRequestHeaders, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 // ---------- 首先是 api 列表，api 支持三种配置形式 ---------- 
-// 1. 路径配置
+// 1. 路径配置 --- TS4新语法: 模板字符串类型
 export type RequestPath = `${Uppercase<RequestOptions['method']>} ${string}`;
 
 // 2. 选项配置
@@ -16,7 +16,6 @@ export type RequestFunction<P = Record<string, any> | void, R = any> = (
     params: P,
     ...args: any[]
 ) => Promise<R>;
-
 
 // 所以API是三种类型的联合类型
 export type APIConfig = RequestPath | RequestOptions | RequestFunction;
@@ -134,21 +133,52 @@ export type CreateRequestConfig<T extends APISchema> = {
  * 如何理解客户端（就是调用方） ---《重构》里有类似概念的描述
  */
 
+
+/**
+interface TestAPISchema extends APISchema {
+    // 接口名
+    getUser: {
+        // 入参
+        request: {
+            id: number;
+        };
+        // 出参
+        response: {
+            avatar: string;
+            id: number;
+            name: string;
+        };
+    };
+}
+ */
 type CreateRequestClientTemp<T extends APISchema> = {
+    // T[K]['request'] 规定了 RequestFunction 入参的类型
+    // AxiosResponse<T[K]['response']> 规定了 RequestFunction 出参的类型
+    // T[K]['response'] AxiosResponse中 data 的类型
     [K in keyof T]: RequestFunction<T[K]['request'], AxiosResponse<T[K]['response']>>;
 };
 
 
-// 具体怎么写 --- 为什么这样可以？
+// 具体怎么写 --- 入参可以为void --- Todo 出参为什么可以为any类型？
 const clientTemp: CreateRequestClientTemp<TestAPISchema> = {
     getUser: () => {
         // get cache data
-        const res = JSON.parse(window.localStorage.getItem('cache') || 'null');
+        const res: AxiosResponse = JSON.parse(window.localStorage.getItem('cache') || 'null');
         return Promise.resolve(res);
     }
 }
 
 
+// // 为什么这样却又不行 --- 是不是可索引签名在作祟
+// // 是的，PARAMS类型不兼容 APISchema | TestAPISchema extends APISchema 产生的 可索引签名
+// type PARAMS = TestAPISchema['getUser']['request']
+// const clientTemp: CreateRequestClientTemp<TestAPISchema> = {
+//     getUser: (params: PARAMS) => {
+//         // get cache data
+//         const res = JSON.parse(window.localStorage.getItem('cache') || 'null');
+//         return Promise.resolve(res);
+//     }
+// }
 
 
 // 去除可索引签名 - 创建请求客户端的类型约束
@@ -158,6 +188,11 @@ export type CreateRequestClient<T extends APISchema> = {
         AxiosResponse<RemoveIndexSignature<T>[K]['response']>
     >;
 };
+
+// // 不去除可索引签名，有什么问题？
+// export type CreateRequestClient<T extends APISchema> = {
+//     [K in keyof T]: RequestFunction<T[K]['request'], AxiosResponse<T[K]['response']>>;
+// };
 
 /** 去除可索引签名 */
 type RemoveIndexSignature<Obj extends Record<string, any>> = {

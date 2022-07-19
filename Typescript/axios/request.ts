@@ -1,3 +1,5 @@
+// 客户端封装 --- 用户调用的，就叫客户端
+
 import axios, { AxiosInstance, AxiosRequestHeaders, AxiosError } from 'axios';
 import {
     APISchema,
@@ -16,6 +18,7 @@ function attachAPI<T extends APISchema>(
     client: AxiosInstance,
     apis: CreateRequestConfig<T>['apis'],
 ): CreateRequestClient<T> {
+    // hostApi格式为 { a:function, b:function, c:function }
     const hostApi: CreateRequestClient<T> = Object.create(null);
     for (const apiName in apis) {
         const apiConfig = apis[apiName];
@@ -24,20 +27,28 @@ function attachAPI<T extends APISchema>(
             hostApi[apiName] = apiConfig as RequestFunction;
             continue;
         }
+
+
         let apiOptions = {};
-        let apiPath = apiConfig as RequestPath;
+        let apiPath = apiConfig as RequestPath; // 当配置仅为 RequestPath 时
+
         // 配置为一个对象
         if (typeof apiConfig === 'object') {
             const { path, ...rest } = apiConfig as RequestOptions;
             apiPath = path as RequestPath;
             apiOptions = rest;
         }
+
+        // hostApi[apiName] = function(){}
         hostApi[apiName] = (params, options) => {
             const _params = { ...(params || {}) };
+
             // 匹配路径中请求方法，如：'POST /api/test'
             const [prefix, method] = apiPath.match(MATCH_METHOD) || ['GET ', 'GET'];
-            // 剔除掉 ”POST “ 前缀
+
+            // 剔除掉前缀，如"POST " 前缀（注意包括post后面的空格）
             let url = apiPath.replace(prefix, '');
+
             // 匹配路径中的参数占位符， 如 '/api/:user_id/:res_id'
             const matchParams = apiPath.match(MATCH_PATH_PARAMS);
             if (matchParams) {
@@ -49,9 +60,13 @@ function attachAPI<T extends APISchema>(
                     }
                 });
             }
+
+            // 判断是否为 请求体传递参数
             const requestParams = USE_DATA_METHODS.includes(method)
                 ? { data: _params }
                 : { params: _params };
+
+            // 创建axios实例
             return client.request({
                 url,
                 method: method.toLowerCase(),

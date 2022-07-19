@@ -1,3 +1,5 @@
+// 使用客户端
+
 import { APISchema } from './type';
 import { createRequestClient } from './request';
 
