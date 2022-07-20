@@ -181,13 +181,21 @@ const clientTemp: CreateRequestClientTemp<TestAPISchema> = {
 // }
 
 
-// 去除可索引签名 - 创建请求客户端的类型约束
+// 去除可索引签名 - 创建 请求客户端 的 类型约束
 export type CreateRequestClient<T extends APISchema> = {
     [K in keyof RemoveIndexSignature<T>]: RequestFunction<
         RemoveIndexSignature<T>[K]['request'],
         AxiosResponse<RemoveIndexSignature<T>[K]['response']>
     >;
 };
+
+// // 如果 客户端响应 是返回 res.data... 则如下配置
+// export type CreateRequestClient<T extends APISchema> = {
+//     [K in keyof RemoveIndexSignature<T>]: RequestFunction<
+//         RemoveIndexSignature<T>[K]['request'],
+//         AxiosResponse<RemoveIndexSignature<T>[K]['response']>['data'] // 这里是关键...
+//     >;
+// };
 
 // // 不去除可索引签名，有什么问题？
 // export type CreateRequestClient<T extends APISchema> = {
