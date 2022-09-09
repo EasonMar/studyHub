@@ -75,3 +75,7 @@ type MySelectable<T> = {
 
 // 一时反应不过来的类型
 type KEYOFANY = keyof any // string | number | symbol
+
+
+// TypeScript进阶 之 重难点梳理
+// https://blog.csdn.net/weixin_39843414/article/details/105108806

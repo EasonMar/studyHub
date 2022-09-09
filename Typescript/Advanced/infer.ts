@@ -45,6 +45,7 @@ type ResultInger = Connect<Module>;
 
 
 // 1. 先实现一个类型可以[筛选出为函数类型的属性]
+// keyof T 得到的是一个联合类型... 其他类型跟联合类型结合符合“分配律”或者说联合类型具有分布式的特性, 所以最后得到的也是 联合类型...
 type PickFuncProp<T> = {
   [P in keyof T]: T[P] extends Function ? P : never;
 }[keyof T];
