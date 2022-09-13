@@ -37,6 +37,20 @@ type PropConstructorNoWrap<T = any> = (new (...args: any[]) => T) & {} | (() => 
 type pcnw = PropConstructorNoWrap<string>
 
 
+// 以下写法都是定义一个函数 ===> https://juejin.cn/post/7063521133340917773
+type addType1 = {
+    (num1: number, num2: number): number
+}
+
+const addtype1: addType1 = (num1, num2) => num1 + num2
+
+interface addType2 {
+    (num1: number, num2: number): number
+}
+
+const addtype2: addType2 = (num1, num2) => num1 + num2
+
+
 
 // ================================================================
 // 三、[T] extends [((...args: any) => any) | undefined] 跟 T extends ((...args: any) => any) | undefined 是否相同？
