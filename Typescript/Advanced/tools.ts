@@ -113,3 +113,18 @@ type ReturnType_Tools<T extends (...args: any) => any> = T extends (...args: any
 type Required_Tools<T> = {
     [P in keyof T]-?: T[P]
 }
+
+
+
+
+/**
+ * 值得好好分析 --- 获取 promise.then(resolve)中 resolve 的类型
+ * Recursively unwraps the "awaited type" of a type. Non-promise "thenables" should resolve to `never`. This emulates the behavior of `await`.
+ */
+type Awaited_Tool<T> =
+    T extends null | undefined ? T : // special case for `null | undefined` when not in `--strictNullChecks` mode
+    T extends object & { then(onfulfilled: infer F): any } ? // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
+    F extends ((value: infer V, ...args: any) => any) ? // if the argument to `then` is callable, extracts the first argument
+    Awaited_Tool<V> : // recursively unwrap the value
+    never : // the argument to `then` was not callable
+    T; // non-object or non-thenable

@@ -84,6 +84,7 @@ interface Name {
 }
 
 // ===================== interface of function =====================
+// 官方文档 --- 清晰、全面 --- https://www.typescriptlang.org/docs/handbook/2/functions.html#call-signatures
 // 使用接口定义函数类型
 interface Add {
 	// ()表示函数类型 : 返回值为number类型
@@ -103,14 +104,39 @@ interface Lib {
 	doSomeThing(): void; // 添加方法(具名函数)
 }
 
-let lib: Lib = (() => {}) as Lib; // 使用断言 跳过 【version\doSomeThing暂时缺失的错误警告】
+let lib: Lib = (() => { }) as Lib; // 使用断言 跳过 【version\doSomeThing暂时缺失的错误警告】
 lib.version = '1.0';
-lib.doSomeThing = () => {};
+lib.doSomeThing = () => { };
 
 // 构造器 ===> 如果不封装上门的lib, 它就是一个全局变量, 封装后就可以通过闭包创建多个 lib
 function getLib() {
-	let lib: Lib = (() => {}) as Lib;
+	let lib: Lib = (() => { }) as Lib;
 	lib.version = '1.0';
-	lib.doSomeThing = () => {};
+	lib.doSomeThing = () => { };
 	return lib;
 }
+
+
+
+// ============== 接口的继承 ==============
+// https://blog.csdn.net/FastText/article/details/125651057
+
+// 单继承
+// 多继承
+interface Color {
+	color: string;
+}
+
+interface Shape {
+	name: string;
+}
+
+interface Circle extends Color, Shape {
+	radius: number;
+}
+
+// 同名成员的兼容问题
+
+
+// 接口继承类
+// 接口也可以继承类，它会继承类的成员，但不包括具体的实现，只会把类的成员作为一种声明
