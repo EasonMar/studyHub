@@ -1,11 +1,38 @@
 const fs = require('fs');
 
 // 1、异步读取
-fs.readFile('./src/youtube.txt', function(err, data) {
-    if (err) return console.log(err);
-    console.log('异步读取：');
-    console.log(data.toString());
-});
+// fs.readFile('./src/youtube.txt', function (err, data) {
+//     if (err) return console.log(err);
+//     console.log('异步读取：');
+//     console.log('raw data is: ', data)
+//     console.log('toString', data.toString());
+// });
+
+
+
+fs.open('./src/youtube.txt', 'r+', function (err, fd) {
+    if (err) {
+        return console.error(err);
+    }
+    console.log("文件打开成功！");
+    console.log("准备读取文件：");
+    const buf = new Buffer.alloc(178);
+    fs.read(fd, buf, 0, buf.length, 0, function (err, bytes) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(bytes + "  字节被读取");
+
+        // 仅输出读取的字节
+        if (bytes > 0) {
+            console.log(buf.toString());
+            console.log(buf)
+        }
+    })
+})
+
+// fs.readFile / fs.read 有什么区别 --- https://www.cnblogs.com/TangcongBlogs/p/14922017.html
+// 本质上讲，fs.readFile()方法是对fs.read()方法的进一步封装，fs.readFile()方法可以方便的读取文件的全部内容。
 
 
 // // 2、改变文件名
@@ -19,11 +46,11 @@ fs.readFile('./src/youtube.txt', function(err, data) {
 // });
 
 // // 3、获取文件信息
-// fs.stat('./src/youtube.txt', function(err, stats) {　　
+// fs.stat('./src/youtube.txt', function(err, stats) {
 //     if (err) return console.log(err);
-//     console.log(stats);　　
+//     console.log(stats);
 //     console.log("读取文件信息成功");　　 //检测文件类型
-//     console.log('是否为文件(isFile) ? ' + stats.isFile());　　
+//     console.log('是否为文件(isFile) ? ' + stats.isFile());
 //     console.log('是否为目录(isDirectory) ? ' + stats.isDirectory());
 // });
 
