@@ -47,7 +47,7 @@
 // var data = '这段内容是通过"流"的方式写入的'
 // var writerStream = fs.createWriteStream('./fs/src/hello.txt');
 
-// // 使用 utf8 编码写入数据
+// // 使用 utf8 编码写入数据 --- writable.write(chunk[, encoding][, callback])
 // writerStream.write(data, 'UTF8');
 
 /**
