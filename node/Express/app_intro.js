@@ -13,7 +13,7 @@ app.get('/:id', function (req, res) {
     res.send('Hello World');
 });
 
-// 返回json数据
+// '/index/json' --- 返回json数据
 app.get('/index/json', function (req, res) {
     res.json({
         code: 200,
@@ -21,16 +21,25 @@ app.get('/index/json', function (req, res) {
     })
 });
 
-// 渲染html文件
+// '/html/index' --- 渲染html文件
 app.get('/html/index', function (req, res) {
     res.sendFile(__dirname + "/views/index.html")
 });
 
 
-// 创建 application/x-www-form-urlencoded 编码解析
-let urlencodedParser = bodyParser.urlencoded({ extended: false });
-// 为什么bodyParser这个中间件没有用use来引入，而是这样使用呢？
 
+
+// app.use是全局使用中间件: app.use(bodyParser.urlencoded({ extended: false }))在这里也是可以的
+/**
+ * app.use(bodyParser.urlencoded({ extended: false }))
+ * app.post('/form', function (req, res) {
+ *   console.log(req.body.keyword);
+ * })
+ */
+// app.post('/xxx', middleware, cb)是针对post请求的某个路径使用中间件
+
+// 创建 application/x-www-form-urlencoded 编码解析 -----> 普通form表单默认的编码格式
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 // 处理表单提交
 app.post('/form', urlencodedParser, function (req, res) {
     console.log(req.body.keyword);
