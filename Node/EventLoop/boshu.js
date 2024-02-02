@@ -1,113 +1,126 @@
 // https://mp.weixin.qq.com/s/m3a6vjp8-c9a2EYj0cDMmg
 
 // demo02
-// 第一轮-宏任务
+// 第一轮-宏任务-同步任务
 console.log('golb1');
 
 setTimeout(
-    // 第二轮-宏任务
-    function() {
-    console.log('timeout1');
-    process.nextTick(
-        // 第二轮-微任务
-        function() {
-        console.log('timeout1_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('timeout1_promise');
-        resolve();
-    }).then(
-        // 第二轮-微任务
-        function() {
-        console.log('timeout1_then')
-    })
-})
+	// 第二轮-宏任务-异步任务
+	function () {
+		console.log('timeout1');
+		process.nextTick(
+			// 第二轮-微任务
+			function () {
+				console.log('timeout1_nextTick');
+			},
+		);
+		new Promise(function (resolve) {
+			console.log('timeout1_promise');
+			resolve();
+		}).then(
+			// 第二轮-微任务
+			function () {
+				console.log('timeout1_then');
+			},
+		);
+	},
+);
 
 setImmediate(
-    // 第四轮-宏任务
-    function() {
-    console.log('immediate1');
-    process.nextTick(
-        // 第四轮-微任务
-        function() {
-        console.log('immediate1_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('immediate1_promise');
-        resolve();
-    }).then(
-        // 第四轮-微任务
-        function() {
-        console.log('immediate1_then')
-    })
-})
-
-
-process.nextTick(
-    // 第一轮-微任务
-    function() {
-    console.log('glob1_nextTick');
-})
-new Promise(function(resolve) {
-    console.log('glob1_promise');
-    resolve();
-}).then(
-    // 第一轮-微任务
-    function() {
-    console.log('glob1_then')
-})
-
-setTimeout(function() {
-    // 第三轮-宏任务
-    console.log('timeout2');
-    process.nextTick(
-        // 第三轮-微任务
-        function() {
-        console.log('timeout2_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('timeout2_promise');
-        resolve();
-    }).then(
-        // 第三轮-微任务
-        function() {
-        console.log('timeout2_then')
-    })
-})
+	// 第四轮-宏任务
+	function () {
+		console.log('immediate1');
+		process.nextTick(
+			// 第四轮-微任务
+			function () {
+				console.log('immediate1_nextTick');
+			},
+		);
+		new Promise(function (resolve) {
+			console.log('immediate1_promise');
+			resolve();
+		}).then(
+			// 第四轮-微任务
+			function () {
+				console.log('immediate1_then');
+			},
+		);
+	},
+);
 
 process.nextTick(
-    // 第一轮-微任务
-    function() {
-    console.log('glob2_nextTick');
-})
-new Promise(function(resolve) {
-    console.log('glob2_promise');
-    resolve();
+	// 第一轮-微任务
+	function () {
+		console.log('glob1_nextTick');
+	},
+);
+new Promise(function (resolve) {
+	console.log('glob1_promise');
+	resolve();
 }).then(
-    // 第一轮-微任务
-    function() {
-    console.log('glob2_then')
-})
+	// 第一轮-微任务
+	function () {
+		console.log('glob1_then');
+	},
+);
+
+setTimeout(function () {
+	// 第三轮-宏任务-异步任务
+	console.log('timeout2');
+	process.nextTick(
+		// 第三轮-微任务
+		function () {
+			console.log('timeout2_nextTick');
+		},
+	);
+	new Promise(function (resolve) {
+		console.log('timeout2_promise');
+		resolve();
+	}).then(
+		// 第三轮-微任务
+		function () {
+			console.log('timeout2_then');
+		},
+	);
+});
+
+process.nextTick(
+	// 第一轮-微任务
+	function () {
+		console.log('glob2_nextTick');
+	},
+);
+new Promise(function (resolve) {
+	console.log('glob2_promise');
+	resolve();
+}).then(
+	// 第一轮-微任务
+	function () {
+		console.log('glob2_then');
+	},
+);
 
 setImmediate(
-    // 第五轮-宏任务
-    function() {
-    console.log('immediate2');
-    process.nextTick(
-        // 第五轮-微任务
-        function() {
-        console.log('immediate2_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('immediate2_promise');
-        resolve();
-    }).then(
-        // 第五轮-微任务
-        function() {
-        console.log('immediate2_then')
-    })
-})
-
+	// 第五轮-宏任务-异步任务
+	function () {
+		console.log('immediate2');
+		process.nextTick(
+			// 第五轮-微任务
+			function () {
+				console.log('immediate2_nextTick');
+			},
+		);
+		new Promise(function (resolve) {
+			console.log('immediate2_promise');
+			resolve();
+		}).then(
+			// 第五轮-微任务
+			function () {
+				console.log('immediate2_then');
+			},
+		);
+	},
+);
 
 // 在node11.x之前，微任务队列要等【当前优先级的】所有宏任务先执行完才执行；在node11.x之后，微任务队列在当前这一个宏任务先执行完就马上执行。
 
@@ -122,8 +135,8 @@ setImmediate(
 
 // 第一轮-宏任务
 // golb1
-// glob1_promise 
-// glob2_promise 
+// glob1_promise
+// glob2_promise
 // 第一轮-微任务
 // glob1_nextTick
 // glob2_nextTick
